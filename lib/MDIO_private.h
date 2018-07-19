@@ -31,6 +31,8 @@
 #define GPIOB_BRR *((u32*) 0x40010C14)
 #define GPIOC_BRR *((u32*) 0x40011014)
 
-
+#define DIO_PORTA 0
+#define DIO_PORTB 1
+#define DIO_PORTC 2
 
 #endif
