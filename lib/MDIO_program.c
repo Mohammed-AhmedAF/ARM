@@ -33,15 +33,15 @@ void MDIO_vidSetPinValue(u8 u8PortNum, u8 u8PinNum, u8 u8PinValue) {
 		}
 	}
 }
-/*
+
 u8 MDIO_u8GetPinValue(u8 u8PortNum, u8 u8PinNum) {
 	if (u8PortNum == DIO_PORTA) {
-	
+		return  GET_BIT(GPIOA_IDR);
 	}
 	else if(u8PortNum == DIO_PORTB) {
-	
+		return GET_BIT(GPIOB_IDR);	
 	}
 	else if(u8PortNum == DIO_PORTC) {
-		
+		return GET_BIT(GPIO_IDR);
 	}
-}*/
+}
