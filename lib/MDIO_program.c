@@ -8,40 +8,40 @@ void MDIO_vidInit(void) {
 }
 
 void MDIO_vidSetPinValue(u8 u8PortNum, u8 u8PinNum, u8 u8PinValue) {
-	if (u8PortNum == DIO_PORTA) {
+	if (u8PortNum == MDIO_PORTA) {
 		if (u8PinValue == STD_HIGH) {
-			SET_BIT(GPIOB_ODR,u8PinNum);		
+			SET_BIT(GPIOA->ODR,u8PinNum);		
 		}
 		else {
-			CLEAR_BIT(GPIOB_ODR,u8PinNum);	
+			CLEAR_BIT(GPIOA->ODR,u8PinNum);	
 		}
 	}
-	else if (u8PortNum == DIO_PORTB) {
+	else if (u8PortNum == MDIO_PORTB) {
 		if (u8PinValue == STD_HIGH) {
-			SET_BIT(GPIOB_ODR,u8PinNum);	
+			SET_BIT(GPIOB->ODR,u8PinNum);	
 		}
 		else {
-			CLEAR_BIT(GPIOB_ODR,u8PinNum);:
+			CLEAR_BIT(GPIOB->ODR,u8PinNum);:
 		}
 	}
-	else if (u8PortNum == DIO_PORTC) {
+	else if (u8PortNum == MDIO_PORTC) {
 		if (u8PinValue == STD_HIGH) {
-			SET_BIT(GPIOC_ODR,u8PinNum);	
+			SET_BIT(GPIOC->ODR,u8PinNum);	
 		}
 		else {
-			CLEAR_BIT(GPIOC_ODR,u8PinNum);
+			CLEAR_BIT(GPIOC->ODR,u8PinNum);
 		}
 	}
 }
 
 u8 MDIO_u8GetPinValue(u8 u8PortNum, u8 u8PinNum) {
-	if (u8PortNum == DIO_PORTA) {
-		return  GET_BIT(GPIOA_IDR);
+	if (u8PortNum == MDIO_PORTA) {
+		return (u8)  GET_BIT(GPIOA->IDR,u8PinNum);
 	}
-	else if(u8PortNum == DIO_PORTB) {
-		return GET_BIT(GPIOB_IDR);	
+	else if(u8PortNum == MDIO_PORTB) {
+		return (u8) GET_BIT(GPIOB->IDR,u8PinNum);	
 	}
-	else if(u8PortNum == DIO_PORTC) {
-		return GET_BIT(GPIO_IDR);
+	else if(u8PortNum == MDIO_PORTC) {
+		return (u8) GET_BIT(GPIOC->IDR,u8PinNum);
 	}
 }
