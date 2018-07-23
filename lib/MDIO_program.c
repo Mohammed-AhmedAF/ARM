@@ -21,7 +21,7 @@ void MDIO_vidSetPinValue(u8 u8PortNum, u8 u8PinNum, u8 u8PinValue) {
 			SET_BIT(GPIOB->ODR,u8PinNum);	
 		}
 		else {
-			CLEAR_BIT(GPIOB->ODR,u8PinNum);:
+			CLEAR_BIT(GPIOB->ODR,u8PinNum);
 		}
 	}
 	else if (u8PortNum == MDIO_PORTC) {
