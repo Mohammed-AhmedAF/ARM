@@ -14,4 +14,21 @@
 #define RCC_AHBRSTR * ((u32*) 0x40021028)
 #define RCC_CFGR2 * ((u32*) 0x4002102)
 
+typedef struct {
+	u32 CR;
+	u32 CFGR;
+	u32 CIR;
+	u32 APB2RSTR;
+	u32 APB1RSTR;
+	u32 APBENR;
+	u32 APB2ENR;
+	u32 APB1ENR;
+	u32 BDCR;
+	u32 CSR;
+	u32 AHBRSTR;
+	u32 CFGR2;
+}RCC_Type;
+
+#define MRCC ((u32*) 0x40021000)
+
 #endif
