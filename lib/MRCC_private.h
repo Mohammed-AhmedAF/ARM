@@ -29,6 +29,6 @@ typedef struct {
 	u32 CFGR2;
 }RCC_Type;
 
-#define MRCC ((u32*) 0x40021000)
+#define MRCC ((RCC_Type*) 0x40021000)
 
 #endif

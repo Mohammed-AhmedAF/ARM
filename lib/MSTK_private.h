@@ -9,6 +9,6 @@ typedef struct {
 
 }SysTick_Type;
 
-#define MSTK ((u32*) 0xE000E010)
+#define MSTK ((SysTick_Type*) 0xE000E010)
 
 #endif
