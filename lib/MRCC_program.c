@@ -21,3 +21,17 @@ void MRCC_vidEnableClock(u8 u8BusCpy, u8 u8PeripheralCpy) {
 			break;
 	}
 }
+
+void MRCC_vidDisableClock(u8 u8BusCpy, u8 u8PeripheralCpy) {
+	switch(u8BusCpy) {
+		case BUS_AHB:
+			CLEAR_BIT(MRCC->AHBENR,3);
+			break;
+		case BUS_APB1:
+			CLEAR_BIT(MRCC->APB1ENR,4);
+			break;
+		case BUS_APB2:
+			CLEAR_BIT(MRCC->APB2ENR,5);
+			break;
+	}
+}
