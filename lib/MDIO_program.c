@@ -1,10 +1,13 @@
-#include "Std_Types.h"
+#include "LSTD_TYPES.h"
 #include "Macros.h"
+#include "MRCC_private.h"
+#include "MRCC_interface.h"
 #include "MDIO_private.h"
 #include "MDIO_interface.h"
 
 void MDIO_vidInit(void) {
-	
+	MRCC->APB2ENR |= 4;
+	GPIOA->CRL= 0x33;
 }
 
 void MDIO_vidSetPinValue(u8 u8PortNum, u8 u8PinNum, u8 u8PinValue) {
@@ -44,4 +47,5 @@ u8 MDIO_u8GetPinValue(u8 u8PortNum, u8 u8PinNum) {
 	else if(u8PortNum == MDIO_PORTC) {
 		return (u8) GET_BIT(GPIOC->IDR,u8PinNum);
 	}
+	return 0;
 }
