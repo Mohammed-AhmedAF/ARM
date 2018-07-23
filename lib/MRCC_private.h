@@ -20,7 +20,7 @@ typedef struct {
 	u32 CIR;
 	u32 APB2RSTR;
 	u32 APB1RSTR;
-	u32 APBENR;
+	u32 AHPENR;
 	u32 APB2ENR;
 	u32 APB1ENR;
 	u32 BDCR;
