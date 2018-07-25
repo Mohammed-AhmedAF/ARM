@@ -1,0 +1,24 @@
+#ifndef _ESEVENSEGMENT_INTERFACE_H
+#define _ESEVENSEGMENT_INTERFACE_H
+
+void ESevenSegment_vidInit(void);
+void ESevenSegment_vidWriteDigit(u8 u8DigitCpy);
+/*PORTs definitions*/
+#define SEGMENT_A_PORT MDIO_PORTA
+#define SEGMENT_B_PORT MDIO_PORTA
+#define SEGMENT_C_PORT MDIO_PORTA
+#define SEGMENT_D_PORT MDIO_PORTA
+#define SEGMENT_E_PORT MDIO_PORTA
+#define SEGMENT_F_PORT MDIO_PORTA
+#define SEGMENT_G_PORT MDIO_PORTA
+
+/*PINs definitions*/
+#define SEGMENT_A_PIN MDIO_PIN0
+#define SEGMENT_B_PIN MDIO_PIN1
+#define SEGMENT_C_PIN MDIO_PIN2
+#define SEGMENT_D_PIN MDIO_PIN3
+#define SEGMENT_E_PIN MDIO_PIN4
+#define SEGMENT_F_PIN MDIO_PIN5
+#define SEGMENT_G_PIN MDIO_PIN6
+#define SEGMENT_U_PIN MDIO_PIN7
+#endif

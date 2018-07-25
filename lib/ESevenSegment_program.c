@@ -1,0 +1,50 @@
+/*
+ * Author: Mohammed Ahmed Abd Al-Fattah
+ * Project: 7-Segment driver
+ * Date: 25-7-2018
+ */
+
+
+#include "LSTD_Types.h"
+#include "Macros.h"
+#include "MDIO_interface.h"
+#include "SevenSegment_interface.h"
+
+u8 num[10] = {0b10100000,0b10101111,0b11000100,0b10000110,0b10001011,0b10010010,0b10010000,0b10100111,0b10000000,0b10000010};
+
+
+void ESevenSegment_vidInit(void) {
+	/*Configuration set*/
+	MDIO_vidSetPinConfiguration(SEGMENT_A_PORT,SEGMENT_A_PIN,MDIO_GPOUT_PP);
+	MDIO_vidSetPinConfiguration(SEGMENT_B_PORT,SEGMENT_B_PIN,MDIO_GPOUT_PP);
+	MDIO_vidSetPinConfiguration(SEGMENT_C_PORT,SEGMENT_C_PIN,MDIO_GPOUT_PP);
+	MDIO_vidSetPinConfiguration(SEGMENT_D_PORT,SEGMENT_D_PIN,MDIO_GPOUT_PP);
+	MDIO_vidSetPinConfiguration(SEGMENT_E_PORT,SEGMENT_E_PIN,MDIO_GPOUT_PP);
+	MDIO_vidSetPinConfiguration(SEGMENT_F_PORT,SEGMENT_F_PIN,MDIO_GPOUT_PP);
+	MDIO_vidSetPinConfiguration(SEGMENT_G_PORT,SEGMENT_G_PIN,MDIO_GPOUT_PP);
+	MDIO_vidSetPinConfiguration(SEGMENT_U_PORT,SEGMENT_U_PIN,MDIO_GPOUT_PP);
+	
+	/*Mode set*/
+	MDIO_vidSetPinMode(SEGMENT_A_PORT,SEGMENT_A_PIN,MDIO_OUTSPEED_10);
+	MDIO_vidSetPinMode(SEGMENT_B_PORT,SEGMENT_B_PIN,MDIO_OUTSPEED_10);
+	MDIO_vidSetPinMode(SEGMENT_C_PORT,SEGMENT_C_PIN,MDIO_OUTSPEED_10);
+	MDIO_vidSetPinMode(SEGMENT_D_PORT,SEGMENT_D_PIN,MDIO_OUTSPEED_10);
+	MDIO_vidSetPinMode(SEGMENT_E_PORT,SEGMENT_E_PIN,MDIO_OUTSPEED_10);
+	MDIO_vidSetPinMode(SEGMENT_F_PORT,SEGMENT_F_PIN,MDIO_OUTSPEED_10);
+	MDIO_vidSetPinMode(SEGMENT_G_PORT,SEGMENT_G_PIN,MDIO_OUTSPEED_10);
+	MDIO_vidSetPinMode(SEGMENT_U_PORT,SEGMENT_U_PIN,MDIO_OUTSPEED_10);
+
+
+}
+
+void ESevenSegment_vidWriteDigit(u8 u8DigitCpy) {
+	u8 number = num[u8DigitCpy);
+	MDIO_vidSetPinValue(SEGMENT_A_PORT,SEGMENT_A_PIN,GET_BIT(number,0));
+	MDIO_vidSetPinValue(SEGMENT_B_PORT,SEGMENT_B_PIN,GET_BIT(number,1));
+	MDIO_vidSetPinValue(SEGMENT_C_PORT,SEGMENT_C_PIN,GET_BIT(number,2));
+	MDIO_vidSetPinValue(SEGMENT_D_PORT,SEGMENT_D_PIN,GET_BIT(number,3));
+	MDIO_vidSetPinValue(SEGMENT_E_PORT,SEGMENT_E_PIN,GET_BIT(number,4));
+	MDIO_vidSetPinValue(SEGMENT_F_PORT,SEGMENT_F_PIN,GET_BIT(number,5));
+	MDIO_vidSetPinValue(SEGMENT_G_PORT,SEGMENT_G_PIN,GET_BIT(number,6));
+	MDIO_vidSetPinValue(SEGMENT_U_PORT,SEGMENT_U_PIN,GET_BIT(number,7);
+}
