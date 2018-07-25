@@ -1,12 +1,13 @@
 #include "LSTD_TYPES.h"
 #include "Macros.h"
+#include "MDIO_interface.h"
 #include "MRCC_private.h"
 #include "MRCC_interface.h"
 #include "MDIO_private.h"
-#include "MDIO_interface.h"
 
 void MDIO_vidInit(void) {
-	MRCC->APB2ENR |= 4;
+	MRCC->APB2ENR |= 12;
+
 }
 
 void MDIO_vidSetPinValue(u8 u8PortNum, u8 u8PinNum, u8 u8PinValue) {
@@ -111,6 +112,7 @@ void MDIO_vidSetPinConfiguration(u8 u8PortNum, u8 u8PinNumCpy, u8 u8ConfCpy) {
 		}
 	}
 	else {
+		u8PinNumCpy = u8PinNumCpy - 8;
 		switch (u8ConfCpy) {
 			case MDIO_GPOUT_PP:
 				if (u8PortNum == MDIO_PORTA) {
@@ -180,6 +182,7 @@ void MDIO_vidSetPinMode(u8 u8PortNumCpy, u8 u8PinNumCpy, u8 u8ModeCpy) {
 				CLEAR_BIT(GPIOA->CRL,u8PinNumCpy*4+1);
 			}
 			else {
+				u8PinNumCpy = u8PinNumCpy - 8;
 				SET_BIT(GPIOA->CRH,u8PinNumCpy*4);
 				CLEAR_BIT(GPIOA->CRH,u8PinNumCpy*4+1);
 			}
@@ -190,6 +193,7 @@ void MDIO_vidSetPinMode(u8 u8PortNumCpy, u8 u8PinNumCpy, u8 u8ModeCpy) {
 				CLEAR_BIT(GPIOB->CRL,u8PinNumCpy*4+1);
 			}
 			else {
+				u8PinNumCpy = u8PinNumCpy - 8;
 				SET_BIT(GPIOB->CRH,u8PinNumCpy*4);
 				CLEAR_BIT(GPIOB->CRH,u8PinNumCpy*4+1);
 			}
@@ -200,6 +204,7 @@ void MDIO_vidSetPinMode(u8 u8PortNumCpy, u8 u8PinNumCpy, u8 u8ModeCpy) {
 				CLEAR_BIT(GPIOC->CRL,u8PinNumCpy*4+1);
 			}
 			else {
+				u8PinNumCpy = u8PinNumCpy - 8;
 				SET_BIT(GPIOC->CRH,u8PinNumCpy*4);
 				CLEAR_BIT(GPIOC->CRH,u8PinNumCpy*4+1);
 			}
@@ -212,6 +217,7 @@ void MDIO_vidSetPinMode(u8 u8PortNumCpy, u8 u8PinNumCpy, u8 u8ModeCpy) {
 				SET_BIT(GPIOA->CRL,u8PinNumCpy*4+1);
 			}
 			else {
+				u8PinNumCpy = u8PinNumCpy - 8;
 				CLEAR_BIT(GPIOA->CRH,u8PinNumCpy*4);
 				SET_BIT(GPIOA->CRH,u8PinNumCpy*4+1);
 			}
@@ -222,6 +228,7 @@ void MDIO_vidSetPinMode(u8 u8PortNumCpy, u8 u8PinNumCpy, u8 u8ModeCpy) {
 				SET_BIT(GPIOB->CRL,u8PinNumCpy*4+1);
 			}
 			else {
+				u8PinNumCpy = u8PinNumCpy - 8;
 				CLEAR_BIT(GPIOB->CRH,u8PinNumCpy*4);
 				SET_BIT(GPIOB->CRH,u8PinNumCpy*4+1);
 			}
@@ -232,6 +239,7 @@ void MDIO_vidSetPinMode(u8 u8PortNumCpy, u8 u8PinNumCpy, u8 u8ModeCpy) {
 				SET_BIT(GPIOC->CRL,u8PinNumCpy*4+1);
 			}
 			else {
+				u8PinNumCpy = u8PinNumCpy - 8;
 				CLEAR_BIT(GPIOC->CRH,u8PinNumCpy*4);
 				SET_BIT(GPIOC->CRH,u8PinNumCpy*4+1);
 			}
@@ -244,6 +252,7 @@ void MDIO_vidSetPinMode(u8 u8PortNumCpy, u8 u8PinNumCpy, u8 u8ModeCpy) {
 				SET_BIT(GPIOA->CRL,u8PinNumCpy*4+1);
 			}
 			else {
+				u8PinNumCpy = u8PinNumCpy - 8;
 				SET_BIT(GPIOA->CRH,u8PinNumCpy*4);
 				SET_BIT(GPIOA->CRH,u8PinNumCpy*4+1);
 			}
@@ -254,6 +263,7 @@ void MDIO_vidSetPinMode(u8 u8PortNumCpy, u8 u8PinNumCpy, u8 u8ModeCpy) {
 				SET_BIT(GPIOB->CRL,u8PinNumCpy*4+1);
 			}
 			else {
+				u8PinNumCpy = u8PinNumCpy - 8;
 				SET_BIT(GPIOB->CRH,u8PinNumCpy*4);
 				SET_BIT(GPIOB->CRH,u8PinNumCpy*4+1);
 			}
@@ -264,6 +274,7 @@ void MDIO_vidSetPinMode(u8 u8PortNumCpy, u8 u8PinNumCpy, u8 u8ModeCpy) {
 				SET_BIT(GPIOC->CRL,u8PinNumCpy*4+1);
 			}
 			else {
+				u8PinNumCpy = u8PinNumCpy - 8;
 				SET_BIT(GPIOC->CRH,u8PinNumCpy*4);
 				SET_BIT(GPIOC->CRH,u8PinNumCpy*4+1);
 			}
