@@ -1,3 +1,9 @@
+/*
+ * Author: Mohammed Ahmed Abd Al-Fattah
+ * Purpose: DIO driver for STM32F103 MCU
+ *
+ */
+
 #include "LSTD_TYPES.h"
 #include "Macros.h"
 #include "MDIO_interface.h"
