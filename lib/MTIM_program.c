@@ -1,3 +1,9 @@
+/*
+ * Author: Mohamed Ahmed Abd Al-Fattah
+ * Purpose: Timer driver for STM32F103 MCU
+ *
+ */
+
 #include "LSTD_TYPES.h"
 #include "Macros.h"
 #include "MTIM_private.h"
