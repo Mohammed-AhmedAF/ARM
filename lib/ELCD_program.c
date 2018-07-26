@@ -1,7 +1,6 @@
-/*
+/* 
  * Author: Mohamed Ahmed Abd Al-Fattah
- * Purpose: 16x2 LCD driver for STM32F103 MCU
- *
+ * Purpose: 16x2 LCD driver 
  */
 
 #include "LSTD_TYPES.h"
@@ -10,6 +9,7 @@
 #include "MDIO_interface.h"
 #include "ELCD_interface.h"
 
+u16 i = 0;
 void ELCD_vidInit(void) {
 	/*Setting configuration for data pins*/
 	MDIO_vidSetPinConfiguration(ELCD_D0_PORT,ELCD_D0_PIN,MDIO_GPOUT_PP);
@@ -46,7 +46,7 @@ void ELCD_vidInit(void) {
 	ELCD_vidSendCommand(ELCD_RETURN_HOME); /*Move to home*/
 	ELCD_vidSendCommand(0b00000110); /*Set entry mode*/
 	ELCD_vidSendCommand(0b00001100); /*Display On/Off control*/
-	ELCD_vidSendCommand(0b00111000); /*Function Set*/
+	ELCD_vidSendCommand(0b00110000); /*Function Set*/
 }
 
 void ELCD_vidSendCommand(u8 u8commandCpy) {
@@ -63,9 +63,9 @@ void ELCD_vidSendCommand(u8 u8commandCpy) {
 	MDIO_vidSetPinValue(ELCD_D7_PORT,ELCD_D7_PIN,GET_BIT(u8commandCpy,7));
 
 	MDIO_vidSetPinValue(ELCD_EN_PORT,ELCD_EN_PIN,STD_HIGH);
-	MSTK_vidDelayMilliSec(2);
+	for(i = 0; i < 16000; i++);
 	MDIO_vidSetPinValue(ELCD_EN_PORT,ELCD_EN_PIN,STD_LOW);
-	MSTK_vidDelayMilliSec(2);
+	for (i = 0; i<16000; i++);
 	MDIO_vidSetPinValue(ELCD_EN_PORT,ELCD_EN_PIN,STD_HIGH);	
 
 }
@@ -84,15 +84,16 @@ void ELCD_vidWriteCharacter(u8 u8CharacterCpy) {
 	MDIO_vidSetPinValue(ELCD_D7_PORT,ELCD_D7_PIN,GET_BIT(u8CharacterCpy,7));
 
 	MDIO_vidSetPinValue(ELCD_EN_PORT,ELCD_EN_PIN,STD_HIGH);
-	MSTK_vidDelayMilliSec(2);
+	for(i = 0; i < 16000; i++);
 	MDIO_vidSetPinValue(ELCD_EN_PORT,ELCD_EN_PIN,STD_LOW);
-	MSTK_vidDelayMilliSec(2);
+	for(i = 0; i < 16000; i++);
 	MDIO_vidSetPinValue(ELCD_EN_PORT,ELCD_EN_PIN,STD_HIGH);	
 }
 
 void ELCD_vidWriteString(u8 * u8StringPtrCpy) {
-	while(*u8StringPtrCpy != '\0') {
-		ELCD_vidWriteCharacter(*u8StringPtrCpy);	
-		*u8StringPtrCpy++;
+	while (*u8StringPtrCpy != '\0') {
+		ELCD_vidWriteCharacter(*u8StringPtrCpy);
+		u8StringPtrCpy++;
 	}
+
 }
