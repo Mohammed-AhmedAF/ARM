@@ -5,6 +5,8 @@ void ELCD_vidInit(void);
 void ELCD_vidSendCommand(u8 u8CommandCpy);
 void ELCD_vidWriteCharacter(u8 u8CharacterCpy);
 void ELCD_vidWriteString(u8 * u8StringPtrCpy);
+void ELCD_vidWriteNumber(u16 u16NumberCpy);
+void ELCD_vidGoToXY(s8,s8);
 
 
 /*Data port definitions*/

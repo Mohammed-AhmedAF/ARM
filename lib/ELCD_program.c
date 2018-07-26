@@ -97,3 +97,30 @@ void ELCD_vidWriteString(u8 * u8StringPtrCpy) {
 	}
 
 }
+
+void ELCD_vidWriteNumber(u16 u16NumberCpy) {
+	if(u16NumberCpy < 10) {
+		ELCD_vidWriteCharacter(u16NumberCpy+'0');
+	}
+	else {
+		if (u16NumberCpy < 100) {
+			ELCD_vidWriteCharacter(u16NumberCpy/10+'0');
+			ELCD_vidWriteCharacter(u16NumberCpy%10+'0');
+		}
+		if  (u16NumberCpy < 1000) {
+			ELCD_vidWriteCharacter(u16NumberCpy/100+'0');
+			ELCD_vidWriteCharacter((u16NumberCpy%100)/10+'0');
+			ELCD_vidWriteCharacter((u16NumberCpy%100)%10+'0');
+		}
+	}
+}
+
+void ELCD_vidGoToXY(s8 s8xCpy, s8 s8yCpy) {
+	if (s8yCpy == 1) {
+			ELCD_vidSendCommand(0x80+s8xCpy);
+	}
+	else {
+			ELCD_vidSendCommand(0xC0+s8xCpy);
+	}
+}
+
