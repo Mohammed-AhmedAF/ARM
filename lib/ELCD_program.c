@@ -1,3 +1,9 @@
+/*
+ * Author: Mohamed Ahmed Abd Al-Fattah
+ * Purpose: 16x2 LCD driver for STM32F103 MCU
+ *
+ */
+
 #include "LSTD_TYPES.h"
 #include "Macros.h"
 #include "MSTK_interface.h"
@@ -82,4 +88,11 @@ void ELCD_vidWriteCharacter(u8 u8CharacterCpy) {
 	MDIO_vidSetPinValue(ELCD_EN_PORT,ELCD_EN_PIN,STD_LOW);
 	MSTK_vidDelayMilliSec(2);
 	MDIO_vidSetPinValue(ELCD_EN_PORT,ELCD_EN_PIN,STD_HIGH);	
+}
+
+void ELCD_vidWriteString(u8 * u8StringPtrCpy) {
+	while(*u8StringPtrCpy != '\0') {
+		ELCD_vidWriteCharacter(*u8StringPtrCpy);	
+		*u8StringPtrCpy++;
+	}
 }
