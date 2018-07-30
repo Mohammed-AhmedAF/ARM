@@ -9,6 +9,7 @@ typedef struct {
 	u32 IABP[32]
 }NVK_TYPES;
 
-#define MNVK(volatile NVK_Type*) 0xE000E010
+#define MNVK(volatile NVK_Type*) 0xE000E100
+
 
 #endif
