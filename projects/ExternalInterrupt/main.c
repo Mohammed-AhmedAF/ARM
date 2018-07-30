@@ -43,9 +43,7 @@ void main(void) {
 	MEXTI_vidSetEXTIMode(0,MEXTI_MODE_FALLING);
 	MEXTI_vidEnable(0);
 
-	while(1) {
-
-	}
+	while(1);
 }
 
 
