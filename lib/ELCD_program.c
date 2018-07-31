@@ -1,6 +1,6 @@
 /* 
  * Author: Mohamed Ahmed Abd Al-Fattah
- * Purpose: 16x2 LCD driver 
+ * Purpose: 16x2 LCD driver for stm32f103c8t6 MCU
  */
 
 #include "LSTD_TYPES.h"
@@ -107,10 +107,16 @@ void ELCD_vidWriteNumber(u16 u16NumberCpy) {
 			ELCD_vidWriteCharacter(u16NumberCpy/10+'0');
 			ELCD_vidWriteCharacter(u16NumberCpy%10+'0');
 		}
-		if  (u16NumberCpy < 1000) {
+		else if  (u16NumberCpy < 1000) {
 			ELCD_vidWriteCharacter(u16NumberCpy/100+'0');
 			ELCD_vidWriteCharacter((u16NumberCpy%100)/10+'0');
 			ELCD_vidWriteCharacter((u16NumberCpy%100)%10+'0');
+		}
+		else if (u16NumberCpy < 10000) {
+			ELCD_vidWriteCharacter((u16NumberCpy/1000)+'0');
+			ELCD_vidWriteCharacter((u16NumberCpy%1000)/100+'0');
+			ELCD_vidWriteCharacter(((u16NumberCpy%1000)%100)%10+'0');
+			ELCD_vidWriteCharacter((u16NumberCpy%1000)%10+'0');
 		}
 	}
 }
