@@ -1,3 +1,8 @@
+/*
+ * Author: Mohammed Ahmed Abd Al-Fattah
+ * Puporse: UART driver for STM32F103c8t6 MCU
+ * Date: 29-7-2018
+ */
 #include "LSTD_TYPES.h"
 #include "Macros.h"
 #include "MUART_private.h"
@@ -12,7 +17,7 @@ void MUART_vidInit(void) {
 	SET_BIT(MUART->CR1,3); /*Transmitter is enabled*/
 	SET_BIT(MUART->CR1,2); /*Receiver is enabled*/
 	SET_BIT(MUART->CR2,11); /*Clock is enabled*/
-	MUART->BRR = 0x341; /**/
+	MUART->BRR = 0x341; /*Baudrate*/
 
 	SET_BIT(MUART->GTPR,3); /*Setting prescaler*/
 }
