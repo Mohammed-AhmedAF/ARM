@@ -26,5 +26,11 @@ typedef struct {
 #define MTIM3 ((Timer_Type*) 0x40000400)
 #define MTIM4 ((Timer_Type*) 0x40000800)
 #define MTIM5 ((Timer_Type*) 0x40000C00)
+#define MTIM9 ((Timer_Type*) 0x40014C00)
+#define MTIM10 ((Timer_Type*) 0x40015000)
+#define MTIM11 ((Timer_Type*) 0x40015400)
+#define MTIM12 ((Timer_Type*) 0x40001800)
+#define MTIM13 ((Timer_Type*) 0x40001C00)
+#define MTIM14 ((Timer_Type*) 0x40002000)
 
 #endif
