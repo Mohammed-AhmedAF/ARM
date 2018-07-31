@@ -1,3 +1,9 @@
+/*
+ * Author: Mohammed Ahmed Abd Al-Fattah
+ * Purpose: RCC driver for stm32f103c8t6 MCU
+ *
+ */
+
 #include "LSTD_TYPES.h"
 #include "Macros.h"
 #include "MRCC_private.h"
