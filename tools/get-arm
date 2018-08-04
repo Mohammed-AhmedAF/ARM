@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+
+# Developer: Mohamed Ahmed
+# Date: 4 August 2018
+
+
+ARM_LIB_PATH=$HOME/programming/arm/lib
+
+for i in $@
+do
+	if [[ $i = "DIO" ]]
+	then
+		cp $ARM_LIB_PATH/MDIO_program.c ./
+		cp $ARM_LIB_PATH/MDIO_interface.h ./
+		cp $ARM_LIB_PATH/MDIO_private.h ./
+	elif [[ $i = "RCC" ]]
+	then
+		cp $ARM_LIB_PATH/MRCC_program.c ./
+		cp $ARM_LIB_PATH/MRCC_interface.h ./
+		cp $ARM_LIB_PATH/MRCC_private.h ./
+	elif [[ $i = "STK" ]]
+	then
+		cp $ARM_LIB_PATH/MSTK_program.c ./
+		cp $ARM_LIB_PATH/MSTK_interface.h ./
+		cp $ARM_LIB_PATH/MSTK_private ./	
+	elif [[ $i = "UART" ]]
+	then
+		cp $ARM_LIB_PATH/MUART_program.c ./
+		cp $ARM_LIB_PATH/MUART_interface.h ./
+		cp $ARM_LIB_PATH/MUART_private.h  ./
+	elif [[ $i = "NVIC" ]]
+	then
+		cp $ARM_LIB_PATH/MNVK_program.c ./
+		cp $ARM_LIB_PATH/MNVK_interface.h ./
+		cp $ARM_LIB_PATH/MNVK_private.h ./
+	elif [[ $i = "TIM" ]]
+	then
+		cp $ARM_LIB_PATH/MTIM_program.c ./
+		cp $ARM_LIB_PATH/MTIM_interface.h ./
+		cp $ARM_LIB_PATH/MTIM_private.h ./
+	else 
+		echo "Error: Could not process $i."
+	fi
+done
+
