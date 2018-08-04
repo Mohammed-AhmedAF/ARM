@@ -38,6 +38,11 @@ do
 		cp $ARM_LIB_PATH/MTIM_program.c ./
 		cp $ARM_LIB_PATH/MTIM_interface.h ./
 		cp $ARM_LIB_PATH/MTIM_private.h ./
+	elif [[ $i = "lcd" || $i = "LCD" ]]
+	then
+		cp $ARM_LIB_PATH/ELCD_program.c  ./
+		cp $ARM_LIB_PATH/ELCD_interface.h ./
+		cp $ARM_LIB_PATH/ELCD_private.h ./
 	else 
 		echo "Error: Could not process $i."
 	fi
