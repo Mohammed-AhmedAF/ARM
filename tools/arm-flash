@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+arm-none-eabi-objcopy -S -O binary $1.elf $1.bin
+st-flash write $1.bin 0x8000000
