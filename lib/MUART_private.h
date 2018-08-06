@@ -11,5 +11,9 @@ typedef struct {
 	u32 GTPR;
 }UART_Type;
 
-#define MUART ((UART_Type*) 0x40013800)
+#define MUART ((volatile UART_Type*) 0x40013800)
+#define MUART2 ((volatile UART_Type*) 0x40004400)
+#define MUART3 ((volatile UART_Type*) 0x40004800)
+#define MUART4 ((volatile UART_Type*) 0x40004C00)
+#define MUART5 ((volatile UART_Type*) 0x40005000)
 #endif
