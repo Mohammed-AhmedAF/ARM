@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
 # Developer: Mohamed Ahmed
+# Purpose: A script to copy files from library to
+#	project directory
 # Date: 4 August 2018
 
 
