@@ -115,7 +115,7 @@ void ELCD_vidWriteNumber(u16 u16NumberCpy) {
 		else if (u16NumberCpy < 10000) {
 			ELCD_vidWriteCharacter((u16NumberCpy/1000)+'0');
 			ELCD_vidWriteCharacter((u16NumberCpy%1000)/100+'0');
-			ELCD_vidWriteCharacter(((u16NumberCpy%1000)%100)%10+'0');
+			ELCD_vidWriteCharacter(((u16NumberCpy%1000)%100)/10+'0');
 			ELCD_vidWriteCharacter((u16NumberCpy%1000)%10+'0');
 		}
 	}
