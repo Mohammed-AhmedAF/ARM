@@ -31,7 +31,7 @@ void MUART_vidSendByte(u8 u8ByteCpy) {
 
 u8 MUART_u8ReceiveByte(void) {
 	while (GET_BIT(MUART->SR,5) == 0); /*Checking Read Data Register not Empty*/
-	return MUART->DR;
+	return (MUART->DR & 0x1FF);
 }
 
 void MUART_vidSendString(u8 * u8StringPtrCpy) {
@@ -40,4 +40,34 @@ void MUART_vidSendString(u8 * u8StringPtrCpy) {
 		u8StringPtrCpy++;
 	}
 
+}
+
+void MUART_vidSendNumber(u32 u16NumberCpy) {
+	if(u16NumberCpy < 10) {
+			MUART_vidSendByte(u16NumberCpy+'0');
+		}
+		else {
+			if (u16NumberCpy < 100) {
+				MUART_vidSendByte(u16NumberCpy/10+'0');
+				MUART_vidSendByte(u16NumberCpy%10+'0');
+			}
+			else if  (u16NumberCpy < 1000) {
+				MUART_vidSendByte(u16NumberCpy/100+'0');
+				MUART_vidSendByte((u16NumberCpy%100)/10+'0');
+				MUART_vidSendByte((u16NumberCpy%100)%10+'0');
+			}
+			else if (u16NumberCpy < 10000) {
+				MUART_vidSendByte((u16NumberCpy/1000)+'0');
+				MUART_vidSendByte((u16NumberCpy%1000)/100+'0');
+				MUART_vidSendByte(((u16NumberCpy%1000)%100)/10+'0');
+				MUART_vidSendByte((u16NumberCpy%1000)%10+'0');
+			}
+			else if (u16NumberCpy < 100000) {
+				MUART_vidSendByte((u16NumberCpy/10000)+'0');
+				MUART_vidSendByte((u16NumberCpy%10000)/1000+'0');
+				MUART_vidSendByte((u16NumberCpy%10000)%1000/100+'0');
+				MUART_vidSendByte((u16NumberCpy%10000)%1000%100/10+'0');
+				MUART_vidSendByte((u16NumberCpy%10000)%1000%100%10+'0');
+			}
+		}
 }
