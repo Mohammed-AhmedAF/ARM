@@ -1,0 +1,12 @@
+# Author: Mohammed Ahmed Abd Al-Fattah
+# Purpose: Simple script that copies files from
+# current working directory to eclipse workspace
+# Usage: push-arm <name-of-project>
+#!/usr/bin/env bash
+
+ARM_PROJECTS_PATH=$HOME/arm-eclipse-workspace
+
+cp *c $ARM_PROJECTS_PATH/$1/src
+cp *.h $ARM_PROJECTS_PATH/$1/include
+
+
