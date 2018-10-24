@@ -8,10 +8,17 @@ void MRCC_vidEnableClock(u8 u8BusCpy, u8 u8PeripheralCpy);
 #define BUS_APB1 1
 #define BUS_APB2 2
 
-#define PERIPHERAL_TIM2 0
 #define PERIPHERAL_GPIOA 4
 #define PERIPHERAL_GPIOB 8
 #define PERIPHERAL_GPIOC 10
 #define PERIPHERAL_UART1
+
+
+#define PERIPHERAL_TIM2 1
+#define PERIPHERAL_TIM3 2
+#define PERIPHERAL_TIM4 4
+#define PERIPHERAL_TIM5 8
+#define PERIPHERAL_TIM6 16
+#define PERIPHERAL_TIM7 32
 
 #endif

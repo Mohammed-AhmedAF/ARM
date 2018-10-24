@@ -17,9 +17,12 @@ void MTIM_vidPutFunction(void (*ptrF) (void)) {
 
 void MTIM_vidInit() {
 
-	SET_BIT(MTIM2->CR1,MTIM_CR1_CEN);
+	MTIM2->PSC = 1; /*Setting prescaler*/
+	MTIM2->ARR = 256;
+	SET_BIT(MTIM2->DIER,MTIM_DIER_UIE);
 	CLEAR_BIT(MTIM2->CR1,MTIM_CR1_DIR);
-	MTIM2->PSC = 65300; /*Setting prescaler*/
+	SET_BIT(MTIM2->CR1,MTIM_CR1_CEN);
+
 }
 
 u16 MTIM_u16GetCount(void) {
@@ -27,6 +30,9 @@ u16 MTIM_u16GetCount(void) {
 }
 
 void TIM2_IRQHandler(void) {
+
+	CLEAR_BIT(MTIM2->SR,0);
+
 	ptrFunc();
-	MTIM2->SR |= (1<<0);
+
 }

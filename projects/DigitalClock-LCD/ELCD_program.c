@@ -121,7 +121,7 @@ void ELCD_vidWriteNumber(u16 u16NumberCpy) {
 }
 
 void ELCD_vidGoToXY(s8 s8xCpy, s8 s8yCpy) {
-	if (s8yCpy == 1) {
+	if (s8yCpy == 0) {
 			ELCD_vidSendCommand(0x80+s8xCpy);
 	}
 	else {

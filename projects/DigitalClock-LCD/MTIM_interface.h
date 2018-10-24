@@ -8,4 +8,7 @@ void MTIM_vidPutFunction(void (*ptrF) (void));
 #define MTIM_CR1_CEN 0
 #define MTIM_CR1_DIR 4
 
+
+#define MTIM_DIER_UIE 0
+
 #endif

@@ -4,14 +4,13 @@
 #include "MDIO_interface.h"
 #include "ELCD_interface.h"
 #include "MNVK_interface.h"
-#include "MTIM_private.h"
 #include "MTIM_interface.h"
 
 #define SHIFT 4
 
 /*Global variables*/
 volatile u8 hour = 0;
-volatile u8 min = 58;
+volatile u8 min = 0;
 volatile u16 sec = 0;
 volatile u32 u32OVFCount = 0;
 volatile u8 Flag = 0;
@@ -42,9 +41,8 @@ void vidCount(void) {
 			ELCD_vidGoToXY(6+SHIFT,0);
 			ELCD_vidWriteCharacter('0');
 			ELCD_vidGoToXY(7+SHIFT,0);
-			ELCD_vidWriteNumber(sec);
+			ELCD_vidWriteCharacter('0');
 			min++;
-			vidCheckMinute(min);	
 			if (min < 60) {
 				/*Writing minutes*/
 				ELCD_vidGoToXY(3+SHIFT,0);
@@ -78,7 +76,16 @@ void vidCount(void) {
 	}
 }
 
-
+void displayCount(void) {
+	++u32OVFCount;
+	if (u32OVFCount == 10000) {
+		ELCD_vidSendCommand(ELCD_CLEAR_SCREEN);
+		ELCD_vidSendCommand(ELCD_RETURN_HOME);
+		u32OVFCount = 0;
+		++sec;
+		ELCD_vidWriteNumber(sec);
+	}
+}
 
 void main(void) {
 	/*Init*/
@@ -89,16 +96,20 @@ void main(void) {
 	MRCC_vidEnableClock(BUS_APB1,PERIPHERAL_TIM2);
 	MDIO_vidSetPinConfiguration(MDIO_PORTB,MDIO_PIN3,MDIO_GPOUT_PP);
 	ELCD_vidInit();
+
+	vidInitClock(); 
+
 	MTIM_vidInit();
+
+	/*Printing the clock digits befor initiating the
+	  timer
+	  */
 
 	MNVK_vidEnableInterrupt(NVIC_TIM2);
 	MTIM_vidPutFunction(vidCount);
-
 	while(1) {
-		ELCD_vidWriteNumber(MTIM_u16GetCount());
-
 	}
-	
+
 }
 
 void vidIncrementHour(void) {
@@ -143,9 +154,9 @@ void vidCheckMinute(u8 u8MinCpy) {
 void vidSetAlarm(void) {
 	ELCD_vidSendCommand(ELCD_CLEAR_SCREEN);
 	ELCD_vidSendCommand(ELCD_RETURN_HOME);
-	ELCD_vidWriteString("Minutes: \0");	
+	ELCD_vidWriteString((u8*)"Minutes: \0");	
 	ELCD_vidGoToXY(0,1);
-	ELCD_vidWriteString("Hours: \0");
+	ELCD_vidWriteString((u8*)"Hours: \0");
 	ELCD_vidGoToXY(10,0);
 
 }
