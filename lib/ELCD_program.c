@@ -5,7 +5,6 @@
 
 #include "LSTD_TYPES.h"
 #include "Macros.h"
-#include "MSTK_interface.h"
 #include "MDIO_interface.h"
 #include "ELCD_interface.h"
 
