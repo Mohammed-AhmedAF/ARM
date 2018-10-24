@@ -15,6 +15,8 @@ do
 		cp $ARM_LIB_PATH/MDIO_program.c ./
 		cp $ARM_LIB_PATH/MDIO_interface.h ./
 		cp $ARM_LIB_PATH/MDIO_private.h ./
+		cp $ARM_LIB_PATH/LSTD_TYPES.h .
+		cp $ARM_LIB_PATH/Macros.h .
 	elif [[ $i = "rcc" || $i = "RCC" ]]
 	then
 		cp $ARM_LIB_PATH/MRCC_program.c ./
@@ -25,6 +27,11 @@ do
 		cp $ARM_LIB_PATH/MSTK_program.c ./
 		cp $ARM_LIB_PATH/MSTK_interface.h ./
 		cp $ARM_LIB_PATH/MSTK_private ./	
+	elif [[ $i = "nvic" || $i = "NVIC" ]]
+	then
+		cp $ARM_LIB_PATH/MNVK_program.c ./
+		cp $ARM_LIB_PATH/MNVK_interface.h ./
+		cp $ARM_LIB_PATH/MNVK_private.h ./
 	elif [[ $i = "uart " || $i = "UART" ]]
 	then
 		cp $ARM_LIB_PATH/MUART_program.c ./
@@ -35,7 +42,7 @@ do
 		cp $ARM_LIB_PATH/MNVK_program.c ./
 		cp $ARM_LIB_PATH/MNVK_interface.h ./
 		cp $ARM_LIB_PATH/MNVK_private.h ./
-	elif [[ $i = "tim" || $i = "TIM" ]]
+	elif [[ $i = "tim" || $i = "TIM" || $i = "timer" || $i = "Timer" ]]
 	then
 		cp $ARM_LIB_PATH/MTIM_program.c ./
 		cp $ARM_LIB_PATH/MTIM_interface.h ./

@@ -45,8 +45,21 @@ typedef struct {
 	u32 LCKR;
 }GPIO_Type;
 
-#define GPIOA ((GPIO_TYPE*) 0x40010800)
-#define GPIOB ((GPIO_TYPE*) 0x40010C00)
+#define GPIOA ((GPIO_Type*) 0x40010800)
+#define GPIOB ((GPIO_Type*) 0x40010C00)
 #define GPIOC ((GPIO_Type*) 0x40011000)
+
+
+typedef struct {
+	u32 EVCR;
+	u32 MAPR;
+	u32 EXTICR1;
+	u32 EXTICR2;
+	u32 EXTICR3;
+	u32 EXTICR4;
+	u32 MAPR2
+}AFIO_Type;
+
+#define AFIO ((AFIO_Type*) 0x40000000)
 
 #endif

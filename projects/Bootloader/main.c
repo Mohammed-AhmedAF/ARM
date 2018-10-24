@@ -1,3 +1,9 @@
+/*
+ * Name: Mohammed Ahmed Abd Al-Fattah
+ * Project: Bootloader for STM32f103 MCU
+ *
+ */
+
 #include "LSTD_TYPES.h"
 #include "Macros.h"
 #include "MDIO_interface.h"

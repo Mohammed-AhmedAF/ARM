@@ -39,7 +39,7 @@ void main(void) {
 
 
 	MEXTI_vidSetCallBack(func);
-	MNVK_vidEnableInterrupt(6);
+	MNVK_vidEnableInterrupt(6); /*That number is the position in page 197 of manual*/
 	MEXTI_vidSetEXTIMode(0,MEXTI_MODE_FALLING);
 	MEXTI_vidEnable(0);
 

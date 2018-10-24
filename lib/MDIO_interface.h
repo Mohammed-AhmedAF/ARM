@@ -37,5 +37,7 @@ u8 MDIO_u8GetPinValue(u8 u8PortNum, u8 u8PinNum);
 #define MDIO_OUTSPEED_10 0
 #define MDIO_OUTSPEED_2 1
 #define MDIO_OUTSPEED_50 2
+#define MDIO_INPUTMODE 3
+
 
 #endif

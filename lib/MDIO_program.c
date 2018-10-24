@@ -19,7 +19,7 @@ void MDIO_vidInit(void) {
 void MDIO_vidSetPinValue(u8 u8PortNum, u8 u8PinNum, u8 u8PinValue) {
 	if (u8PortNum == MDIO_PORTA) {
 		if (u8PinValue == STD_HIGH) {
-			SET_BIT(GPIOA->ODR,u8PinNum);		
+			SET_BIT(GPIOA->ODR,u8PinNum);
 		}
 		else {
 			CLEAR_BIT(GPIOA->ODR,u8PinNum);	
@@ -286,4 +286,41 @@ void MDIO_vidSetPinMode(u8 u8PortNumCpy, u8 u8PinNumCpy, u8 u8ModeCpy) {
 			}
 		}
 	}
+	else if (u8ModeCpy == MDIO_INPUTMODE) {
+		if (u8PortNumCpy == MDIO_PORTA) {
+			if (u8PinNumCpy < MDIO_PIN8) {
+				CLEAR_BIT(GPIOA->CRL,u8PinNumCpy*4);
+				CLEAR_BIT(GPIOA->CRL,u8PinNumCpy*4+1);
+			}
+			else {
+				u8PinNumCpy = u8PinNumCpy - 8;
+				CLEAR_BIT(GPIOA->CRH,u8PinNumCpy*4);
+				CLEAR_BIT(GPIOA->CRH,u8PinNumCpy*4+1);
+			}
+		}
+		else if	(u8PortNumCpy == MDIO_PORTB) {
+			if (u8PinNumCpy < MDIO_PIN8) {
+				CLEAR_BIT(GPIOB->CRL,u8PinNumCpy*4);
+				CLEAR_BIT(GPIOB->CRL,u8PinNumCpy*4+1);
+			}
+			else {
+				u8PinNumCpy = u8PinNumCpy - 8;
+				CLEAR_BIT(GPIOB->CRH,u8PinNumCpy*4);
+				CLEAR_BIT(GPIOB->CRH,u8PinNumCpy*4+1);
+			}
+		}
+		else if (u8PortNumCpy == MDIO_PORTC) {
+			if (u8PinNumCpy < MDIO_PIN8) {
+				CLEAR_BIT(GPIOC->CRL,u8PinNumCpy*4);
+				CLEAR_BIT(GPIOC->CRL,u8PinNumCpy*4+1);
+			}
+			else {
+				u8PinNumCpy = u8PinNumCpy - 8;
+				CLEAR_BIT(GPIOC->CRH,u8PinNumCpy*4);
+				CLEAR_BIT(GPIOC->CRH,u8PinNumCpy*4+1);
+			}
+		}
+
+	}
 }
+
