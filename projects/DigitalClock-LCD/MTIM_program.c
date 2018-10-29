@@ -18,7 +18,7 @@ void MTIM_vidPutFunction(void (*ptrF) (void)) {
 void MTIM_vidInit() {
 
 	MTIM2->PSC = 0; /*Setting prescaler*/
-	MTIM2->ARR = 255;
+	MTIM2->ARR = 250;
 	SET_BIT(MTIM2->DIER,MTIM_DIER_UIE);
 	CLEAR_BIT(MTIM2->CR1,MTIM_CR1_DIR);
 	SET_BIT(MTIM2->CR1,MTIM_CR1_CEN);
