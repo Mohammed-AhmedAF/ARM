@@ -89,7 +89,7 @@ void displayCount(void) {
 
 void vidIncrementHour(void) {
 	hour++;
-	if (hour > 24) {
+	if (hour >= 24) {
 		hour = 0;
 	}
 	ELCD_vidGoToXY(0+SHIFT,0);
