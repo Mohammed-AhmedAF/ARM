@@ -1,7 +1,16 @@
+/*
+ * Author: Mohamed Ahmed Abd Al-Fattah
+ * Purpose: SysTick driver for Tiva-c
+ *
+ */
+
+
 #include "STD_TYPES.h"
 #include "Macros.h"
 #include "SysTick_private.h"
 #include "SysTick_interface.h"
+
+void (*SysTick_Func) (void);
 
 void SysTick_vidInit(u8 u8isClockSource, u8 u8isInterruptEnabled) {
 	/*Configuring Clock Source*/
@@ -31,4 +40,12 @@ void SysTick_vidSetValue(u32 u32Value) {
 
 u32 SysTick_u32GetCurrentValue(void) {
 	return SysTick->CURRENT;
+}
+
+void SysTick_vidPutFunction(void (*givenFunc) (void)) {
+	SysTick_Func = givenFunc;
+}
+
+void SysTick_Handler(void) {
+	SysTick_Func();
 }
