@@ -132,3 +132,23 @@ void GPIO_vidSetPinDigEnable(u8 u8PortNumCpy, u8 u8PinNumCpy, u8 u8DigEnable) {
 	}
 }
 
+/*To select alternate function for pin*/
+void GPIO_vidSelectAlterFunction(u8 u8PortNumCpy, u8 u8PinNumCpy) {
+	switch(u8PortNumCpy) {
+		case GPIO_PORTA:
+			SET_BIT(GPIOA_AFSEL,u8PinNumCpy);
+			break;
+		case GPIO_PORTB:
+			SET_BIT(GPIOB_AFSEL,u8PinNumCpy);
+			break;
+		case GPIO_PORTC:
+			SET_BIT(GPIOC_AFSEL,u8PinNumCpy);
+			break;
+		case GPIO_PORTD:
+			SET_BIT(GPIOD_AFSEL,u8PinNumCpy);
+			break;
+		case GPIO_PORTF:
+			SET_BIT(GPIOF_AFSEL,u8PinNumCpy);
+			break;
+	}
+}
