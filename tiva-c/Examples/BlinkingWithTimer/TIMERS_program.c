@@ -1,4 +1,4 @@
-/*
+/* Author: Mohamed Ahmed Abd Al-Fattah
  * Timer driver for Tiva C
  *
  */
