@@ -1,0 +1,16 @@
+#ifndef _SYSCNTRL_INTERFACE_H
+#define _SYSCNTRL_INTERFACE_H
+
+void SYSCNTRL_vidEnableGPIOClock(u8 u8PortNumber);
+void SYSCNTRL_vidEnableUARTClock(u8 u8UARTChannel);
+
+#define SYSCNTRL_GPIO_PORTA 0
+#define SYSCNTRL_GPIO_PORTB 1
+#define SYSCNTRL_GPIO_PORTC 2
+#define SYSCNTRL_GPIO_PORTD 3
+#define SYSCNTRL_GPIO_PORTE 4
+#define SYSCNTRL_GPIO_PORTF 5
+
+#define SYSCNTRL_UART0 0
+
+#endif
