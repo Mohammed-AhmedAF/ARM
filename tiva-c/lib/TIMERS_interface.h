@@ -5,6 +5,8 @@
 void TIMERS_vidSetup(void);
 void TIMERS_vidStart(void);
 void TIMERS_vidStartOneShoot(u8 times);
+void TIMERS_vidStartPeriodic(u16 u16Value);
+void TIMERS_vidPutFunction(void (*ptFun) (void));
 
 #define ONESHOOT_MODE 0x1
 #define PERIODIC_MODE 0x2
