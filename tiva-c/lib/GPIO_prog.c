@@ -152,3 +152,29 @@ void GPIO_vidSelectAlterFunction(u8 u8PortNumCpy, u8 u8PinNumCpy) {
 			break;
 	}
 }
+
+void GPIO_vidTogglePinValue(u8 u8PortNumCby, u8 u8PinNumCby)
+{
+	switch(u8PortNumCby)
+	{
+		case GPIO_PORTA:
+			TOGGLE_BIT(GPIOA_DATA,u8PinNumCpy);
+			break;
+		case GPIO_PORTB:
+			TOGGLE_BIT(GPIOB_DATA,u8PinNumCpy);
+			break;
+		case GPIO_PORTC:
+			TOGGLE_BIT(GPIOC_DATA,u8PinNumCpy);
+			break;
+		case GPIO_PORTD:
+			TOGGLE_BIT(GPIOD_DATA,u8PinNumCpy);
+			break;
+		case GPIO_PORTE:
+			TOGGLE_BIT(GPIOE_DATA,u8PinNumCpy);
+			break;
+		case GPIO_PORTF:
+			TOGGLE_BIT(GPIOF_DATA,u8PinNumCpy);
+			break;
+	}
+
+}
