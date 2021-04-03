@@ -53,10 +53,15 @@ void UART_vidInit(UARTConfig_t * UARTConfig)
 	SET_BIT(UART0_CTL,0);
 	
 	
+	/*High speed enable*/
+	SET_BIT(UART0_CTL,5);
+	
+	/*Enable Tx*/
 	SET_BIT(UART0_CTL,8);
+	
+	/*Enable Rx*/
 	SET_BIT(UART0_CTL,9);
 
-	
 	/*Enable interrupt*/
 	UART0_IM |= 0x0010;
 	

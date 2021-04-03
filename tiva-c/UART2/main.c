@@ -11,6 +11,10 @@ void vidDoOnUART(void);
 
 
 
+#define RED_LED_PIN 1
+#define GREEN_LED_PIN 2
+#define BLUE_LED_PIN 3
+
 #define GPIOA_AFSEL * ((u32*) 0x40004420)
 #define GPIOA_PCTL * ((u32*) 0x4000452C)
 
@@ -44,8 +48,9 @@ int main(void)
 	GPIO_vidSetPinDigEnable(GPIO_PORTA,GPIO_PIN1,GPIO_DEN_SET);
 	
 	/*UART configuration*/
-	uartConfig.u8Integer = 104;
-	uartConfig.u8Fraction = 11;
+	/*For 115200 baudrate*/
+	uartConfig.u8Integer = 17;
+	uartConfig.u8Fraction = 23;
 	uartConfig.u8WordLength = UART_CLOCKSOURCE_RC;
 	uartConfig.u8WordLength = UART_WORDSIZE_8;
 		
@@ -61,11 +66,13 @@ int main(void)
 	
 	NVIC->IP[5] = 3 << 5;
 	NVIC->ISER[0] |= 0x00000020;
+	
+	/*Enabling general interrupt*/
 	__enable_irq();
 	
-	UART_vidSendString("a: Blue\r\n");
-	UART_vidSendString("b: Green\r\n");
-	UART_vidSendString("c: Red\r\n");
+	UART_vidSendString((u8*)"a: Blue\r\n");
+	UART_vidSendString((u8*)"b: Green\r\n");
+	UART_vidSendString((u8*)"c: Red\r\n");
 
 	while(1)
 	{
@@ -90,17 +97,17 @@ void vidDoOnUART(void)
 					u8 u8Val = UART_u8GetReceivedByte();
 					if (u8Val == 'a') {
 						GPIO_vidTogglePin(GPIO_PORTF,GPIO_PIN2);
-						UART_vidSendString("a\r\n");
+						UART_vidSendString((u8*)"a\r\n");
 					}
 					else if (u8Val == 'b')
 					{
 						GPIO_vidTogglePin(GPIO_PORTF,GPIO_PIN3);
-						UART_vidSendString("b\r\n");
+						UART_vidSendString((u8*)"b\r\n");
 					}
 					else if (u8Val == 'c')
 					{
 						GPIO_vidTogglePin(GPIO_PORTF,GPIO_PIN1);
-						UART_vidSendString("c\r\n");
+						UART_vidSendString((u8*)"c\r\n");
 					}
 				
 
