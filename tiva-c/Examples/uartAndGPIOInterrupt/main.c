@@ -116,19 +116,25 @@ void GPIOF_Handler()
 	if (GPIOF->MIS & 0x10) /* check if interrupt causes by PF4/SW1*/
     {   
 				if (u8Flag == 0) {
-					printstring("S01");
+					printstring("S&0001A");
 					u8Flag = 1;
 				}
 				else {
-					printstring("S00");
+					printstring("S&0001N");
 					u8Flag = 0;
 				}
 				GPIOF->ICR |= 0x10; /* clear the interrupt flag */
      } 
     else if (GPIOF->MIS & 0x01) /* check if interrupt causes by PF0/SW2 */
     {   
-				printstring("A01");
-
+				if (u8Flag == 0) {
+					printstring("S&0000A&0001A");
+					u8Flag = 1;
+				}
+				else {
+					printstring("S&0000N&0000A");
+					u8Flag = 0;
+				}
 				GPIOF->ICR |= 0x01; /* clear the interrupt flag */
     }
 }
