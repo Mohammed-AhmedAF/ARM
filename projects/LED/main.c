@@ -3,7 +3,7 @@
 #include "MDIO_interface.h"
 #include "MRCC_interface.h"
 
-
+/*STM32 blue pill example*/
 void main(void) {
 	
 	MRCC_vidInit();
