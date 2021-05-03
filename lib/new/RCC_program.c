@@ -11,12 +11,20 @@
 void RCC_voidEInitSysClock(void)
 {
     #if RCC_CLK_TYPE == RCC_HSE_CRYSTAL
-        RCC_CFGR = 0x00010000;
+        RCC_CR = 0x00010000;
+        RCC_CFGR = 0x00000001;
     #elif RCC_CLK_TYPE == RCC_HSE_RC
-        RCC_CFGR = 0x00005000;
+        RCC_CR = 0x00050000;
+        RCC_CFGR = 0x00000001;
     #elif RCC_CLK_TYPE == RCC_HSI
-        RCC_CFGR = 0x00000081; /*Enable HSI, trimming = 0*/
+        RCC_CR = 0x00000001; /*Enable HSI, trimming = 0*/
+        RCC_CFGR = 0x00000000;
     #elif RCC_CLK_TYPE == RCC_PLL
+        #if RCC_PLL_INPUT == RCC_PLL_IN_HSI_DIV_2
+            SET_BIT(RCC_CFGR,16);
+        #elif  RCC_PLL_INPUT == RCC_PLL_IN_HSE_DIV_2
+
+        #elif RCC_PLL_INPUT ==  RCC_PLL_IN_HSE
     
     
     #else
@@ -33,7 +41,7 @@ void RCC_voidEnableClock(u8 Copy_u8BusId, u8 Copy_u8PerId)
 {
     if (Copy_u8PerId <= 31)
     {
-        swtich(Copy_u8BusId)
+        switch(Copy_u8BusId)
         {
             case RCC_AHB:
             SET_BIT(RCC_AHBENR,Copy_u8PerId);
@@ -45,6 +53,7 @@ void RCC_voidEnableClock(u8 Copy_u8BusId, u8 Copy_u8PerId)
             break;
             default:
             /*Return error code*/
+            break;
 
         }
 
