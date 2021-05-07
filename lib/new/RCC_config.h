@@ -6,7 +6,7 @@
 #ifndef _RCC_CONFIG_H
 #define _RCC_CONFIG_H
 
-#define RCC_CLK_TYPE RCC_HSE_CRYSTAL
+#define RCC_CLK_TYPE RCC_HSI
 
 /*Options:
     RCC_PLL_IN_HSI_DIV_2
@@ -15,6 +15,7 @@
 
 */
 
+/*None: Select value only if you have PLL as input clock source*/
 #if RCC_CLK_TYPE == RCC_PLL
 #define RCC_PLL_INPUT 
 #endif

@@ -4,11 +4,12 @@
 /* Date: 16 April 2021                                                     */
 /***************************************************************************/
 #include "STD_TYPES.h"
+#include "Macros.h"
 #include "RCC_interface.h"
 #include "RCC_private.h"
 #include "RCC_config.h"
 
-void RCC_voidEInitSysClock(void)
+void RCC_voidInitSysClock(void)
 {
     #if RCC_CLK_TYPE == RCC_HSE_CRYSTAL
         RCC_CR = 0x00010000;
@@ -25,6 +26,8 @@ void RCC_voidEInitSysClock(void)
         #elif  RCC_PLL_INPUT == RCC_PLL_IN_HSE_DIV_2
 
         #elif RCC_PLL_INPUT ==  RCC_PLL_IN_HSE
+
+		#endif
     
     
     #else
@@ -50,6 +53,7 @@ void RCC_voidEnableClock(u8 Copy_u8BusId, u8 Copy_u8PerId)
             SET_BIT(RCC_AHBENR,Copy_u8PerId);
             break;
             case RCC_APB2:
+            SET_BIT(RCC_APB2ENR,Copy_u8PerId);
             break;
             default:
             /*Return error code*/
@@ -70,7 +74,7 @@ void RCC_voidDisableClock(u8 Copy_u8BusId, u8 Copy_u8PerId)
 {
     if (Copy_u8PerId <= 31)
     {
-        swtich(Copy_u8BusId)
+        switch(Copy_u8BusId)
         {
             case RCC_AHB:
             CLEAR_BIT(RCC_AHBENR,Copy_u8PerId);
@@ -79,9 +83,10 @@ void RCC_voidDisableClock(u8 Copy_u8BusId, u8 Copy_u8PerId)
             CLEAR_BIT(RCC_APB1ENR,Copy_u8PerId);
             break;
             case RCC_APB2:
-            CLEAR_BIT(RCC_APB2ENR,Copy_u8PerId)
+            CLEAR_BIT(RCC_APB2ENR,Copy_u8PerId);
             break;
             default:
+            	break;
             /*Return error code*/
 
         }
