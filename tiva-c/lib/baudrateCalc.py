@@ -11,14 +11,17 @@ def askForBaudrate():
     
 baudrate = int(askForBaudrate())
   
-clkDiv = 16 #16 or 8 depending on HSE in UARTCTL
+clkDiv = 8 #16 or 8 depending on HSE in UARTCTL
 sysClk = 16000000
 brd = sysClk / (clkDiv*baudrate)
-print(brd)
+2
 
 iprd = int(brd)
 prdf = brd-int(brd)
 fprd = int(prdf*64+0.5)
 
+print("For clock division: " + str(clkDiv) + ", System clock: " + str(sysClk))
+print("------------------")
 print("IBRD: " + str(iprd))
 print("FBRD: " + str(fprd))
+print("------------------")
