@@ -9,7 +9,7 @@ def askForBaudrate():
     print("Wrong value")
     askForBaudrate()
     
-baudrate = askForBaudrate()
+baudrate = int(askForBaudrate())
   
 clkDiv = 16 #16 or 8 depending on HSE in UARTCTL
 sysClk = 16000000
