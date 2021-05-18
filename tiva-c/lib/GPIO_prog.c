@@ -153,7 +153,7 @@ void GPIO_vidSelectAlterFunction(u8 u8PortNumCpy, u8 u8PinNumCpy) {
 	}
 }
 
-void GPIO_vidTogglePinValue(u8 u8PortNumCby, u8 u8PinNumCby)
+void GPIO_vidTogglePinValue(u8 u8PortNumCby, u8 u8PinNumCpy)
 {
 	switch(u8PortNumCby)
 	{
