@@ -11,4 +11,6 @@ u32 SysTick_u32GetValue(void);
 
 #define SYSTEM_CLOCK 2
 #define INTERRUPT_ENABLE 1
+#define ENABLE_SYSTICK 0
+
 #endif
