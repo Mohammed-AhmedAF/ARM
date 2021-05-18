@@ -3,10 +3,12 @@
  *
  */
 
-#include "Std_Types.h"
+#include "STD_TYPES.h"
 #include "Macros.h"
 #include "TIMERS_private.h"
 #include "TIMERS_interface.h"
+#include "TM4C123.h"                    // Device header
+
 
 void (*TIMERS_vidCallBack) (void);
 
