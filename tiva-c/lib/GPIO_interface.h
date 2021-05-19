@@ -9,6 +9,9 @@ void GPIO_vidConigurePUR(u8 u8Port, u8 u8Pin, u8 u8PURConfig);
 void GPIO_vidSelectInterruptSense(u8 u8Port, u8 u8Pin, u8 u8Sense);
 void GPIO_vidSelectAlterFunction(u8 u8PortNumCpy, u8 u8PinNumCpy);
 void GPIO_vidConigurePullDown(u8 u8Port, u8 u8Pin, u8 u8PURConfig);
+void GPIO_vidEnableInterrupt(u8 u8Port, u8 u8Pin);
+void GPIO_vidDisableInterrupt(u8 u8Port, u8 u8Pin);
+
 
 #define GPIO_PORTA 0
 #define GPIO_PORTB 1

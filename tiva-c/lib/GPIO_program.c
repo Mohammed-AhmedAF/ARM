@@ -371,3 +371,51 @@ void GPIO_vidSelectAlterFunction(u8 u8PortNumCpy, u8 u8PinNumCpy) {
 			break;
 	}
 }
+
+void GPIO_vidEnableInterrupt(u8 u8Port, u8 u8Pin)
+{
+switch(u8Port) {
+		case GPIO_PORTA:
+			SET_BIT(GPIOA_IM,u8Pin);
+			break;
+		case GPIO_PORTB:
+			SET_BIT(GPIOB_IM,u8Pin);
+			break;
+		case GPIO_PORTC:
+			SET_BIT(GPIOC_IM,u8Pin);
+			break;
+		case GPIO_PORTD:
+			SET_BIT(GPIOD_IM,u8Pin);
+			break;
+		case GPIO_PORTE:
+			SET_BIT(GPIOE_IM,u8Pin);
+			break;
+		case GPIO_PORTF:
+			SET_BIT(GPIOF_IM,u8Pin);
+			break;
+	}
+}
+
+void GPIO_vidDisableInterrupt(u8 u8Port, u8 u8Pin)
+{
+switch(u8Port) {
+		case GPIO_PORTA:
+			CLEAR_BIT(GPIOA_IM,u8Pin);
+			break;
+		case GPIO_PORTB:
+			CLEAR_BIT(GPIOB_IM,u8Pin);
+			break;
+		case GPIO_PORTC:
+			CLEAR_BIT(GPIOC_IM,u8Pin);
+			break;
+		case GPIO_PORTD:
+			CLEAR_BIT(GPIOD_IM,u8Pin);
+			break;
+		case GPIO_PORTE:
+			CLEAR_BIT(GPIOE_IM,u8Pin);
+			break;
+		case GPIO_PORTF:
+			CLEAR_BIT(GPIOF_IM,u8Pin);
+			break;
+	}
+}
