@@ -26,7 +26,6 @@ void UART_vidInit(void)
 	SET_BIT(UART0_CTL,8);
 	SET_BIT(UART0_CTL,9);
 
-	
 }
 	
 void UART_vidSendByte(u8 u8Byte)
@@ -38,7 +37,7 @@ void UART_vidSendByte(u8 u8Byte)
 u8 UART_u8ReceiveByte(void)
 {
 	while(GET_BIT(UART0_FR,4) == 1);
-	return UART0_DATA;
+	return (u8) UART0_DATA;
 }
 
 void UART_vidSendString(u8 * pu8Message)
