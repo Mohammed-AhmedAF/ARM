@@ -226,6 +226,60 @@ switch (u8Port) {
 	}
 }
 
+void GPIO_vidConigurePullDown(u8 u8Port, u8 u8Pin, u8 u8PURConfig)
+{
+switch (u8Port) {
+		case GPIO_PORTA:
+			if (u8PURConfig == GPIO_PDR_ENABLED) {
+				SET_BIT(GPIOA_PDR,u8Pin);	
+			}
+			else {
+				CLEAR_BIT(GPIOA_PDR,u8Pin);
+			}
+			break;
+		case GPIO_PORTB:
+			if (u8PURConfig == GPIO_PDR_ENABLED) {
+				SET_BIT(GPIOB_PDR,u8Pin);
+			}
+			else {
+				CLEAR_BIT(GPIOB_PDR,u8Pin);	
+			}
+			break;
+		case GPIO_PORTC:
+			if (u8PURConfig == GPIO_PDR_ENABLED) {
+				SET_BIT(GPIOC_PDR,u8Pin);
+			}
+			else {
+				CLEAR_BIT(GPIOC_PDR,u8Pin);
+			}
+			break;
+		case GPIO_PORTD:
+			if (u8PURConfig == GPIO_PDR_ENABLED) {
+				SET_BIT(GPIOD_PDR,u8Pin);
+			}
+			else {
+				CLEAR_BIT(GPIOD_PDR,u8Pin);
+			}
+			break;
+			case GPIO_PORTE:
+			if (u8PURConfig == GPIO_PDR_ENABLED) {
+				SET_BIT(GPIOE_PDR,u8Pin);
+			}
+			else {
+				CLEAR_BIT(GPIOE_PDR,u8Pin);
+			}
+			break;
+		case GPIO_PORTF:
+			if (u8PURConfig == GPIO_PDR_ENABLED) {
+				SET_BIT(GPIOF_PDR,u8Pin);
+			}
+			else {
+				CLEAR_BIT(GPIOF_PDR,u8Pin);
+			}
+			break;
+	}
+}
+
 void GPIO_vidSelectInterruptSense(u8 u8Port, u8 u8Pin, u8 u8Sense)
 {
 	switch (u8Port)
