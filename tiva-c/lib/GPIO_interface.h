@@ -4,9 +4,11 @@
 void GPIO_vidSetPinValue(u8 u8PortNumCpy,u8 u8PinNumCpy, u8 u8ValueCpy);
 void GPIO_vidSetPinDirection(u8 u8PortNumCpy, u8 u8PinCpy,u8 u8DirCpy);
 void GPIO_vidSetPinDigEnable(u8 u8PortNumCpy, u8 u8PinCpy, u8 u8DigEnable);
-void GPIO_vidSelectAlterFunction(u8 u8PortNumCpy, u8 u8PinCpy);
-void GPIO_vidSelectPortControl(u8 u8PortNumCpy, u8 u8PinCpy);
-void GPIO_vidTogglePinValue(u8 u8PortNumCpy,u8 u8PinNumCpy);
+void GPIO_vidTogglePin(u8 u8Port, u8 u8Pin);
+void GPIO_vidConigurePUR(u8 u8Port, u8 u8Pin, u8 u8PURConfig);
+void GPIO_vidSelectInterruptSense(u8 u8Port, u8 u8Pin, u8 u8Sense);
+void GPIO_vidSelectAlterFunction(u8 u8PortNumCpy, u8 u8PinNumCpy);
+
 #define GPIO_PORTA 0
 #define GPIO_PORTB 1
 #define GPIO_PORTC 2
@@ -28,5 +30,11 @@ void GPIO_vidTogglePinValue(u8 u8PortNumCpy,u8 u8PinNumCpy);
 
 #define GPIO_DEN_SET 1
 #define GPIO_DEN_CLEAR 0
+
+#define GPIO_PUR_DISABLED 0
+#define GPIO_PUR_ENABLED 1
+
+#define GPIO_SENSE_EDGE 0
+#define GPIO_SENSE_LEVEL 1
 
 #endif

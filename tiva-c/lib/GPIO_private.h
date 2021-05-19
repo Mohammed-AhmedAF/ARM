@@ -3,8 +3,8 @@
 
 
 /*GPIOA*/
-#define GPIOA_DATA * ((u32 *) 0x40058000)
-#define GPIOA_DIR * ((u32 *) 0x40058400)
+#define GPIOA_DATA * ((u32 *) 0x400043FC)
+#define GPIOA_DIR * ((u32 *) 0x40004400)
 #define GPIOA_IS * ((u32 *) 0x40004404)
 #define GPIOA_IBE * ((u32 *) 0x40004408)
 #define GPIOA_IEV * ((u32 *) 0x4000440C)
@@ -20,7 +20,7 @@
 #define GPIOA_PUR * ((u32 *) 0x40004510)
 #define GPIOA_PDR * ((u32 *) 0x40004514)
 #define GPIOA_SLR * ((u32 *) 0x40004518)
-#define GPIOA_DEN * ((u32 *) 0x4005851C)
+#define GPIOA_DEN * ((u32 *) 0x4000451C)
 #define GPIOA_LOCK * ((u32 *) 0x40004420)
 #define GPIOA_CR * ((u32 *) 0x40004524)
 #define GPIOA_AMSEL * ((u32 *) 0x40004528)
@@ -41,7 +41,7 @@
 #define GPIOA_CellID3 * ((u32 *) 0x40003FFC)
 
 /*GPIOB*/
-#define GPIOB_DATA * ((u32 *) 0x40005000)
+#define GPIOB_DATA * ((u32 *) 0x400053FC)
 #define GPIOB_DIR * ((u32 *) 0x40005400)
 #define GPIOB_IS * ((u32 *) 0x40005404)
 #define GPIOB_IBE * ((u32 *) 0x40005408)
@@ -79,7 +79,7 @@
 #define GPIOB_CellID3 * ((u32 *) 0x40005FFC)
 
 /*GPIOC*/
-#define GPIOC_DATA * ((u32 *) 0x40006000)
+#define GPIOC_DATA * ((u32 *) 0x400063FC)
 #define GPIOC_DIR * ((u32 *) 0x40006400)
 #define GPIOC_IS * ((u32 *) 0x40006404)
 #define GPIOC_IBE * ((u32 *) 0x40006408)
@@ -155,7 +155,7 @@
 #define GPIOD_CellID3 * ((u32 *) 0x40007FFC)
 
 /*GPIOE port*/
-#define GPIOE_DATA * ((u32 *) 0x40007000)
+#define GPIOE_DATA * ((u32 *) 0x400073FC)
 #define GPIOE_DIR * ((u32 *) 0x40007400)
 #define GPIOE_IS * ((u32 *) 0x40007404)
 #define GPIOE_IBE * ((u32 *) 0x40007408)
