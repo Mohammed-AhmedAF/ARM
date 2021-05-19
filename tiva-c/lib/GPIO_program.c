@@ -10,6 +10,7 @@
 #include "GPIO_private.h"
 #include "GPIO_interface.h"
 
+
 void GPIO_vidSetPinDirection(u8 u8PortNumCpy, u8 u8PinNumCpy, u8 u8DirectionCpy) {
 	switch (u8PortNumCpy) {
 		case GPIO_PORTA:
@@ -416,6 +417,215 @@ switch(u8Port) {
 			break;
 		case GPIO_PORTF:
 			CLEAR_BIT(GPIOF_IM,u8Pin);
+			break;
+	}
+}
+
+void GPIO_vidSelectInterruptEvent(u8 u8Port, u8 u8Pin, u8 u8Event)
+{
+	switch(u8Port)
+	{
+		case GPIO_PORTA:
+			if (u8Event == GPIO_HL_RE)
+			{
+				SET_BIT(GPIOA_IEV,u8Pin);
+			}
+			else
+			{
+				CLEAR_BIT(GPIOA_IEV,u8Pin);
+			}
+			break;
+		case GPIO_PORTB:
+			if (u8Event == GPIO_HL_RE)
+			{
+				SET_BIT(GPIOB_IEV,u8Pin);
+			}
+			else
+			{
+				CLEAR_BIT(GPIOB_IEV,u8Pin);
+			}
+			break;
+		case GPIO_PORTC:
+			if (u8Event == GPIO_HL_RE)
+			{
+				SET_BIT(GPIOC_IEV,u8Pin);
+			}
+			else
+			{
+				CLEAR_BIT(GPIOC_IEV,u8Pin);
+			}
+			break;
+		case GPIO_PORTD:
+			if (u8Event == GPIO_HL_RE)
+			{
+				SET_BIT(GPIOD_IEV,u8Pin);
+			}
+			else
+			{
+				CLEAR_BIT(GPIOD_IEV,u8Pin);
+			}
+			break;
+		case GPIO_PORTE:
+			if (u8Event == GPIO_HL_RE)
+			{
+				SET_BIT(GPIOE_IEV,u8Pin);
+			}
+			else
+			{
+				CLEAR_BIT(GPIOE_IEV,u8Pin);
+			}
+			break;
+		case GPIO_PORTF:
+			if (u8Event == GPIO_HL_RE)
+			{
+				SET_BIT(GPIOF_IEV,u8Pin);
+			}
+			else
+			{
+				CLEAR_BIT(GPIOF_IEV,u8Pin);
+			}
+			break;
+	}
+}
+
+void GPIO_vidInterruptBothEdges(u8 u8Port, u8 u8Pin, u8 u8BothEdges)
+{
+	switch(u8Port)
+	{
+		case GPIO_PORTA:
+			if (u8BothEdges == GPIO_INTERRUPT_BOTHEDGES)
+			{
+				SET_BIT(GPIOA_IBE,u8Pin);
+			}
+			else
+			{
+				CLEAR_BIT(GPIOA_IBE,u8Pin);
+			}
+			break;
+		case GPIO_PORTB:
+			if (u8BothEdges == GPIO_INTERRUPT_BOTHEDGES)
+			{
+				SET_BIT(GPIOB_IBE,u8Pin);
+			}
+			else
+			{
+				CLEAR_BIT(GPIOB_IBE,u8Pin);
+			}
+			break;
+		case GPIO_PORTC:
+			if (u8BothEdges == GPIO_INTERRUPT_BOTHEDGES)
+			{
+				SET_BIT(GPIOC_IBE,u8Pin);
+			}
+			else
+			{
+				CLEAR_BIT(GPIOC_IBE,u8Pin);
+			}
+			break;
+		case GPIO_PORTD:
+			if (u8BothEdges == GPIO_INTERRUPT_BOTHEDGES)
+			{
+				SET_BIT(GPIOD_IBE,u8Pin);
+			}
+			else
+			{
+				CLEAR_BIT(GPIOD_IBE,u8Pin);
+			}
+			break;
+		case GPIO_PORTE:
+			if (u8BothEdges == GPIO_INTERRUPT_BOTHEDGES)
+			{
+				SET_BIT(GPIOE_IBE,u8Pin);
+			}
+			else
+			{
+				CLEAR_BIT(GPIOE_IBE,u8Pin);
+			}
+			break;
+		case GPIO_PORTF:
+			if (u8BothEdges == GPIO_INTERRUPT_BOTHEDGES)
+			{
+				SET_BIT(GPIOF_IBE,u8Pin);
+			}
+			else
+			{
+				CLEAR_BIT(GPIOF_IBE,u8Pin);
+			}
+			break;
+	}
+}
+
+void GPIO_vidClearInterrupt(u8 u8Port, u8 u8Pin)
+{
+	switch(u8Port)
+	{
+		case GPIO_PORTA:
+			SET_BIT(GPIOA_ICR,u8Pin);
+			break;
+		case GPIO_PORTB:
+			SET_BIT(GPIOA_ICR,u8Pin);
+			break;
+		case GPIO_PORTC:
+			SET_BIT(GPIOA_ICR,u8Pin);
+			break;
+		case GPIO_PORTD:
+			SET_BIT(GPIOA_ICR,u8Pin);
+			break;
+		case GPIO_PORTE:
+			SET_BIT(GPIOA_ICR,u8Pin);
+			break;
+		case GPIO_PORTF:
+			SET_BIT(GPIOA_ICR,u8Pin);
+			break;
+	}
+}
+
+void GPIO_vidUnlock(u8 u8Port)
+{
+	switch(u8Port)
+	{
+		case GPIO_PORTA:
+				GPIOA_LOCK = 0x4C4F434B;
+			break;
+		case GPIO_PORTB:
+				GPIOB_LOCK = 0x4C4F434B;
+			break;
+		case GPIO_PORTC:
+				GPIOC_LOCK = 0x4C4F434B;
+			break;
+		case GPIO_PORTD:
+				GPIOD_LOCK = 0x4C4F434B;
+			break;
+		case GPIO_PORTE:
+				GPIOE_LOCK = 0x4C4F434B;
+			break;
+		case GPIO_PORTF:
+				GPIOF_LOCK = 0x4C4F434B;
+			break;
+	}
+}
+
+void GPIO_vidLock(u8 u8Port)
+{
+	switch(u8Port)
+	{
+		case GPIO_PORTA:
+			GPIOA_LOCK = 0;
+			break;
+		case GPIO_PORTB:
+			GPIOB_LOCK = 0;
+			break;
+		case GPIO_PORTC:
+			GPIOC_LOCK = 0;
+			break;
+		case GPIO_PORTD:
+			GPIOD_LOCK = 0;
+			break;
+		case GPIO_PORTE:
+			GPIOE_LOCK = 0;
+			break;
+		case GPIO_PORTF:
+			GPIOF_LOCK = 0;
 			break;
 	}
 }

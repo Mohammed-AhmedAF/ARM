@@ -11,6 +11,11 @@ void GPIO_vidSelectAlterFunction(u8 u8PortNumCpy, u8 u8PinNumCpy);
 void GPIO_vidConigurePullDown(u8 u8Port, u8 u8Pin, u8 u8PURConfig);
 void GPIO_vidEnableInterrupt(u8 u8Port, u8 u8Pin);
 void GPIO_vidDisableInterrupt(u8 u8Port, u8 u8Pin);
+void GPIO_vidSelectInterruptEvent(u8 u8Port, u8 u8Pin, u8 u8Event);
+void GPIO_vidInterruptBothEdges(u8 u8Port, u8 u8Pin, u8 u8BothEdges);
+void GPIO_vidClearInterrupt(u8 u8Port, u8 u8Pin);
+void GPIO_vidUnlock(u8 u8Port);
+void GPIO_vidLock(u8 u8Port);
 
 
 #define GPIO_PORTA 0
@@ -43,5 +48,17 @@ void GPIO_vidDisableInterrupt(u8 u8Port, u8 u8Pin);
 
 #define GPIO_SENSE_EDGE 0
 #define GPIO_SENSE_LEVEL 1
+
+/*Interrupt event*/
+#define GPIO_LL_FE 0
+#define GPIO_HL_RE 1
+#define GPIO_EVENT_FE GPIO_LL_FE
+#define GPIO_EVENT_RE GPIO_HL_RE
+#define GPIO_EVENT_LL GPIO_LL_FE
+#define GPIO_EVENT_HL GPIO_HL_RE
+/*Interrupt both edges*/
+#define GPIO_INTERRUPT_EVENTCONTROLLED 0
+#define GPIO_INTERRUPT_BOTHEDGES 1
+
 
 #endif
