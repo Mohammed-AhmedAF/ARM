@@ -1,0 +1,52 @@
+Dependencies for Project 'InternalTemperature', Target 'Target 1': (DO NOT MODIFY !)
+CompilerVersion: 6150000::V6.15::ARMCLANG
+F (.\main.c)(0x60B73C03)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__EVAL -gdwarf-3 -O1 -ffunction-sections -Weverything -Wno-packed -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -I D:/Programs/TivaWare -I ../TECO-Fixed-I./RTE/_Target_1-I"C:/Users/mohamed ahmed/AppData/Local/Arm/Packs/ARM/CMSIS/5.7.0/CMSIS/Core/Include"-I"C:/Users/mohamed ahmed/AppData/Local/Arm/Packs/Keil/TM4C_DFP/1.1.0/Device/Include/TM4C123"-D__UVISION_VERSION="533" -D_RTE_ -DTM4C123GH6PM -D_RTE_-o ./objects/main.o -MD)
+I (D:\Programs\Keil\ARM\ARMCLANG\include\stdint.h)(0x5F372508)
+I (Macros.h)(0x60508722)
+I (STD_TYPES.h)(0x60508722)
+I (D:\Programs\TivaWare\inc\tm4c123gh6pm.h)(0x60AE50AB)
+I (UART0_interface.h)(0x60B738A4)
+I (GPIO_interface.h)(0x60AA3A17)
+I (C:\Users\mohamed ahmed\AppData\Local\Arm\Packs\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123\TM4C123.h)(0x530EF2F6)
+I (C:\Users\mohamed ahmed\AppData\Local\Arm\Packs\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123\TM4C123GH6PM.h)(0x550FE22C)
+I (C:\Users\mohamed ahmed\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include\core_cm4.h)(0x5E8F2582)
+I (C:\Users\mohamed ahmed\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include\cmsis_version.h)(0x5E8F2582)
+I (C:\Users\mohamed ahmed\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include\cmsis_compiler.h)(0x5E835B22)
+I (C:\Users\mohamed ahmed\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include\cmsis_armclang.h)(0x5E8F2582)
+I (D:\Programs\Keil\ARM\ARMCLANG\include\arm_compat.h)(0x5EE17BA2)
+I (D:\Programs\Keil\ARM\ARMCLANG\include\arm_acle.h)(0x5F26DB98)
+I (C:\Users\mohamed ahmed\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include\mpu_armv7.h)(0x5E8F2582)
+I (C:\Users\mohamed ahmed\AppData\Local\Arm\Packs\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123\system_TM4C123.h)(0x51B6E406)
+F (..\TECO-Fixed\UART0_program.c)(0x60B739E9)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__EVAL -gdwarf-3 -O1 -ffunction-sections -Weverything -Wno-packed -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -I D:/Programs/TivaWare -I ../TECO-Fixed-I./RTE/_Target_1-I"C:/Users/mohamed ahmed/AppData/Local/Arm/Packs/ARM/CMSIS/5.7.0/CMSIS/Core/Include"-I"C:/Users/mohamed ahmed/AppData/Local/Arm/Packs/Keil/TM4C_DFP/1.1.0/Device/Include/TM4C123"-D__UVISION_VERSION="533" -D_RTE_ -DTM4C123GH6PM -D_RTE_-o ./objects/uart0_program.o -MD)
+I (..\TECO-Fixed\Macros.h)(0x60508722)
+I (..\TECO-Fixed\STD_TYPES.h)(0x60508722)
+I (C:\Users\mohamed ahmed\AppData\Local\Arm\Packs\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123\TM4C123.h)(0x530EF2F6)
+I (C:\Users\mohamed ahmed\AppData\Local\Arm\Packs\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123\TM4C123GH6PM.h)(0x550FE22C)
+I (C:\Users\mohamed ahmed\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include\core_cm4.h)(0x5E8F2582)
+I (D:\Programs\Keil\ARM\ARMCLANG\include\stdint.h)(0x5F372508)
+I (C:\Users\mohamed ahmed\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include\cmsis_version.h)(0x5E8F2582)
+I (C:\Users\mohamed ahmed\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include\cmsis_compiler.h)(0x5E835B22)
+I (C:\Users\mohamed ahmed\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include\cmsis_armclang.h)(0x5E8F2582)
+I (D:\Programs\Keil\ARM\ARMCLANG\include\arm_compat.h)(0x5EE17BA2)
+I (D:\Programs\Keil\ARM\ARMCLANG\include\arm_acle.h)(0x5F26DB98)
+I (C:\Users\mohamed ahmed\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include\mpu_armv7.h)(0x5E8F2582)
+I (C:\Users\mohamed ahmed\AppData\Local\Arm\Packs\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123\system_TM4C123.h)(0x51B6E406)
+I (..\TECO-Fixed\UART0_interface.h)(0x60AA0101)
+F (..\TECO-Fixed\GPIO_program.c)(0x60AE01DA)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__EVAL -gdwarf-3 -O1 -ffunction-sections -Weverything -Wno-packed -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -I D:/Programs/TivaWare -I ../TECO-Fixed-I./RTE/_Target_1-I"C:/Users/mohamed ahmed/AppData/Local/Arm/Packs/ARM/CMSIS/5.7.0/CMSIS/Core/Include"-I"C:/Users/mohamed ahmed/AppData/Local/Arm/Packs/Keil/TM4C_DFP/1.1.0/Device/Include/TM4C123"-D__UVISION_VERSION="533" -D_RTE_ -DTM4C123GH6PM -D_RTE_-o ./objects/gpio_program.o -MD)
+I (..\TECO-Fixed\Std_Types.h)(0x60508722)
+I (..\TECO-Fixed\Macros.h)(0x60508722)
+I (..\TECO-Fixed\GPIO_private.h)(0x60A517D2)
+I (..\TECO-Fixed\GPIO_interface.h)(0x60AA3A17)
+F (RTE\Device\TM4C123GH6PM\startup_TM4C123.s)(0x51B6E406)(--target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -masm=auto -c-gdwarf-3 -Wa,armasm,--pd,"__EVAL SETA 1"-I./RTE/_Target_1-I"C:/Users/mohamed ahmed/AppData/Local/Arm/Packs/ARM/CMSIS/5.7.0/CMSIS/Core/Include"-I"C:/Users/mohamed ahmed/AppData/Local/Arm/Packs/Keil/TM4C_DFP/1.1.0/Device/Include/TM4C123"-Wa,armasm,--pd,"__UVISION_VERSION SETA 533" -Wa,armasm,--pd,"_RTE_ SETA 1" -Wa,armasm,--pd,"TM4C123GH6PM SETA 1" -Wa,armasm,--pd,"_RTE_ SETA 1"-o ./objects/startup_tm4c123.o)
+F (RTE\Device\TM4C123GH6PM\system_TM4C123.c)(0x60B739EE)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__EVAL -gdwarf-3 -O1 -ffunction-sections -Weverything -Wno-packed -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -I D:/Programs/TivaWare -I ../TECO-Fixed-I./RTE/_Target_1-I"C:/Users/mohamed ahmed/AppData/Local/Arm/Packs/ARM/CMSIS/5.7.0/CMSIS/Core/Include"-I"C:/Users/mohamed ahmed/AppData/Local/Arm/Packs/Keil/TM4C_DFP/1.1.0/Device/Include/TM4C123"-D__UVISION_VERSION="533" -D_RTE_ -DTM4C123GH6PM -D_RTE_-o ./objects/system_tm4c123.o -MD)
+I (D:\Programs\Keil\ARM\ARMCLANG\include\stdint.h)(0x5F372508)
+I (C:\Users\mohamed ahmed\AppData\Local\Arm\Packs\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123\TM4C123.h)(0x530EF2F6)
+I (C:\Users\mohamed ahmed\AppData\Local\Arm\Packs\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123\TM4C123GH6PM.h)(0x550FE22C)
+I (C:\Users\mohamed ahmed\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include\core_cm4.h)(0x5E8F2582)
+I (C:\Users\mohamed ahmed\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include\cmsis_version.h)(0x5E8F2582)
+I (C:\Users\mohamed ahmed\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include\cmsis_compiler.h)(0x5E835B22)
+I (C:\Users\mohamed ahmed\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include\cmsis_armclang.h)(0x5E8F2582)
+I (D:\Programs\Keil\ARM\ARMCLANG\include\arm_compat.h)(0x5EE17BA2)
+I (D:\Programs\Keil\ARM\ARMCLANG\include\arm_acle.h)(0x5F26DB98)
+I (C:\Users\mohamed ahmed\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include\mpu_armv7.h)(0x5E8F2582)
+I (C:\Users\mohamed ahmed\AppData\Local\Arm\Packs\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123\system_TM4C123.h)(0x51B6E406)
