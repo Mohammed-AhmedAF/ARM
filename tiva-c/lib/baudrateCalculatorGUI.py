@@ -4,18 +4,22 @@ from tkinter import ttk
 
 
 def calculateBaudrate():
-    sysClk = int(sysClockEntry.get())*1000000
-    sysDiv = int(clockDivCombobox.get())
-    baudrate = int(baudrateCobombox.get())
-   
-    brd = sysClk / (sysDiv*baudrate)
+    try:
+        sysClk = int(sysClockEntry.get())*1000000
+        sysDiv = int(clockDivCombobox.get())
+        baudrate = int(baudrateCobombox.get())
+    
+        brd = sysClk / (sysDiv*baudrate)
 
-    iprd = int(brd)
-    prdf = brd-int(brd)
-    fprd = int(prdf*64+0.5)
+        iprd = int(brd)
+        prdf = brd-int(brd)
+        fprd = int(prdf*64+0.5)
 
-    integerValueLabel['text'] = str(iprd)
-    fractionValueLabel['text'] = str(fprd)
+        integerValueLabel['text'] = str(iprd)
+        fractionValueLabel['text'] = str(fprd)
+        statusLabel.config(text="Calculated successfully!")
+    except:
+        statusLabel.config(text="Error in calculation: Check entries.")
 
 app = Tk()
 app.title("Tiva-C baudrate calculator")
@@ -39,6 +43,8 @@ integerLabel = Label(baudrateFrame,text="Integer: ")
 integerValueLabel = Label(baudrateFrame,text="0")
 fractionLabel = Label(baudrateFrame,text="Fraction: ")
 fractionValueLabel = Label(baudrateFrame,text="0")
+statusLabel = Label(app,relief="sunken")
+
 
 calculateButton = Button(baudrateFrame,text="Calculate!",command=calculateBaudrate)
 
@@ -55,5 +61,5 @@ fractionLabel.grid(row=4,column=0,padx=5,pady=5,sticky=E+W+S+N)
 fractionValueLabel.grid(row=4,column=1,padx=5,pady=5,sticky=E+W+S+N)
 baudrateCobombox.grid(row=0,column=1,padx=5,sticky=E+W+S+N)
 calculateButton.grid(row=5,column=0,sticky=E+W+S+N)
-
+statusLabel.grid(row=1,column=0,sticky=E+W+N+S,padx=5,pady=5)
 app.mainloop()
