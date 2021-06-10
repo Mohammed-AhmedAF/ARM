@@ -39,9 +39,9 @@ baudrateCobombox = ttk.Combobox(baudrateFrame,state="readonly")
 baudrateCobombox['values'] = [9600,19200,38400,57600,115200]
 baudrateCobombox.current(0)
 
-integerLabel = Label(baudrateFrame,text="Integer: ")
+integerLabel = Label(baudrateFrame,text="Integer (IBRD): ")
 integerValueLabel = Label(baudrateFrame,text="0")
-fractionLabel = Label(baudrateFrame,text="Fraction: ")
+fractionLabel = Label(baudrateFrame,text="Fraction (FBRD): ")
 fractionValueLabel = Label(baudrateFrame,text="0")
 statusLabel = Label(app,relief="sunken")
 
