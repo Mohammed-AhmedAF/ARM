@@ -117,7 +117,7 @@
 #define GPIOC_CellID3 * ((u32 *) 0x40006FFC)
 
 /*GPIOD port*/
-#define GPIOD_DATA * ((u32 *) 0x40007000)
+#define GPIOD_DATA * ((u32 *) 0x400073FC)
 #define GPIOD_DIR * ((u32 *) 0x40007400)
 #define GPIOD_IS * ((u32 *) 0x40007404)
 #define GPIOD_IBE * ((u32 *) 0x40007408)

@@ -1,13 +1,24 @@
 #ifndef _GPIO_INTERFACE_H
 #define _GPIO_INTERFACE_H
 
+typedef struct {
+	u8 u8Port;
+	u8 u8Pin;
+	u8 u8Direction;
+	u8 u8DigEnable;
+	u8 u8AlternateFunc;
+} GPIOConfig_t;
+
+
 void GPIO_vidSetPinValue(u8 u8PortNumCpy,u8 u8PinNumCpy, u8 u8ValueCpy);
 void GPIO_vidSetPinDirection(u8 u8PortNumCpy, u8 u8PinCpy,u8 u8DirCpy);
 void GPIO_vidSetPinDigEnable(u8 u8PortNumCpy, u8 u8PinCpy, u8 u8DigEnable);
 void GPIO_vidTogglePin(u8 u8Port, u8 u8Pin);
+void GPIO_vidConfigurePin(GPIOConfig_t * stGPIOConfig);
 void GPIO_vidConigurePUR(u8 u8Port, u8 u8Pin, u8 u8PURConfig);
 void GPIO_vidSelectInterruptSense(u8 u8Port, u8 u8Pin, u8 u8Sense);
 void GPIO_vidSelectAlterFunction(u8 u8PortNumCpy, u8 u8PinNumCpy);
+void GPIO_vidConfigAnalogFunction(u8 u8Port, u8 u8Pin, u8 u8Config);
 void GPIO_vidConigurePullDown(u8 u8Port, u8 u8Pin, u8 u8PURConfig);
 void GPIO_vidEnableInterrupt(u8 u8Port, u8 u8Pin);
 void GPIO_vidDisableInterrupt(u8 u8Port, u8 u8Pin);
@@ -16,6 +27,9 @@ void GPIO_vidInterruptBothEdges(u8 u8Port, u8 u8Pin, u8 u8BothEdges);
 void GPIO_vidClearInterrupt(u8 u8Port, u8 u8Pin);
 void GPIO_vidUnlock(u8 u8Port);
 void GPIO_vidLock(u8 u8Port);
+void GPIO_vidCommit(u8 u8Port,u8 u8Pin);
+
+
 
 
 #define GPIO_PORTA 0
@@ -39,6 +53,12 @@ void GPIO_vidLock(u8 u8Port);
 
 #define GPIO_DEN_SET 1
 #define GPIO_DEN_CLEAR 0
+
+#define GPIO_ALTERFUNC_UNSET 0
+#define GPIO_ALTERFUNC_SET 1
+
+#define GPIO_ANALOG_CLEAR 0
+#define GPIO_ANALOG_SET 1
 
 #define GPIO_PUR_DISABLED 0
 #define GPIO_PUR_ENABLED 1

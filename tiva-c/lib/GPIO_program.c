@@ -5,11 +5,10 @@
  *
  */
 
-#include "Std_Types.h"
+#include "STD_TYPES.h"
 #include "Macros.h"
 #include "GPIO_private.h"
 #include "GPIO_interface.h"
-
 
 void GPIO_vidSetPinDirection(u8 u8PortNumCpy, u8 u8PinNumCpy, u8 u8DirectionCpy) {
 	switch (u8PortNumCpy) {
@@ -145,6 +144,25 @@ void GPIO_vidSetPinDigEnable(u8 u8PortNumCpy, u8 u8PinNumCpy, u8 u8DigEnable) {
 				CLEAR_BIT(GPIOF_DEN,u8PinNumCpy);
 			}
 			break;
+	}
+}
+
+void GPIO_vidConfigurePin(GPIOConfig_t * stGPIOConfig)
+{
+	/*Digital pin enable*/
+	GPIO_vidSetPinDigEnable(stGPIOConfig->u8Port,stGPIOConfig->u8Pin,stGPIOConfig->u8DigEnable);
+	
+	/*Direction*/
+	GPIO_vidSetPinDirection(stGPIOConfig->u8Port,stGPIOConfig->u8Pin,stGPIOConfig->u8Direction);
+	
+	/*Alternate function setting*/
+	if (stGPIOConfig->u8AlternateFunc == GPIO_ALTERFUNC_SET)
+	{
+		GPIO_vidSelectAlterFunction(stGPIOConfig->u8Port,stGPIOConfig->u8Pin);
+	}
+	else
+	{
+	
 	}
 }
 
@@ -626,6 +644,98 @@ void GPIO_vidLock(u8 u8Port)
 			break;
 		case GPIO_PORTF:
 			GPIOF_LOCK = 0;
+			break;
+	}
+}
+
+void GPIO_vidCommit(u8 u8Port,u8 u8Pin)
+{
+	switch(u8Port)
+	{
+		case GPIO_PORTA:
+			SET_BIT(GPIOA_CR,u8Pin);
+			break;
+		case GPIO_PORTB:
+			SET_BIT(GPIOB_CR,u8Pin);
+			break;
+		case GPIO_PORTC:
+			SET_BIT(GPIOC_CR,u8Pin);
+			break;
+		case GPIO_PORTD:
+			SET_BIT(GPIOD_CR,u8Pin);
+			break;
+		case GPIO_PORTE:
+			SET_BIT(GPIOE_CR,u8Pin);
+			break;
+		case GPIO_PORTF:
+			SET_BIT(GPIOF_CR,u8Pin);
+			break;
+	}
+}
+
+void GPIO_vidConfigAnalogFunction(u8 u8Port, u8 u8Pin, u8 u8Config)
+{
+	switch(u8Port)
+	{
+		case GPIO_PORTA:
+			if (u8Config == GPIO_ANALOG_SET)
+			{
+				SET_BIT(GPIOA_AMSEL,u8Pin);
+			}
+			else
+			{
+				CLEAR_BIT(GPIOA_AMSEL,u8Pin);
+			}
+			break;
+		case GPIO_PORTB:
+			if (u8Config == GPIO_ANALOG_SET)
+			{
+				SET_BIT(GPIOB_AMSEL,u8Pin);
+			}
+			else
+			{
+				CLEAR_BIT(GPIOB_AMSEL,u8Pin);
+			}
+			break;
+		case GPIO_PORTC:
+			if (u8Config == GPIO_ANALOG_SET)
+			{
+				SET_BIT(GPIOC_AMSEL,u8Pin);
+			}
+			else
+			{
+				CLEAR_BIT(GPIOC_AMSEL,u8Pin);
+			}
+			break;
+		case GPIO_PORTD:
+			if (u8Config == GPIO_ANALOG_SET)
+			{
+				SET_BIT(GPIOD_AMSEL,u8Pin);
+			}
+			else
+			{
+				CLEAR_BIT(GPIOD_AMSEL,u8Pin);
+			}
+			break;
+		case GPIO_PORTE:
+			if (u8Config == GPIO_ANALOG_SET)
+			{
+				SET_BIT(GPIOE_AMSEL,u8Pin);
+			}
+			else
+			{
+				CLEAR_BIT(GPIOE_AMSEL,u8Pin);
+			}
+			break;
+		case GPIO_PORTF:
+			if (u8Config == GPIO_ANALOG_SET)
+			{
+				SET_BIT(GPIOF_AMSEL,u8Pin);
+			}
+			else
+			{
+				CLEAR_BIT(GPIOF_AMSEL,u8Pin);
+			}
 			break;
 	}
 }
