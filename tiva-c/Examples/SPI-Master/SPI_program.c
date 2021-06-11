@@ -2,7 +2,9 @@
 #include "Macros.h"
 #include "SPI_private.h"
 #include "SPI_interface.h"
+#include "TM4C123.h"                    // Device header
 #include "GPIO_interface.h"
+
 
 void SPI_vidInit(void)
 {
@@ -22,12 +24,14 @@ void SPI_vidInit(void)
 }
 
 void SPI_vidSendByte(u8 u8Byte)
-	
 {
-	GPIO_vidSetPinValue(GPIO_PORTD,GPIO_PIN1,STD_LOW);
-	while(GET_BIT(SSISR,1) == 0);
-	SSIDR = u8Byte;
-	while(GET_BIT(SSISR,4) == 1);
-	GPIO_vidSetPinValue(GPIO_PORTD,GPIO_PIN1,STD_HIGH);
-	
+
+		GPIO_vidSetPinValue(GPIO_PORTD,GPIO_PIN1,STD_LOW);
+		while(GET_BIT(SSISR,1) == 0);
+    SSI1->DR = u8Byte;            /* transmit byte over SSI1Tx line */
+		while(GET_BIT(SSISR,4) == 1 & GET_BIT(SSISR,1) == 0);
+		GPIO_vidSetPinValue(GPIO_PORTD,GPIO_PIN1,STD_HIGH);
+
+  
 }
+

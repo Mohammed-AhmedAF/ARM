@@ -672,3 +672,70 @@ void GPIO_vidCommit(u8 u8Port,u8 u8Pin)
 			break;
 	}
 }
+
+void GPIO_vidConfigAnalogFunction(u8 u8Port, u8 u8Pin, u8 u8Config)
+{
+	switch(u8Port)
+	{
+		case GPIO_PORTA:
+			if (u8Config == GPIO_ANALOG_SET)
+			{
+				SET_BIT(GPIOA_AMSEL,u8Pin);
+			}
+			else
+			{
+				CLEAR_BIT(GPIOA_AMSEL,u8Pin);
+			}
+			break;
+		case GPIO_PORTB:
+			if (u8Config == GPIO_ANALOG_SET)
+			{
+				SET_BIT(GPIOB_AMSEL,u8Pin);
+			}
+			else
+			{
+				CLEAR_BIT(GPIOB_AMSEL,u8Pin);
+			}
+			break;
+		case GPIO_PORTC:
+			if (u8Config == GPIO_ANALOG_SET)
+			{
+				SET_BIT(GPIOC_AMSEL,u8Pin);
+			}
+			else
+			{
+				CLEAR_BIT(GPIOC_AMSEL,u8Pin);
+			}
+			break;
+		case GPIO_PORTD:
+			if (u8Config == GPIO_ANALOG_SET)
+			{
+				SET_BIT(GPIOD_AMSEL,u8Pin);
+			}
+			else
+			{
+				CLEAR_BIT(GPIOD_AMSEL,u8Pin);
+			}
+			break;
+		case GPIO_PORTE:
+			if (u8Config == GPIO_ANALOG_SET)
+			{
+				SET_BIT(GPIOE_AMSEL,u8Pin);
+			}
+			else
+			{
+				CLEAR_BIT(GPIOE_AMSEL,u8Pin);
+			}
+			break;
+		case GPIO_PORTF:
+			if (u8Config == GPIO_ANALOG_SET)
+			{
+				SET_BIT(GPIOF_AMSEL,u8Pin);
+			}
+			else
+			{
+				CLEAR_BIT(GPIOF_AMSEL,u8Pin);
+			}
+			break;
+	}
+}
