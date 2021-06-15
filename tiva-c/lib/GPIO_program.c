@@ -739,3 +739,28 @@ void GPIO_vidConfigAnalogFunction(u8 u8Port, u8 u8Pin, u8 u8Config)
 			break;
 	}
 }
+
+void GPIO_vidConfigPortControl(u8 u8Port, u8 u8Pin, u8 u8Value)
+{
+	switch(u8Port)
+	{
+		case GPIO_PORTA:
+			GPIOA_PCTL |= (u8Value<<(4*u8Pin));
+		break;
+		case GPIO_PORTB:
+			GPIOB_PCTL |= (u8Value<<(4*u8Pin));
+			break;
+		case GPIO_PORTC:
+			GPIOC_PCTL |= (u8Value<<(4*u8Pin));
+			break;
+		case GPIO_PORTD:
+			GPIOD_PCTL |= (u8Value<<(4*u8Pin));
+			break;
+		case GPIO_PORTE:
+			GPIOE_PCTL |= (u8Value<<(4*u8Pin));
+			break;
+		case GPIO_PORTF:
+			GPIOF_PCTL |= (u8Value<<(4*u8Pin));
+			break;
+	}
+}
