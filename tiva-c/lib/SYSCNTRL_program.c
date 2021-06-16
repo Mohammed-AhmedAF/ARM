@@ -35,6 +35,31 @@ void SYSCNTRL_vidEnableUARTClock(u8 u8UARTChannel)
 		case SYSCNTRL_UART0:
 			SET_BIT(RCGCUART,0);
 		break;
+		case SYSCNTRL_UART1:
+			SET_BIT(RCGCUART,1);
+		break;
+		case SYSCNTRL_UART2:
+			SET_BIT(RCGCUART,2);
+		break;
 	}
 
 }
+
+void SYSCNTRL_vidEnableADCClock(u8 u8ADCPeriph)
+{
+	switch(u8ADCPeriph)
+	{
+		case SYSCNTRL_ADC_0:
+			SET_BIT(RCGCADC,0);
+			break;
+		case SYSCNTRL_ADC_1:
+			SET_BIT(RCGCADC,1);
+			break;
+	}
+	
+}
+
+
+
+
+
