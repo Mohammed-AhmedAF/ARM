@@ -24,6 +24,7 @@ def calculateBaudrate():
 app = Tk()
 app.title("Tiva-C baudrate calculator")
 app.iconbitmap("appIcon.ico")
+app.resizable(False,False)
 baudrateFrame = Frame(app)
 
 sysClockVal = StringVar()
