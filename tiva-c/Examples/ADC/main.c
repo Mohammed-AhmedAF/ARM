@@ -12,7 +12,6 @@
 /*Function definition*/
 void vidBlink(void);
 void vidProcessCommands0(void);
-void vidProcessCommands1(void);
 
 
 /*Global variables*/
@@ -51,27 +50,14 @@ void vidProcessCommands0(void)
 
 }
 
-void vidProcessCommands1(void)
-{
-	u8Command1 = UART1_u8GetReceivedByte();
-
-	if (u8Command1 == 'a')
-	{
-			GPIO_vidTogglePin(GPIO_PORTF,GPIO_PIN2);
-
-	}
-}
-
 
 int main(void)
 {
 	/*Enabling clock for used peripherals*/
 	SYSCNTRL_vidEnableGPIOClock(SYSCNTRL_GPIO_PORTF);
 	SYSCNTRL_vidEnableGPIOClock(SYSCNTRL_GPIO_PORTA);
-	SYSCNTRL_vidEnableGPIOClock(SYSCNTRL_GPIO_PORTB);
 	SYSCNTRL_vidEnableGPIOClock(SYSCNTRL_GPIO_PORTE);
 	SYSCNTRL_vidEnableUARTClock(SYSCNTRL_UART0);
-	SYSCNTRL_vidEnableUARTClock(SYSCNTRL_UART1);
 	SYSCNTRL_vidEnableADCClock(SYSCNTRL_ADC_1);
 
 	/*Initializing GPIO*/
@@ -105,30 +91,6 @@ int main(void)
 	GPIO_vidConfigPortControl(GPIO_PORTA,GPIO_PIN0,0x1);
 	GPIO_vidConfigPortControl(GPIO_PORTA,GPIO_PIN1,0x1);
 	
-	/*UART1 pin configuration*/
-	GPIO_vidSetPinDigEnable(GPIO_PORTB,GPIO_PIN0,GPIO_DEN_SET);
-	GPIO_vidSetPinDigEnable(GPIO_PORTB,GPIO_PIN1,GPIO_DEN_SET);
-	GPIO_vidSelectAlterFunction(GPIO_PORTB,GPIO_PIN0);
-	GPIO_vidSelectAlterFunction(GPIO_PORTB,GPIO_PIN1);
-	GPIO_vidConfigAnalogFunction(GPIO_PORTB,GPIO_PIN0,GPIO_ANALOG_CLEAR);
-	GPIO_vidConfigAnalogFunction(GPIO_PORTB,GPIO_PIN1,GPIO_ANALOG_CLEAR);
-	GPIO_vidConfigPortControl(GPIO_PORTB,GPIO_PIN0,0x1);
-	GPIO_vidConfigPortControl(GPIO_PORTB,GPIO_PIN1,0x1);
-
-	
-	UARTConfig_t uart1Config;
-	uart1Config.u8ClockSource = UART_CLOCKSOURCE_RC;
-	uart1Config.u8WordLength = UART_WORDSIZE_8;
-	uart1Config.u16Integer = 104;
-	uart1Config.u8Fraction = 11;
-	uart1Config.u8FIFOEnabled = UART_FIFO_DISABLED;
-	uart1Config.u8RxTx = UART_RXTX_BOTH;
-	uart1Config.u8HighSpeedEnabled = UART_HIGHSPEED_DIV16;
-	uart1Config.u8InterruptEnabled = UART_INTERRUPT_ENABLED;
-	
-	//UART1_vidInit(&uart1Config);
-	//UART1_vidPutISRFunction(vidProcessCommands1);
-	
 	/*ADC Pin configuration*/
 	GPIO_vidSelectAlterFunction(GPIO_PORTE,GPIO_PIN1);
 	GPIO_vidSetPinDigEnable(GPIO_PORTE,GPIO_PIN1,GPIO_DEN_CLEAR);
@@ -141,10 +103,8 @@ int main(void)
 	ADC1Config.u8InterrupEnabled = ADC_INTERRUPT_ENABLED;
 	ADC1Config.u8EventTrigger = ADC_EVENT_TRIGGER_CONTINUOUS;
 	
-	
 	/*ADC peipheral intialization*/
 	ADC1_vidInit(&ADC1Config);
-	
 	
 	/*Initializing SYSTICK*/
 	SysTick_vidInit(SYSTICK_SYSTEM_CLOCK,SYSTICK_INTERRUPT_ENABLED);
@@ -157,10 +117,8 @@ int main(void)
 	NVIC->ISER[0] |= (1<<5);
 	NVIC->IP[5] = (3<<5);
 	
-	/*UART1 interrupt*/
-	NVIC->ISER[0] |= (1<<6);
-	NVIC->IP[1] = (3<<6);
 	
+	/*ADC interrupt*/
 	NVIC->ISER[1] |= (1<<19);
 
 	__enable_irq();
