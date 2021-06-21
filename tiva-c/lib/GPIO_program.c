@@ -10,6 +10,8 @@
 #include "GPIO_private.h"
 #include "GPIO_interface.h"
 
+void (*ptrF_GPIOF) (void);
+
 void GPIO_vidSetPinDirection(u8 u8PortNumCpy, u8 u8PinNumCpy, u8 u8DirectionCpy) {
 	switch (u8PortNumCpy) {
 		case GPIO_PORTA:
@@ -763,4 +765,20 @@ void GPIO_vidConfigPortControl(u8 u8Port, u8 u8Pin, u8 u8Value)
 			GPIOF_PCTL |= (u8Value<<(4*u8Pin));
 			break;
 	}
+}
+
+void GPIO_vidPutISR(u8 u8Port, void (*ptrF) (void))
+{
+	switch(u8Port)
+	{
+		case GPIO_PORTF:
+		ptrF_GPIOF	= ptrF;
+	
+	}
+
+}
+
+void GPIOF_Handler()
+{
+	ptrF_GPIOF();
 }

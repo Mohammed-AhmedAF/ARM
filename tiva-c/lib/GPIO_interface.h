@@ -29,6 +29,7 @@ void GPIO_vidUnlock(u8 u8Port);
 void GPIO_vidLock(u8 u8Port);
 void GPIO_vidCommit(u8 u8Port,u8 u8Pin);
 void GPIO_vidConfigPortControl(u8 u8Port, u8 u8Pin, u8 u8Value);
+void GPIO_vidPutISR(u8 u8Port,void (*ptrF) (void));
 
 
 
