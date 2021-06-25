@@ -1,0 +1,1 @@
+pyinstaller.exe --noconfirm --noconsole --icon="images/appIcon.ico" .\baudrateCalculatorGUI.spec
