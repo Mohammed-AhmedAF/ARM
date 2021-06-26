@@ -9,6 +9,14 @@ typedef struct {
 	u8 u8AlternateFunc;
 } GPIOConfig_t;
 
+typedef struct {
+	u8 u8PullResistance;
+	u8 u8InterruptSense;
+	u8 u8BothEdges;
+	u8 u8InterruptEvent;
+
+} ExtInterruptConfig_t;
+
 
 void GPIO_vidSetPinValue(u8 u8PortNumCpy,u8 u8PinNumCpy, u8 u8ValueCpy);
 void GPIO_vidSetPinDirection(u8 u8PortNumCpy, u8 u8PinCpy,u8 u8DirCpy);
@@ -30,6 +38,7 @@ void GPIO_vidLock(u8 u8Port);
 void GPIO_vidCommit(u8 u8Port,u8 u8Pin);
 void GPIO_vidConfigPortControl(u8 u8Port, u8 u8Pin, u8 u8Value);
 void GPIO_vidPutISR(u8 u8Port,void (*ptrF) (void));
+void GPIO_vidConfigInterrupt(u8 u8Port, u8 u8Pin, ExtInterruptConfig_t * extInterruptConfig);
 
 
 

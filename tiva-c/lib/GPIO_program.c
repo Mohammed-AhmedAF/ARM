@@ -778,6 +778,30 @@ void GPIO_vidPutISR(u8 u8Port, void (*ptrF) (void))
 
 }
 
+
+void GPIO_vidConfignterrupt(u8 u8Port, u8 u8Pin,ExtInterruptConfig_t * extInterruptConfig)
+{
+	/*Pull resistance*/
+	GPIO_vidConfigurePUR(u8Port,u8Pin,GPIO_PUR_ENABLED);
+
+	/*Event Sense*/
+	GPIO_vidSelectInterruptSense(u8Port,u8Pin,extInterruptConfig->u8InterruptSense);
+
+	/*Both edges*/
+	GPIO_vidInterruptBothEdges(u8Port,u8Pin,extInterruptConfig->u8BothEdges);
+
+	/*Interrupt event*/
+	GPIO_vidSelectInterruptEvent(u8Port,u8Pin,extInterruptConfig->u8InterruptEvent);
+
+	/*Clear interrupt*/
+	GPIO_vidClearInterrupt(u8Port,u8Pin);
+
+	/*Enable interrupt*/
+	GPIO_vidEnableInterrupt(u8Port,u8Pin);
+
+}
+
+
 void GPIOF_Handler()
 {
 	ptrF_GPIOF();
