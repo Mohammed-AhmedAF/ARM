@@ -12,8 +12,9 @@ typedef struct
 	u8 u8InterruptEnabled;
 	u8 u8HighSpeedEnabled;
 	u16 u16Integer;
-
+	void (*ptrF) (void);
 } UARTConfig_t;
+
 /*Macros used in configuration*/
 #define UART_CLOCKSOURCE_RC 0
 #define UART_CLOCKSOURCE_PIOSC 1
