@@ -193,7 +193,7 @@ void GPIO_vidTogglePin(u8 u8Port, u8 u8Pin)
 	}
 }
 
-void GPIO_vidConigurePUR(u8 u8Port, u8 u8Pin, u8 u8PURConfig)
+void GPIO_vidConfigurePUR(u8 u8Port, u8 u8Pin, u8 u8PURConfig)
 {
 switch (u8Port) {
 		case GPIO_PORTA:
@@ -247,7 +247,7 @@ switch (u8Port) {
 	}
 }
 
-void GPIO_vidConigurePullDown(u8 u8Port, u8 u8Pin, u8 u8PURConfig)
+void GPIO_vidConfigurePullDown(u8 u8Port, u8 u8Pin, u8 u8PURConfig)
 {
 switch (u8Port) {
 		case GPIO_PORTA:
