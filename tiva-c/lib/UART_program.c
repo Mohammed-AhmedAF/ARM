@@ -90,6 +90,16 @@ void UART0_vidInit(UARTConfig_t * UARTConfig)
 		{
 			CLEAR_BIT(UART0->IM,4);
 		}
+		
+		/*Function to be executed when interrupt occurs*/
+		if (UARTConfig->u8InterruptEnabled)
+		{
+			UART0_vidPutISRFunction(UARTConfig->ptrF);
+		}
+		else
+		{
+		
+		}
 }
 
 void UART0_vidPutISRFunction(void(*ptrF)(void))
@@ -212,6 +222,17 @@ void UART1_vidInit(UARTConfig_t * UARTConfig)
 		{
 			CLEAR_BIT(UART1->IM,4);
 		}
+		
+		/*Function to be executed when interrupt occurs*/
+		if (UARTConfig->u8InterruptEnabled)
+		{
+			UART1_vidPutISRFunction(UARTConfig->ptrF);
+		}
+		else
+		{
+		
+		}
+		
 }
 
 void UART1_vidPutISRFunction(void(*ptrF)(void))
