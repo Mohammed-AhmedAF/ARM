@@ -31,7 +31,7 @@ void MNVK_vidDisableInterrupt(u8 ID) {
 	}
 	else if (ID >= 32 && ID <= 59) {
 		ID = ID-32;
-		MNVK->ICER[1] = (1<<32);
+		MNVK->ICER[1] = (1<<ID);
 	}
 }
 
