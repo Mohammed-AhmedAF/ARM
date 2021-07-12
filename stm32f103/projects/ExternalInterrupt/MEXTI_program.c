@@ -5,14 +5,25 @@
 
 
 void  (*MEXTI_CallBack) (void);
+void  (*MEXTI1_CallBack) (void);
 
-void MEXTI_vidSetCallBack(void (*funcPtr) (void)) {
+void (*MEXTI_Callback_Arr[15]) (void);
+
+void EXTI0_vidSetCallBack(void (*funcPtr) (void)) {
 	MEXTI_CallBack = funcPtr;
 
 }
 
+void EXTI1_vidSetCallBack(void (*funcPtr) (void)) {
+	MEXTI1_CallBack = funcPtr;
+}
 
-void MEXTI_vidSetEXTIMode(u8 ID, u8 Mode)
+void EXTI_vidSetCallback(u8 u8LineID,void (*funcPtr) (void))
+{
+	MEXTI_Callback_Arr[u8LineID] = funcPtr;
+}
+
+void EXTI_vidSetEXTIMode(u8 ID, u8 Mode)
 {
 	switch(Mode){
 	case MEXTI_MODE_RISING:
@@ -28,13 +39,13 @@ void MEXTI_vidSetEXTIMode(u8 ID, u8 Mode)
 	}
 }
 
-void MEXTI_vidEnable(u8 ID) {
+void EXTI_vidEnable(u8 ID) {
 	if (ID <= 18) {
 		MEXTI->IMR |= (1<<ID);
 	}
 
 }
-void MEXTI_vidDisable(u8 ID)
+void EXTI_vidDisable(u8 ID)
 {
 	if (ID <= 18) {
 		MEXTI->IMR |= (1<<ID);
@@ -44,6 +55,11 @@ void MEXTI_vidDisable(u8 ID)
 
 
 void EXTI0_IRQHandler(void) {
-	MEXTI_CallBack();
+	MEXTI_Callback_Arr[0]();
 	MEXTI->PR |= 1;
+}
+
+void EXTI1_IRQHandler(void) {
+	MEXTI_Callback_Arr[1]();
+	MEXTI->PR |= 2;
 }

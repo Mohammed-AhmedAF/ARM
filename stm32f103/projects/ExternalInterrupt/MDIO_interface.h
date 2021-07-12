@@ -6,7 +6,7 @@ void MDIO_vidSetPinConfiguration(u8 u8PortNumCpy, u8 u8PinNumCpy, u8 ConfigCpy);
 void MDIO_vidSetPinMode(u8 u8PortNumCpy, u8 u8PinNumCpy, u8 u8ConfigCpy);
 void MDIO_vidSetPinValue(u8 u8PortNum, u8 u8PinNum, u8 u8Value);
 u8 MDIO_u8GetPinValue(u8 u8PortNum, u8 u8PinNum);
-
+void DIO_vidTogglePin(u8 u8Port, u8 u8Pin);
 
 #define MDIO_PORTA 0
 #define MDIO_PORTB 1

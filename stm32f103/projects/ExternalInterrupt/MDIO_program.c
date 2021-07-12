@@ -323,3 +323,16 @@ void MDIO_vidSetPinMode(u8 u8PortNumCpy, u8 u8PinNumCpy, u8 u8ModeCpy) {
 
 	}
 }
+
+void DIO_vidTogglePin(u8 u8Port, u8 u8Pin)
+{
+	if (u8Port == MDIO_PORTA) {
+			TOGGLE_BIT(GPIOA->ODR,u8Pin);		
+	}
+	else if (u8Port == MDIO_PORTB) {
+			TOGGLE_BIT(GPIOB->ODR,u8Pin);	
+	}
+	else if (u8Port == MDIO_PORTC) {
+			TOGGLE_BIT(GPIOC->ODR,u8Pin);	
+		}
+}
