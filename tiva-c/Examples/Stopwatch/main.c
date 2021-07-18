@@ -32,6 +32,7 @@ int main(void)
 	GPIO_vidConfigPortControl(GPIO_PORTA,GPIO_PIN0,0x01);
 	
 	/*UART configuration*/
+	/*Baudrate 9600*/
 	UARTConfig_t  UARTConfig;
 	UARTConfig.u16Integer = 104;
 	UARTConfig.u8Fraction = 11;
