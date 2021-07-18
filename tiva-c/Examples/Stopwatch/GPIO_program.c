@@ -801,6 +801,33 @@ void GPIO_vidConfigInterrupt(u8 u8Port, u8 u8Pin,ExtInterruptConfig_t * extInter
 
 }
 
+u8 GPIO_u8GetInterruptStatus(u8 u8Port, u8 u8Pin)
+{
+	u8 result;
+	switch(u8Port)
+	{
+		case GPIO_PORTA:
+			result = GET_BIT(GPIOA_MIS,u8Pin);
+			break;
+		case GPIO_PORTB:
+			result = GET_BIT(GPIOB_MIS,u8Pin);
+		break;
+		case GPIO_PORTC:
+			result = GET_BIT(GPIOC_MIS,u8Pin);
+			break;
+		case GPIO_PORTD:
+			result = GET_BIT(GPIOD_MIS,u8Pin);
+			break;
+		case GPIO_PORTE:
+			result = GET_BIT(GPIOE_MIS,u8Pin);
+			break;
+		case GPIO_PORTF:
+			result = GET_BIT(GPIOF_MIS,u8Pin);
+			break;
+	}
+	return result;
+}
+
 
 void GPIOF_Handler()
 {

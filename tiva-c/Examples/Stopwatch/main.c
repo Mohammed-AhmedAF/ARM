@@ -60,6 +60,8 @@ int main(void)
 	SysTick_vidStart();
 	
 	/*Input pins configuration*/
+	/*Button connected to F0 resets timer*/
+	/*Button connected to F4 turns on count down timer*/
 	GPIOConfig_t GPIOConfig;
 	GPIO_vidUnlock(GPIO_PORTF);
 	GPIO_vidCommit(GPIO_PORTF,GPIO_PIN0);
@@ -78,7 +80,7 @@ int main(void)
 
 	ExtInterruptConfig_t ExtInterruptConfig;
 	ExtInterruptConfig.u8BothEdges = GPIO_INTERRUPT_EVENTCONTROLLED;
-	ExtInterruptConfig.u8InterruptEvent = GPIO_EVENT_FE;
+	ExtInterruptConfig.u8InterruptEvent = GPIO_EVENT_FALLINGEDGE;
 	ExtInterruptConfig.u8InterruptSense = GPIO_SENSE_EDGE;
 	ExtInterruptConfig.u8PullResistance = GPIO_PUR_ENABLED;
 	

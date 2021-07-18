@@ -20,6 +20,7 @@ void vidBlink(void)
 	UART_vidSendNumber(UART0_vidSendByte,u8Seconds);
 	UART0_vidSendByte('\n');
 	UART0_vidSendByte('\r');
+	
 	if (u8CountDirection == APP_COUNT_UP)
 	{
 	u8Seconds++;
@@ -36,17 +37,20 @@ void vidBlink(void)
 }
 	else if (u8CountDirection == APP_COUNT_DOWN)
 	{
-	u8Seconds--;
-	if (u8Seconds == 00)
-	{
-		u8Seconds = 59;
-		u8Minutes--;
-		if (u8Minutes == 00)
+		u8Seconds--;
+		if (u8Seconds == 00)
 		{
-			u8CountDirection = APP_COUNT_STOP;
+			if (u8Minutes == 0)
+			{
+						u8CountDirection = APP_COUNT_STOP;
+			}
+			else
+			{
+			u8Seconds = 59;
+			u8Minutes--;
+			}
 		}
 	}
-}
 }
 
 void vidProcessCommand(void)
@@ -70,19 +74,19 @@ void vidResetStopWatch(void)
 void vidCountDown(void)
 {
 	u8Hours = 0;
-	u8Minutes = 9;
+	u8Minutes = 2;
 	u8Seconds = 59;
 	u8CountDirection = APP_COUNT_DOWN;
 }
 
 void vidProcessButtons(void)
 {
-	if (GPIOF->MIS & 0x01)
+	if (GPIO_u8GetInterruptStatus(GPIO_PORTF,GPIO_PIN0) == 1)
 	{
 		vidResetStopWatch();
 		GPIO_vidClearInterrupt(GPIO_PORTF,GPIO_PIN0);
 	}
-	else if (GPIOF->MIS & 0x10)
+	else if (GPIO_u8GetInterruptStatus(GPIO_PORTF,GPIO_PIN4) == 1)
 	{
 		vidCountDown();
 		GPIO_vidClearInterrupt(GPIO_PORTF,GPIO_PIN4);
