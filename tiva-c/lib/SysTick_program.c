@@ -6,6 +6,30 @@
 
 void (*callback) (void);
 
+void SysTick_vidInitExtended(SysTickConfig_t * SysTickConfig) {
+	/*Configuring Clock Source*/
+	if (SysTickConfig->u8ClockSource == SYSTICK_SYSTEM_CLOCK) {
+		SET_BIT(SysTick->CTRL,SYSTEM_CLOCK);
+	}
+	else {
+		CLEAR_BIT(SysTick->CTRL,SYSTEM_CLOCK);
+	}
+	/*Configuring Interrupt Enabled*/
+	if (SysTickConfig->u8Interrupt == SYSTICK_INTERRUPT_ENABLED) {
+		SET_BIT(SysTick->CTRL,INTERRUPT_ENABLE);
+	}
+	else {
+		CLEAR_BIT(SysTick->CTRL,INTERRUPT_ENABLE);
+	}
+	
+	/*Reload value*/
+	SysTick_vidSetValue(SysTickConfig->u32ReloadValue);
+	
+	/*Adding ISR Callback*/
+	SysTick_vidPutISR(SysTickConfig->ptrFunc);
+
+}
+
 void SysTick_vidInit(u8 u8isClockSource, u8 u8isInterruptEnabled) {
 	/*Configuring Clock Source*/
 	if (u8isClockSource == SYSTICK_SYSTEM_CLOCK) {
