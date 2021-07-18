@@ -779,7 +779,7 @@ void GPIO_vidPutISR(u8 u8Port, void (*ptrF) (void))
 }
 
 
-void GPIO_vidConfignterrupt(u8 u8Port, u8 u8Pin,ExtInterruptConfig_t * extInterruptConfig)
+void GPIO_vidConfigInterrupt(u8 u8Port, u8 u8Pin,ExtInterruptConfig_t * extInterruptConfig)
 {
 	/*Pull resistance*/
 	GPIO_vidConfigurePUR(u8Port,u8Pin,GPIO_PUR_ENABLED);
@@ -799,6 +799,33 @@ void GPIO_vidConfignterrupt(u8 u8Port, u8 u8Pin,ExtInterruptConfig_t * extInterr
 	/*Enable interrupt*/
 	GPIO_vidEnableInterrupt(u8Port,u8Pin);
 
+}
+
+u8 GPIO_u8GetInterruptStatus(u8 u8Port, u8 u8Pin)
+{
+	u8 result;
+	switch(u8Port)
+	{
+		case GPIO_PORTA:
+			result = GET_BIT(GPIOA_MIS,u8Pin);
+			break;
+		case GPIO_PORTB:
+			result = GET_BIT(GPIOB_MIS,u8Pin);
+		break;
+		case GPIO_PORTC:
+			result = GET_BIT(GPIOC_MIS,u8Pin);
+			break;
+		case GPIO_PORTD:
+			result = GET_BIT(GPIOD_MIS,u8Pin);
+			break;
+		case GPIO_PORTE:
+			result = GET_BIT(GPIOE_MIS,u8Pin);
+			break;
+		case GPIO_PORTF:
+			result = GET_BIT(GPIOF_MIS,u8Pin);
+			break;
+	}
+	return result;
 }
 
 

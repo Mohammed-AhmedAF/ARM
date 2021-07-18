@@ -39,6 +39,7 @@ void GPIO_vidCommit(u8 u8Port,u8 u8Pin);
 void GPIO_vidConfigPortControl(u8 u8Port, u8 u8Pin, u8 u8Value);
 void GPIO_vidPutISR(u8 u8Port,void (*ptrF) (void));
 void GPIO_vidConfigInterrupt(u8 u8Port, u8 u8Pin, ExtInterruptConfig_t * extInterruptConfig);
+u8 GPIO_u8GetInterruptStatus(u8 u8Port, u8 u8Pin);
 
 
 
@@ -86,6 +87,10 @@ void GPIO_vidConfigInterrupt(u8 u8Port, u8 u8Pin, ExtInterruptConfig_t * extInte
 #define GPIO_EVENT_RE GPIO_HL_RE
 #define GPIO_EVENT_LL GPIO_LL_FE
 #define GPIO_EVENT_HL GPIO_HL_RE
+
+#define GPIO_EVENT_FALLINGEDGE GPIO_LL_FE 
+#define GPIO_EVENT_RISINGEDGE GPIO_HL_RE
+
 /*Interrupt both edges*/
 #define GPIO_INTERRUPT_EVENTCONTROLLED 0
 #define GPIO_INTERRUPT_BOTHEDGES 1
