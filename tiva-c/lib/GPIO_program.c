@@ -583,19 +583,19 @@ void GPIO_vidClearInterrupt(u8 u8Port, u8 u8Pin)
 			SET_BIT(GPIOA_ICR,u8Pin);
 			break;
 		case GPIO_PORTB:
-			SET_BIT(GPIOA_ICR,u8Pin);
+			SET_BIT(GPIOB_ICR,u8Pin);
 			break;
 		case GPIO_PORTC:
-			SET_BIT(GPIOA_ICR,u8Pin);
+			SET_BIT(GPIOC_ICR,u8Pin);
 			break;
 		case GPIO_PORTD:
-			SET_BIT(GPIOA_ICR,u8Pin);
+			SET_BIT(GPIOD_ICR,u8Pin);
 			break;
 		case GPIO_PORTE:
-			SET_BIT(GPIOA_ICR,u8Pin);
+			SET_BIT(GPIOE_ICR,u8Pin);
 			break;
 		case GPIO_PORTF:
-			SET_BIT(GPIOA_ICR,u8Pin);
+			SET_BIT(GPIOF_ICR,u8Pin);
 			break;
 	}
 }
