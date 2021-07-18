@@ -16,6 +16,7 @@
 
 
 int main(void) {
+	/*Enabling clock for GPIO PORTF*/
 	RCGCGPIO |= (1U<<5);
 	u32 flag = 0;
 	
