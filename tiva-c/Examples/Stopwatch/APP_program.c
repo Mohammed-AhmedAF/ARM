@@ -9,6 +9,12 @@ volatile static u8 u8Hours;
 volatile static u8 u8Minutes;
 volatile static u8 u8Seconds;
 volatile static u8 u8CountDirection = APP_COUNT_UP;
+volatile static u8 u8Message[10];
+volatile static u8 u8MessageFlag = 0;
+volatile static u8 u8MessageByte = 0;
+volatile static u8 u8ByteIndex = 0;
+volatile static u8 u8MessageLength = 0;
+volatile static TimeData_t timeData_Arr[4];
 
 void vidBlink(void)
 {
@@ -55,13 +61,12 @@ void vidBlink(void)
 	}
 }
 
-void vidProcessCommand(void)
+void vidReceiveMessage(void)
 {
 	u8Command = UART0_u8GetReceivedByte();
 	if (u8Command == 'v')
 	{
-			GPIO_vidTogglePin(GPIO_PORTF,GPIO_PIN2);
-
+		GPIO_vidTogglePin(GPIO_PORTF,GPIO_PIN2);
 	}
 	else if(u8Command == 'r')
 	{
@@ -72,6 +77,53 @@ void vidProcessCommand(void)
 		vidCountDown();
 	}
 }
+
+void vidReceiveMessage_dev(void)
+{
+	u8MessageByte = UART1_u8GetReceivedByte();
+	if (u8MessageFlag != 1)
+	{
+		u8MessageFlag = 1;
+		/*But the first byte of the message*/
+		u8Message[u8ByteIndex] = u8MessageByte;
+			u8ByteIndex++;
+	}
+	else 
+	{
+		if (u8ByteIndex == 1)
+		{
+			u8MessageLength = u8MessageByte;		
+			u8Message[u8ByteIndex] = u8MessageByte;		
+			u8ByteIndex++;
+		}
+		else
+		{
+			u8Message[u8ByteIndex] = u8MessageByte;
+			u8ByteIndex++;
+			
+			if (u8ByteIndex == u8Message[1])
+			{
+				u8ByteIndex = 0;
+				u8MessageFlag = 0;
+				vidProcessMessage(u8MessageLength,u8Message);
+			}
+		}
+	}
+}
+
+
+void vidProcessMessage(u8 u8MessageLength, u8 * u8MessagePtr)
+{
+	if (u8MessagePtr[2] == 'r')
+	{
+		vidResetStopWatch();
+	}
+	else if (u8MessagePtr[2] == 'd')
+	{
+		vidCountDown();
+	}
+}
+	
 
 void vidResetStopWatch(void)
 {

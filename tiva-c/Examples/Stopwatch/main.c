@@ -12,7 +12,7 @@
 
 /*Stopwatch application: 
 	* Count up/Count down
-	* Utilizing GPIO, external interrupt, UART and SysTick
+	* Utilizing external interrupt and UART
 
 */
 
@@ -20,29 +20,51 @@ int main(void)
 {
 	/*RCC configuration*/
 	SYSCNTRL_vidEnableGPIOClock(SYSCNTRL_GPIO_PORTA);
+	SYSCNTRL_vidEnableGPIOClock(SYSCNTRL_GPIO_PORTB);
 	SYSCNTRL_vidEnableGPIOClock(SYSCNTRL_GPIO_PORTF);
 	SYSCNTRL_vidEnableUARTClock(SYSCNTRL_UART0);
+	SYSCNTRL_vidEnableUARTClock(SYSCNTRL_UART1);
 
-	/*UART pin configuration*/
+
+	/*UART0 pin configuration*/
 	GPIO_vidSelectAlterFunction(GPIO_PORTA,GPIO_PIN0);
 	GPIO_vidSelectAlterFunction(GPIO_PORTA,GPIO_PIN1);
 	GPIO_vidSetPinDigEnable(GPIO_PORTA,GPIO_PIN0,GPIO_DEN_SET);
 	GPIO_vidSetPinDigEnable(GPIO_PORTA,GPIO_PIN1,GPIO_DEN_SET);
 	GPIO_vidConfigPortControl(GPIO_PORTA,GPIO_PIN0,0x01);
-	GPIO_vidConfigPortControl(GPIO_PORTA,GPIO_PIN0,0x01);
+	GPIO_vidConfigPortControl(GPIO_PORTA,GPIO_PIN1,0x01);
 	
-	/*UART configuration*/
-	/*Baudrate 9600*/
-	UARTConfig_t  UARTConfig;
-	UARTConfig.u16Integer = 104;
-	UARTConfig.u8Fraction = 11;
-	UARTConfig.u8ClockSource = UART_CLOCKSOURCE_RC;
-	UARTConfig.u8HighSpeedEnabled = UART_HIGHSPEED_DIV16;
-	UARTConfig.u8RxTx = UART_RXTX_BOTH;
-	UARTConfig.u8WordLength = UART_WORDSIZE_8;
-	UARTConfig.u8InterruptEnabled = UART_INTERRUPT_ENABLED;
-	UARTConfig.ptrF = vidProcessCommand;
-	UART0_vidInit(&UARTConfig);
+	/*UART1 pin configuration*/
+	GPIO_vidSelectAlterFunction(GPIO_PORTB,GPIO_PIN0);
+	GPIO_vidSelectAlterFunction(GPIO_PORTB,GPIO_PIN1);
+	GPIO_vidSetPinDigEnable(GPIO_PORTB,GPIO_PIN0,GPIO_DEN_SET);
+	GPIO_vidSetPinDigEnable(GPIO_PORTB,GPIO_PIN1,GPIO_DEN_SET);
+	GPIO_vidConfigPortControl(GPIO_PORTB,GPIO_PIN0,0x01);
+	GPIO_vidConfigPortControl(GPIO_PORTB,GPIO_PIN1,0x01);
+	
+	/*UART1 configuration*/
+	UARTConfig_t  UARTConfig1;
+	UARTConfig1.u16Integer = 8;
+	UARTConfig1.u8Fraction = 44;
+	UARTConfig1.u8ClockSource = UART_CLOCKSOURCE_RC;
+	UARTConfig1.u8HighSpeedEnabled = UART_HIGHSPEED_DIV16;
+	UARTConfig1.u8RxTx = UART_RXTX_BOTH;
+	UARTConfig1.u8WordLength = UART_WORDSIZE_8;
+	UARTConfig1.u8InterruptEnabled = UART_INTERRUPT_ENABLED;
+	UARTConfig1.ptrF = vidReceiveMessage_dev;
+	UART1_vidInit(&UARTConfig1);
+	
+	/*UART0 configuration*/
+	UARTConfig_t  UARTConfig0;
+	UARTConfig0.u16Integer = 104;
+	UARTConfig0.u8Fraction = 11;
+	UARTConfig0.u8ClockSource = UART_CLOCKSOURCE_RC;
+	UARTConfig0.u8HighSpeedEnabled = UART_HIGHSPEED_DIV16;
+	UARTConfig0.u8RxTx = UART_RXTX_BOTH;
+	UARTConfig0.u8WordLength = UART_WORDSIZE_8;
+	UARTConfig0.u8InterruptEnabled = UART_INTERRUPT_DISABLED;
+	UARTConfig0.ptrF = vidReceiveMessage_dev;
+	UART0_vidInit(&UARTConfig0);
 	
 	/*LED configuration*/
 	GPIO_vidSetPinDirection(GPIO_PORTF,GPIO_PIN1,GPIO_OUTPUT);
@@ -92,8 +114,12 @@ int main(void)
 	
 	/*NVIC configuration*/
 	NVIC_vidSetInterrupt(NVIC_UART0);
+	NVIC_vidSetPriority(NVIC_UART0,3);
+	NVIC_vidSetInterrupt(NVIC_UART1);
+	NVIC_vidSetPriority(NVIC_UART0,2);
 	NVIC_vidSetInterrupt(NVIC_GPIOF);
 	
+	/*Enable global interrupt*/
 	__enable_irq();
 
 	while(1)
