@@ -24,16 +24,19 @@ def sendLED(ledNumber: int):
             statusLabel['text'] = "Failed to send command."
 
 def sendCommand(commandByte: int):
-    if (commandByte == 'r'):
-        ser.write(b's')
-        numb = 3
-        ser.write(numb.to_bytes(1,'little'))
-        ser.write(b'r')
-    elif (commandByte == 'd'):
-        ser.write(b's')
-        numb = 3
-        ser.write(numb.to_bytes(1,'little'))
-        ser.write(b'd')
+    try:
+        if (commandByte == 'r'):
+            ser.write(b's')
+            numb = 3
+            ser.write(numb.to_bytes(1,'little'))
+            ser.write(b'r')
+        elif (commandByte == 'd'):
+            ser.write(b's')
+            numb = 3
+            ser.write(numb.to_bytes(1,'little'))
+            ser.write(b'd')
+    except:
+        statusLabel['text'] = "Serial port in not open."
 
 
 def connectByUART() -> None:
@@ -63,7 +66,7 @@ baudrate = 0
 
 root = Tk()
 root.title("Stopwatch GUI")
-root.resizable(width=False,height=False)
+root.resizable(width=True,height=False)
 
 try:
     photo = PhotoImage(file="images/led.png")
@@ -94,8 +97,8 @@ connectByUART()
 
 #Elements placement
 
-resetBtn.grid(row=0,column=2,columnspan=2,sticky=W+E,padx=5)
-downCountBtn.grid(row=1,column=2,columnspan=2,sticky=W+E,padx=5)
+resetBtn.grid(row=1,column=2,columnspan=1,sticky=W+E,padx=5)
+downCountBtn.grid(row=1,column=3,columnspan=1,sticky=W+E,padx=5)
 
 connectBtn.grid(row=2,column=0,sticky=W+E,padx=5,pady=5)
 baudrateCmbox.grid(row=1,column=0,sticky=W+E,padx=5,pady=5)
