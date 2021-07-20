@@ -12,7 +12,7 @@
 
 /*Stopwatch application: 
 	* Count up/Count down
-	* Utilizing external interrupt and UART
+	* Utilizing GPIO, external interrupt, UART and SysTick
 
 */
 
