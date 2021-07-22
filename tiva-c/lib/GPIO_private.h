@@ -387,11 +387,11 @@
 #endif
 
 /*GPIOF port*/
-#ifdef
+#ifdef GPIOF_AHB
 #define GPIOF_DATA * ((u32 *) 0x4005D3FC)
 #define GPIOF_DIR * ((u32 *) 0x4005D400)
 #define GPIOF_IS * ((u32 *) 0x4005D404)
-#define GPIOF_IBE * ((u32 *) 0x4002D408)
+#define GPIOF_IBE * ((u32 *) 0x4005D408)
 #define GPIOF_IEV * ((u32 *) 0x4005D40C)
 #define GPIOF_IM * ((u32 *) 0x4005D410)
 #define GPIOF_RIS * ((u32 *) 0x4005D414)
