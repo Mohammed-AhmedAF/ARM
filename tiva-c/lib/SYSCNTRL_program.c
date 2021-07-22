@@ -59,7 +59,81 @@ void SYSCNTRL_vidEnableADCClock(u8 u8ADCPeriph)
 	
 }
 
+void SYSCNTRL_vidEnableTimerClock(u8 u8Timer)
+{
+	switch(u8Timer)
+	{
+		case SYSCNTRL_TIMER_0:
+			SET_BIT(RCGCTIMER,0);
+		break;
+	}
+}
 
-
+void SYSCNTRL_vidSelectGPIOBus(u8 u8GPIOPort,u8 u8Bus)
+{
+	switch(u8GPIOPort)
+	{
+		case SYSCNTRL_GPIO_PORTA:
+			if (u8Bus == SYSCNTRL_BUS_AHB)
+			{
+				SET_BIT(GPIOHBCTL,0);
+			}
+			else
+			{
+				CLEAR_BIT(GPIOHBCTL,0);
+			}
+			break;
+		case SYSCNTRL_GPIO_PORTB:
+			if (u8Bus == SYSCNTRL_BUS_AHB)
+			{
+				SET_BIT(GPIOHBCTL,1);
+			}
+			else
+			{
+				CLEAR_BIT(GPIOHBCTL,1);
+			}
+			break;
+		case SYSCNTRL_GPIO_PORTC:
+			if (u8Bus == SYSCNTRL_BUS_AHB)
+			{
+				SET_BIT(GPIOHBCTL,2);
+			}
+			else
+			{
+				CLEAR_BIT(GPIOHBCTL,2);
+			}
+			break;
+		case SYSCNTRL_GPIO_PORTD:
+			if (u8Bus == SYSCNTRL_BUS_AHB)
+			{
+				SET_BIT(GPIOHBCTL,3);
+			}
+			else
+			{
+				CLEAR_BIT(GPIOHBCTL,3);
+			}
+			break;
+		case SYSCNTRL_GPIO_PORTE:
+			if (u8Bus == SYSCNTRL_BUS_AHB)
+			{
+				SET_BIT(GPIOHBCTL,4);
+			}
+			else
+			{
+				CLEAR_BIT(GPIOHBCTL,4);
+			}
+			break;
+		case SYSCNTRL_GPIO_PORTF:
+			if (u8Bus == SYSCNTRL_BUS_AHB)
+			{
+				SET_BIT(GPIOHBCTL,5);
+			}
+			else
+			{
+				CLEAR_BIT(GPIOHBCTL,5);
+			}
+			break;
+	}
+}
 
 
