@@ -74,7 +74,7 @@ void SYSCNTRL_vidSelectGPIOBus(u8 u8GPIOPort,u8 u8Bus)
 	switch(u8GPIOPort)
 	{
 		case SYSCNTRL_GPIO_PORTA:
-			if (u8Bus == SYSCNTRL_BUS_AHP)
+			if (u8Bus == SYSCNTRL_BUS_AHB)
 			{
 				SET_BIT(GPIOHBCTL,0);
 			}
@@ -84,7 +84,7 @@ void SYSCNTRL_vidSelectGPIOBus(u8 u8GPIOPort,u8 u8Bus)
 			}
 			break;
 		case SYSCNTRL_GPIO_PORTB:
-			if (u8Bus == SYSCNTRL_BUS_AHP)
+			if (u8Bus == SYSCNTRL_BUS_AHB)
 			{
 				SET_BIT(GPIOHBCTL,1);
 			}
@@ -94,7 +94,7 @@ void SYSCNTRL_vidSelectGPIOBus(u8 u8GPIOPort,u8 u8Bus)
 			}
 			break;
 		case SYSCNTRL_GPIO_PORTC:
-			if (u8Bus == SYSCNTRL_BUS_AHP)
+			if (u8Bus == SYSCNTRL_BUS_AHB)
 			{
 				SET_BIT(GPIOHBCTL,2);
 			}
@@ -104,7 +104,7 @@ void SYSCNTRL_vidSelectGPIOBus(u8 u8GPIOPort,u8 u8Bus)
 			}
 			break;
 		case SYSCNTRL_GPIO_PORTD:
-			if (u8Bus == SYSCNTRL_BUS_AHP)
+			if (u8Bus == SYSCNTRL_BUS_AHB)
 			{
 				SET_BIT(GPIOHBCTL,3);
 			}
@@ -114,7 +114,7 @@ void SYSCNTRL_vidSelectGPIOBus(u8 u8GPIOPort,u8 u8Bus)
 			}
 			break;
 		case SYSCNTRL_GPIO_PORTE:
-			if (u8Bus == SYSCNTRL_BUS_AHP)
+			if (u8Bus == SYSCNTRL_BUS_AHB)
 			{
 				SET_BIT(GPIOHBCTL,4);
 			}
@@ -124,7 +124,7 @@ void SYSCNTRL_vidSelectGPIOBus(u8 u8GPIOPort,u8 u8Bus)
 			}
 			break;
 		case SYSCNTRL_GPIO_PORTF:
-			if (u8Bus == SYSCNTRL_BUS_AHP)
+			if (u8Bus == SYSCNTRL_BUS_AHB)
 			{
 				SET_BIT(GPIOHBCTL,5);
 			}

@@ -32,6 +32,6 @@ void SYSCNTRL_vidSelectGPIOBus(u8 u8GPIOPort,u8 u8Bus);
 #define SYSCNTRL_ADC_0 0
 #define SYSCNTRL_ADC_1 1
 
-#define SYSCNTRL_BUS_AHP 1
+#define SYSCNTRL_BUS_AHB 1
 #define SYSCNTRL_BUS_APB 2
 #endif
