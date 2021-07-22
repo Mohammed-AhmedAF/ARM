@@ -7,10 +7,11 @@
 
 #include "STD_TYPES.h"
 #include "Macros.h"
+#include "GPIO_config.h"
 #include "GPIO_private.h"
 #include "GPIO_interface.h"
 
-void (*ptrF_GPIOF) (void);
+static void (*ptrF_GPIOF) (void);
 
 void GPIO_vidSetPinDirection(u8 u8PortNumCpy, u8 u8PinNumCpy, u8 u8DirectionCpy) {
 	switch (u8PortNumCpy) {
@@ -803,7 +804,7 @@ void GPIO_vidConfigInterrupt(u8 u8Port, u8 u8Pin,ExtInterruptConfig_t * extInter
 
 u8 GPIO_u8GetInterruptStatus(u8 u8Port, u8 u8Pin)
 {
-	u8 result;
+	u8 result = 0;
 	switch(u8Port)
 	{
 		case GPIO_PORTA:
