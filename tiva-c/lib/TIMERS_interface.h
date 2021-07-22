@@ -3,11 +3,14 @@
 
 typedef struct 
 {
+	u16 u16ReloadValue;
 	u8 u8Config;
 	u8 u8TimerAMode;
 	u8 u8TimerACaptMode;
 	u8 u8TimerACountDir;
 	u8 u8TimerAEventMode;
+	u8 u8InterruptMask;
+	void (*ptrFunc) (void);
 } TIMERConfig_t;
 
 
@@ -18,6 +21,7 @@ void TIMERS_vidSetup(void);
 void TIMERS_vidStart(void);
 void TIMERS_vidStartOneShoot(u8 times);
 void TIMERS_vidStartPeriodic(u16 u16Value);
+void TIMERS_vidInit(TIMERConfig_t * TIMERConfig);
 void TIMERS_vidPutFunction(void (*ptFun) (void));
 void TIMER0A_vidConfigInputCapt(TIMERConfig_t * TIMERConfig);
 u32 TIMER0A_u32MeasureTimerPeriod(void);
@@ -35,6 +39,12 @@ u32 TIMER0A_u32MeasureTimerPeriod(void);
 #define TIMER_CONFIG_1632_32BIT_RTC 3
 #define TIMER_CONFIG_1632_16BIT 4
 #define TIMER_CONFIG_3264_32BIT 5
+
+/*Interrupt mask*/
+#define TIMER_TIMERA_INTERRUPT_TIMEOUT 1
+#define TIMER_TIMERA_INTERRUPT_CAPTUREMODE_MATCH 2
+#define TIMER_TIMERA_INTERRUPT_CAPTUREMODE_EVENT 3
+
 
 /*TIMERnA Mode*/
 #define TIMER_TIMERA_MODE_ONESHOOT 1
