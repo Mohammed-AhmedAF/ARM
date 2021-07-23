@@ -211,9 +211,17 @@ void TIMERS_vidInit(TIMERConfig_t * TIMERConfig)
 		switch(TIMERConfig->u8InterruptMask)
 		{
 			case TIMER_TIMERA_INTERRUPT_TIMEOUT:
-				  GPTM0_IMR |= (1 <<0); /*Enable time-out interrupt*/
+				  GPTM0_IMR |= (1<<0); /*Enable time-out interrupt*/
 					GPTM0_ICR |= 0x01;
 					TIMERS_vidPutFunction(TIMERConfig->ptrFunc);
+				break;
+			case TIMER_TIMERA_INTERRUPT_CAPTUREMODE_MATCH:
+					GPTM0_IMR |= (1<<1);
+					GPTM0_ICR |= (1<<1);
+				break;
+			case TIMER_TIMERA_INTERRUPT_CAPTUREMODE_EVENT:
+				GPTM0_IMR |= (1<<2);
+					GPTM0_ICR |= (1<<2);
 				break;
 		}
     /* enable Timer0A */
