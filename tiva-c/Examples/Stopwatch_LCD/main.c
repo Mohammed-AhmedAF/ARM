@@ -3,11 +3,11 @@
 #include "SysTick_interface.h"
 #include "SYSCNTRL_interface.h"
 #include "GPIO_interface.h"
-#include "UART_interface.h"
 #include "NVIC_interface.h"
 #include "LCD_interface.h"
-#include "TM4C123.h"                    // Device header
+#include "SCB_interface.h"
 
+#include "TM4C123.h"                    // Device header
 void vidBlink(void);
 void vidGreenLED(void);
 
@@ -25,13 +25,13 @@ void vidBlink(void)
 	LCD_vidSendCommand(LCD_CLEAR_SCREEN);
 	LCD_vidSendCommand(LCD_RETURN_HOME);
 
-	LCD_vidGoToXY(LCD_XPOS16,0);
+	LCD_vidGoToXY(LCD_XPOS13,0);
 	LCD_vidWriteNumber(u8Seconds);
 	u8Seconds++;
 		delay_micro(10);
-	LCD_vidGoToXY(LCD_XPOS15,0);
+	LCD_vidGoToXY(LCD_XPOS12,0);
 	LCD_vidWriteCharacter(':');
-	LCD_vidGoToXY(LCD_XPOS13,0);
+	LCD_vidGoToXY(LCD_XPOS10,0);
 	if (u8Seconds == 60)
 	{
 		u8Seconds = 0;
@@ -43,10 +43,13 @@ void vidBlink(void)
 		}
 	}
 	LCD_vidWriteNumber(u8Minutes);
-	LCD_vidGoToXY(LCD_XPOS12,0);
+	LCD_vidGoToXY(LCD_XPOS9,0);
 	LCD_vidWriteCharacter(':');
-	LCD_vidGoToXY(LCD_XPOS10,0);
+	LCD_vidGoToXY(LCD_XPOS7,0);
 	LCD_vidWriteNumber(u8Hours);
+
+	/**/
+	LCD_vidGoToXY(LCD_XPOS7,3);
 
 
 }
@@ -81,10 +84,12 @@ void vidClearScreen(void)
 
 void vidProcessButtons(void)
 {
+	/*Checking the MIS register*/
 	if (GPIO_u8GetInterruptStatus(GPIO_PORTF,GPIO_PIN0) == 1)
 	{
 		vidGreenLED();
 	}
+	/*Checking the MIS register*/
 	else if (GPIO_u8GetInterruptStatus(GPIO_PORTF,GPIO_PIN4) == 1)
 		{
 	vidClearScreen();
@@ -162,7 +167,8 @@ int main(void)
 	
 	while(1)
 	{
-	
-}
+		/*Going into deep sleep mode*/
+		SCB_vidEnterSleepMode(SCB_SLEEPMODE_DEEP);
+	}
 	
 }
