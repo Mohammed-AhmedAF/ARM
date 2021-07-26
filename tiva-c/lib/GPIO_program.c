@@ -774,7 +774,7 @@ void GPIO_vidPutISR(u8 u8Port, void (*ptrF) (void))
 	{
 		case GPIO_PORTF:
 		ptrF_GPIOF	= ptrF;
-	
+		break;
 	}
 
 }
@@ -794,6 +794,9 @@ void GPIO_vidConfigInterrupt(u8 u8Port, u8 u8Pin,ExtInterruptConfig_t * extInter
 	/*Interrupt event*/
 	GPIO_vidSelectInterruptEvent(u8Port,u8Pin,extInterruptConfig->u8InterruptEvent);
 
+	/*ISR function*/
+	GPIO_vidPutISR(GPIO_PORTF,extInterruptConfig->ptrFunc);
+	
 	/*Clear interrupt*/
 	GPIO_vidClearInterrupt(u8Port,u8Pin);
 

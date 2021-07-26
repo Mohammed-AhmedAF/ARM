@@ -6,6 +6,7 @@ Example:
 #define GPIOA_AHN
 
 */
-#define GPIOA_AHB
-#define GPIOB_AHB
+//#define GPIOA_AHB
+//#define GPIOB_AHB
+//#define GPIOF_AHB
 #endif

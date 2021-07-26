@@ -14,6 +14,7 @@ typedef struct {
 	u8 u8InterruptSense;
 	u8 u8BothEdges;
 	u8 u8InterruptEvent;
+	void (*ptrFunc) (void);
 
 } ExtInterruptConfig_t;
 
