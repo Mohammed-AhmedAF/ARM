@@ -6,100 +6,15 @@
 #include "NVIC_interface.h"
 #include "LCD_interface.h"
 #include "SCB_interface.h"
-
 #include "TM4C123.h"                    // Device header
-void vidBlink(void);
-void vidGreenLED(void);
-
-u8* message = "Confirm missile \0";
-u8* message2 = "launch authority.\0";
-volatile u8 u8Count = 0;
-volatile u16 u16Counter = 0;
-volatile u8 u8Seconds = 0;
-volatile u8 u8Minutes = 0;
-volatile u8 u8Hours = 0;
-
-void vidBlink(void)
-{
-	GPIO_vidTogglePin(GPIO_PORTF,GPIO_PIN1);
-	LCD_vidSendCommand(LCD_CLEAR_SCREEN);
-	LCD_vidSendCommand(LCD_RETURN_HOME);
-
-	LCD_vidGoToXY(LCD_XPOS13,0);
-	LCD_vidWriteNumber(u8Seconds);
-	u8Seconds++;
-		delay_micro(10);
-	LCD_vidGoToXY(LCD_XPOS12,0);
-	LCD_vidWriteCharacter(':');
-	LCD_vidGoToXY(LCD_XPOS10,0);
-	if (u8Seconds == 60)
-	{
-		u8Seconds = 0;
-		u8Minutes++;
-		if (u8Minutes == 60)
-		{
-			u8Minutes = 0;
-			u8Hours++;
-		}
-	}
-	LCD_vidWriteNumber(u8Minutes);
-	LCD_vidGoToXY(LCD_XPOS9,0);
-	LCD_vidWriteCharacter(':');
-	LCD_vidGoToXY(LCD_XPOS7,0);
-	LCD_vidWriteNumber(u8Hours);
-
-	/**/
-	LCD_vidGoToXY(LCD_XPOS7,3);
+#include "APP_interface.h"
 
 
-}
 
-void vidGreenLED(void)
-{
-	GPIO_vidTogglePin(GPIO_PORTF,GPIO_PIN3);
-	LCD_vidSendCommand(LCD_CLEAR_SCREEN);
-	LCD_vidSendCommand(LCD_RETURN_HOME);
-	LCD_vidGoToXY(LCD_XPOS0,u8Count);
-	LCD_vidWriteString(message);
-	u8Count++;
-	if (u8Count == 4)
-	{
-		u8Count = 0;
-	}
-	GPIO_vidClearInterrupt(GPIO_PORTF,GPIO_PIN0);
-
-}
-void vidClearScreen(void)
-{
-
-	LCD_vidSendCommand(LCD_CLEAR_SCREEN);
-	LCD_vidSendCommand(LCD_RETURN_HOME);
-	GPIO_vidClearInterrupt(GPIO_PORTF,GPIO_PIN4);
-	u8Seconds = 0;
-	u8Minutes = 0;
-	u8Hours = 0;
-	u8Count = 0;
-
-}
-
-void vidProcessButtons(void)
-{
-	/*Checking the MIS register*/
-	if (GPIO_u8GetInterruptStatus(GPIO_PORTF,GPIO_PIN0) == 1)
-	{
-		vidGreenLED();
-	}
-	/*Checking the MIS register*/
-	else if (GPIO_u8GetInterruptStatus(GPIO_PORTF,GPIO_PIN4) == 1)
-		{
-	vidClearScreen();
-	}
-
-}
 
 int main(void)
 {
-	
+	/*Enabling clock for peripherals*/
 	SYSCNTRL_vidEnableGPIOClock(SYSCNTRL_GPIO_PORTF);
 	SYSCNTRL_vidEnableGPIOClock(SYSCNTRL_GPIO_PORTA);
 	SYSCNTRL_vidEnableGPIOClock(SYSCNTRL_GPIO_PORTB);
@@ -120,6 +35,10 @@ int main(void)
 	GPIO_vidCommit(GPIO_PORTF,GPIO_PIN4);
 	GPIO_vidLock(GPIO_PORTF);
 	
+	GPIO_vidUnlock(GPIO_PORTA);
+	GPIO_vidCommit(GPIO_PORTA,GPIO_PIN4);
+	GPIO_vidLock(GPIO_PORTA);
+	
 	GPIOConfig_t GPIOBtn0Config;
 	GPIOBtn0Config.u8AlternateFunc = GPIO_ALTERFUNC_UNSET;
 	GPIOBtn0Config.u8DigEnable = GPIO_DEN_SET;
@@ -130,6 +49,25 @@ int main(void)
 	
 	GPIOBtn0Config.u8Pin = GPIO_PIN4;
 	GPIO_vidConfigurePin(&GPIOBtn0Config);
+
+	/*Button 2: PortA4*/
+	GPIOConfig_t GPIOBtn2Config;
+	GPIOBtn2Config.u8AlternateFunc = GPIO_ALTERFUNC_UNSET;
+	GPIOBtn2Config.u8DigEnable = GPIO_DEN_SET;
+	GPIOBtn2Config.u8Direction = GPIO_INPUT;
+	GPIOBtn2Config.u8Port = GPIO_PORTA;
+	GPIOBtn2Config.u8Pin = GPIO_PIN4;
+	GPIO_vidConfigurePin(&GPIOBtn2Config);
+	
+	/*Button 2 external interrupt configuration*/
+	ExtInterruptConfig_t ExtInterruptConfig2;
+	ExtInterruptConfig2.ptrFunc = vidPauseCount;
+	ExtInterruptConfig2.u8BothEdges = GPIO_INTERRUPT_EVENTCONTROLLED;
+	ExtInterruptConfig2.u8InterruptSense =  GPIO_SENSE_EDGE;
+	ExtInterruptConfig2.u8InterruptEvent = GPIO_EVENT_FALLINGEDGE;
+	ExtInterruptConfig2.u8PullResistance = GPIO_PUR_ENABLED;
+	
+	GPIO_vidConfigInterrupt(GPIO_PORTA,GPIO_PIN4,&ExtInterruptConfig2);
 
 	/*External interrupt configuration*/
 	ExtInterruptConfig_t ExtInterruptConfig0;
@@ -160,8 +98,11 @@ int main(void)
 	SysTick_vidStart();
 
 	/*PORTF Interrupt*/
-	NVIC_vidSetInterrupt(30);
+	NVIC_vidSetInterrupt(NVIC_GPIOA);
+	NVIC_vidSetPriority(NVIC_GPIOA,1);
+	NVIC_vidSetInterrupt(NVIC_GPIOF);
 
+	/*Enabling global interrupt*/
 	__enable_irq();
 	
 	

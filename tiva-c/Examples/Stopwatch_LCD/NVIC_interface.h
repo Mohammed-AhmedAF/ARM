@@ -16,5 +16,6 @@ void NVIC_vidSetPriority(u8 u8InterruptID, u8 u8InterruptPriority);
 #define NVIC_GPIOE 4
 #define NVIC_UART0 5
 #define NVIC_UART1 6
+#define NVIC_GPIOF 30
 
 #endif

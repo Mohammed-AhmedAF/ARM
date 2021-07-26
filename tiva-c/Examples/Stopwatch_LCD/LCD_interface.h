@@ -40,6 +40,7 @@ void LCD_vidInit(void);
 void LCD_vidSendCommand(unsigned char);
 void LCD_vidWriteCharacter(char);
 void LCD_vidWriteString(char*);
+void LCD_vidWriteNumber(u16 u16Number);
 void LCD_vidGoToXY(u8 u8xCpy, u8 u8yCpy);
 void delay_micro(int);
 void delay_milli(int);
