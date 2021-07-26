@@ -9,9 +9,6 @@
 #include "TM4C123.h"                    // Device header
 #include "APP_interface.h"
 
-
-
-
 int main(void)
 {
 	/*Enabling clock for peripherals*/
@@ -19,6 +16,7 @@ int main(void)
 	SYSCNTRL_vidEnableGPIOClock(SYSCNTRL_GPIO_PORTA);
 	SYSCNTRL_vidEnableGPIOClock(SYSCNTRL_GPIO_PORTB);
 	
+	/*LCD initialization*/
 	LCD_vidInit();
 
 	/*LED pin configuration*/
@@ -77,7 +75,7 @@ int main(void)
 	ExtInterruptConfig0.u8PullResistance = GPIO_PUR_ENABLED;
 	ExtInterruptConfig0.ptrFunc = vidProcessButtons;
 	
-	
+	/*Port A.4 external interrupt configuration*/
 	ExtInterruptConfig_t ExtInterruptConfig4;
 	ExtInterruptConfig4.u8BothEdges = GPIO_INTERRUPT_EVENTCONTROLLED;
 	ExtInterruptConfig4.u8InterruptSense = GPIO_SENSE_EDGE;
