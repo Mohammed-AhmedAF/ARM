@@ -22,10 +22,17 @@ void TIMERS_vidStart(void);
 void TIMERS_vidStartOneShoot(u8 times);
 void TIMERS_vidStartPeriodic(u16 u16Value);
 void TIMERS_vidInit(TIMERConfig_t * TIMERConfig);
-void TIMERS_vidPutFunction(void (*ptFun) (void));
+void TIMER0B_vidInit(TIMERConfig_t * TIMERConfig);
+void TIMERS_vidPutFunction(u8 u8Timer,void (*ptFun) (void));
 void TIMER0A_vidConfigInputCapt(TIMERConfig_t * TIMERConfig);
 u32 TIMER0A_u32MeasureTimerPeriod(void);
+void TIMER0_vidDisable(u8 u8Timer0Sub);
+void TIMER0_vidStart(void);
 
+
+/*TIMER IDs*/
+#define TIMERS_TIMER0A 1
+#define TIMERS_TIMER0B 2
 
 #define ONESHOOT_MODE 0x1
 #define PERIODIC_MODE 0x2
@@ -45,7 +52,6 @@ u32 TIMER0A_u32MeasureTimerPeriod(void);
 #define TIMER_TIMERA_INTERRUPT_CAPTUREMODE_MATCH 2
 #define TIMER_TIMERA_INTERRUPT_CAPTUREMODE_EVENT 3
 
-
 /*TIMERnA Mode*/
 #define TIMER_TIMERA_MODE_ONESHOOT 1
 #define TIMER_TIMERA_MODE_PERIODIC 2
@@ -63,6 +69,29 @@ u32 TIMER0A_u32MeasureTimerPeriod(void);
 #define TIMER_TIMERA_EVENTMODE_POSITIVE 1
 #define TIMER_TIMERA_EVENTMODE_NEGATIVE 2
 #define TIMER_TIMERA_EVENTMODE_BOTHEDGES 3
+
+/*Interrupt mask*/
+#define TIMER_TIMERB_INTERRUPT_TIMEOUT 1
+#define TIMER_TIMERB_INTERRUPT_CAPTUREMODE_MATCH 2
+#define TIMER_TIMERB_INTERRUPT_CAPTUREMODE_EVENT 3
+
+/*TIMERnB Mode*/
+#define TIMER_TIMERB_MODE_ONESHOOT 1
+#define TIMER_TIMERB_MODE_PERIODIC 2
+#define TIMER_TIMERB_MODE_CAPTURE 3
+
+/*TIMERnB Capture mode*/
+#define TIMER_TIMERB_CAPTMODE_EDGECOUNT 1
+#define TIMER_TIMERB_CAPTMODE_EDGETIMER 2
+
+/*TIMERnB Count direction*/
+#define TIMER_TIMERB_COUNTDIR_DOWN 1
+#define TIMER_TIMERB_COUNTDIR_UP 2
+
+/*TIMERnB Event mode*/
+#define TIMER_TIMERB_EVENTMODE_POSITIVE 1
+#define TIMER_TIMERB_EVENTMODE_NEGATIVE 2
+#define TIMER_TIMERB_EVENTMODE_BOTHEDGES 3
 
 
 #endif

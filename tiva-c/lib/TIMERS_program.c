@@ -10,10 +10,20 @@
 #include "TM4C123.h"                    // Device header
 
 
-static void (*TIMERS_vidCallBack) (void);
+static void (*TIMER0A_vidCallBack) (void);
+static void (*TIMER0B_vidCallBack) (void);
 
-void TIMERS_vidPutFunction(void (*ptFun) (void)) {
-		TIMERS_vidCallBack = ptFun;
+void TIMERS_vidPutFunction(u8 u8Timer,void (*ptFun) (void)) {
+		switch(u8Timer)
+		{
+			case TIMERS_TIMER0A:
+		TIMER0A_vidCallBack = ptFun;
+		break;
+			case TIMERS_TIMER0B:
+				TIMER0B_vidCallBack = ptFun;
+				break;
+		}
+		
 }
 
 /*A function that activates the timer on one-shoot mode*/
@@ -52,9 +62,16 @@ void TIMERS_vidStartPeriodic(u16 u16Value)
 }
 
 void TIMER0A_Handler(void) {
-		TIMERS_vidCallBack();
+		TIMER0A_vidCallBack();
 	  GPTM0_ICR = 0x01; /*To clear interrupt flag*/
 
+}
+
+void TIMER0B_Handler(void)
+{
+	/*Clear interrupt flag*/
+	TIMER0B_vidCallBack();
+	SET_BIT(GPTM0_ICR,8);
 }
 
 void TIMER0A_vidConfigInputCapt(TIMERConfig_t * TIMERConfig)
@@ -122,8 +139,6 @@ void TIMER0A_vidConfigInputCapt(TIMERConfig_t * TIMERConfig)
 				SET_BIT(GPTM0_CTL,2);
 			break;
 		}
-    /* enable Timer0A */
-		SET_BIT(GPTM0_CTL,0);
 
 }
 
@@ -213,7 +228,7 @@ void TIMERS_vidInit(TIMERConfig_t * TIMERConfig)
 			case TIMER_TIMERA_INTERRUPT_TIMEOUT:
 				  GPTM0_IMR |= (1<<0); /*Enable time-out interrupt*/
 					GPTM0_ICR |= 0x01;
-					TIMERS_vidPutFunction(TIMERConfig->ptrFunc);
+					TIMERS_vidPutFunction(TIMERS_TIMER0A,TIMERConfig->ptrFunc);
 				break;
 			case TIMER_TIMERA_INTERRUPT_CAPTUREMODE_MATCH:
 					GPTM0_IMR |= (1<<1);
@@ -226,6 +241,113 @@ void TIMERS_vidInit(TIMERConfig_t * TIMERConfig)
 		}
     /* enable Timer0A */
 		SET_BIT(GPTM0_CTL,0);
+}
 
+void TIMER0B_vidInit(TIMERConfig_t * TIMERConfig)
+{
+		
+		CLEAR_BIT(GPTM0_CTL,8);
+
+		switch(TIMERConfig->u8Config)
+		{
+			case TIMER_CONFIG_1632_16BIT:
+				GPTM0_CFG |= 0x04;
+				break;
+			case TIMER_CONFIG_3264_32BIT:
+				GPTM0_CFG |= 0x04;
+				break;
+			
+		}
+		/*Timer0 B mode*/
+		switch(TIMERConfig->u8TimerAMode)
+		{
+			case TIMER_TIMERB_MODE_ONESHOOT:
+				GPTM0_TBMR |= 0x01;
+			break;
+			case TIMER_TIMERB_MODE_PERIODIC:
+				GPTM0_TBMR |= 0x02;
+				GPTM0_TBILR |= TIMERConfig->u16ReloadValue;
+			break;
+			case TIMER_TIMERB_MODE_CAPTURE:	
+		GPTM0_TBMR |= 0x03;
+			break;
+		}
+		
+		/*Capture mode*/
+		switch(TIMERConfig->u8TimerACaptMode)
+		{
+			case TIMER_TIMERB_CAPTMODE_EDGECOUNT:
+				CLEAR_BIT(GPTM0_TBMR,2);
+			break;
+			case TIMER_TIMERB_CAPTMODE_EDGETIMER:
+				SET_BIT(GPTM0_TBMR,2);
+			break;
+		}
+		/*Count direction*/
+		switch(TIMERConfig->u8TimerACountDir)
+		{
+			case TIMER_TIMERB_COUNTDIR_DOWN:
+				CLEAR_BIT(GPTM0_TBMR,4);
+				break;
+			case TIMER_TIMERB_COUNTDIR_UP:
+				SET_BIT(GPTM0_TBMR,4);
+			break;
+		}
+		
+		/*Event mode*/
+		switch(TIMERConfig->u8TimerAEventMode)
+		{
+			case TIMER_TIMERB_EVENTMODE_POSITIVE:
+				TIMER0->CTL &= ~(1<<10)|~(1<<11);   /* capture rising edges on PB6 pin */
+				break;
+			case TIMER_TIMERB_EVENTMODE_NEGATIVE:
+				CLEAR_BIT(GPTM0_CTL,11);
+				SET_BIT(GPTM0_CTL,10);
+			break;
+			case TIMER_TIMERB_EVENTMODE_BOTHEDGES:
+				SET_BIT(GPTM0_CTL,10);
+				SET_BIT(GPTM0_CTL,10);
+			break;
+		}
+		
+		/*Interrupt mask*/
+		switch(TIMERConfig->u8InterruptMask)
+		{
+			case TIMER_TIMERB_INTERRUPT_TIMEOUT:
+				  GPTM0_IMR |= (1<<8); /*Enable time-out interrupt*/
+					SET_BIT(GPTM0_ICR,8);
+					TIMERS_vidPutFunction(TIMERS_TIMER0B,TIMERConfig->ptrFunc);
+				break;
+			case TIMER_TIMERB_INTERRUPT_CAPTUREMODE_MATCH:
+					GPTM0_IMR |= (1<<9);
+					GPTM0_ICR |= (1<<9);
+				break;
+			case TIMER_TIMERB_INTERRUPT_CAPTUREMODE_EVENT:
+				GPTM0_IMR |= (1<<10);
+					GPTM0_ICR |= (1<<10);
+				break;
+		}
+   
+				/*Enable Timer0B*/
+				SET_BIT(GPTM0_CTL,8);
+}
+
+void TIMER0_vidDisable(u8 u8Timer0Sub)
+{
+	switch(u8Timer0Sub)
+	{
+		case TIMERS_TIMER0A:
+		CLEAR_BIT(GPTM0_CTL,0);
+		break;
+		case TIMERS_TIMER0B:
+		CLEAR_BIT(GPTM0_CTL,8);
+		break;
+	}
+}	
+	
+void TIMER0_vidStart(void)
+{
+ /* enable Timer0A */
+		SET_BIT(GPTM0_CTL,0);
 
 }
