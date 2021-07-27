@@ -63,6 +63,12 @@ u8 GPIO_u8GetInterruptStatus(u8 u8Port, u8 u8Pin);
 #define GPIO_INPUT 0
 #define GPIO_OUTPUT 1
 
+#define GPIO_DIR_INPUT 0
+#define GPIO_DIR_OUTPUT 1
+
+#define GPIO_VAL_HIGH 1
+#define GPIO_VAL_LOW 0
+
 #define GPIO_DEN_SET 1
 #define GPIO_DEN_CLEAR 0
 
