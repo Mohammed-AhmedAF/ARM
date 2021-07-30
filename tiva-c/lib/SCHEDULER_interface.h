@@ -9,6 +9,9 @@
 #define SCHEDULER_TICKSOURCE_TIMER0 1
 #define SCHEDULER_TICKSOURCE_SYSTICK 2
 
+#define SCHEDULER_TASK_DEFINED 1
+#define SCHEDULER_TASK_UNDEFINED 0
+
 typedef struct
 {
 	void (*ptrF) (void);
@@ -21,6 +24,7 @@ typedef struct
 
 void SCHEDULER_vidInit(u8 u8TickSource);
 u8 SCHEDULER_u8AddTask(void (*ptrF) (void),u8 u8Delay,u8 u8Period);
+void SCHEDULER_vidDeleteTask(u8 u8TaskIndex);
 void SCHEDULER_vidUpdate(void);
 void SCHEDULER_vidDispatch(void);
 void SCHEDULER_vidStartScheduling(void);
