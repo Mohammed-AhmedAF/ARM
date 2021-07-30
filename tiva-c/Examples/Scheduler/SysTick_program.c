@@ -4,7 +4,7 @@
 #include "SysTick_interface.h"
 
 
-void (*callback) (void);
+static void (*callback) (void);
 
 void SysTick_vidInitExtended(SysTickConfig_t * SysTickConfig) {
 	/*Configuring Clock Source*/

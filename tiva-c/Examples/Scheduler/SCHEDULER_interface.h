@@ -15,11 +15,12 @@ typedef struct
 	u8 u8Delay;
 	u8 u8Period;
 	u8 u8RunSignalFlag;
+	u8 u8TaskDefined;
 
 } sTask_t;
 
 void SCHEDULER_vidInit(u8 u8TickSource);
-u8 SCHEDULER_u8AddTask(void (*ptrF) (void),u8,u8);
+u8 SCHEDULER_u8AddTask(void (*ptrF) (void),u8 u8Delay,u8 u8Period);
 void SCHEDULER_vidUpdate(void);
 void SCHEDULER_vidDispatch(void);
 void SCHEDULER_vidStartScheduling(void);
