@@ -2,7 +2,7 @@
 #define _SYSTICK_INTERFACE_H
 
 /*Configuration structu*/
-typedef struct C
+typedef struct
 {
 	u8 u8ClockSource;
 	u8 u8Interrupt;
@@ -11,7 +11,7 @@ typedef struct C
 } SysTickConfig_t;
 
 /*Function declaration*/
-void SysTick_vidInit(u8,u8);
+void SysTick_vidInit(u8 u8ClockSource,u8 u8InterruptEnabled);
 void SysTick_vidInitExtended(SysTickConfig_t * SysTickConfig);
 void SysTick_vidSetValue(u32);
 u32 SysTick_u32GetCurrentValue(void);
