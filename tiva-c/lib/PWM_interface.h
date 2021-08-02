@@ -20,6 +20,10 @@ static void PWM_vidSelectChannel(u8 u8Module, u8 u8Channel);
 static void PWM_vidAssignLoadVal(u8 u8Module, u8 u8Generator, u16 u16LoadVal);
 static void PWM_vidAssignCompVal(u8 u8Module, u8 u8Generator, u16 u16CompVal);
 static void PWM_vidSetOutput(u8 u8Module, u8 u8Generator, u8 u8Output);
+void PWM_vidEnableInterrupt(u8 u8Module, u8 u8Generator, u8 u8InterruptID);
+void PWM_vidDisableInterrupt(u8 u8Module, u8 u8Generator, u8 u8InterruptID);
+void PWM_vidPutISRFunction(void (*ptrF) (void));
+
 
 
 
@@ -33,7 +37,7 @@ static void PWM_vidSetOutput(u8 u8Module, u8 u8Generator, u8 u8Output);
 #define PWM_CHANNEL_2 2
 #define PWM_CHANNEL_3 3
 
-#define PWM_GENERTOR_0 0
+#define PWM_GENERATOR_0 0
 #define PWM_GENERATOR_1 1
 #define PWM_GENERATOR_2 2
 #define PWM_GENERATOR_3 3
@@ -56,4 +60,15 @@ static void PWM_vidSetOutput(u8 u8Module, u8 u8Generator, u8 u8Output);
 #define PWM_OUTPUTACT_COMPB_DOWN_INVERT 0x400
 #define PWM_OUTPUTACT_COMPB_DOWN_LOW 0x800
 #define PWM_OUTPUTACT_COMPB_DOWN_HIGH 0xC00
+
+#define PWM_INTERRUPT_GEN_0 0x01
+#define PWM_INTERRUPT_GEN_1 0x02
+#define PWM_INTERRUPT_GEN_2 0x04
+#define PWM_INTERRUPT_GEN_3 0x08
+#define PWM_INTERRUPT_COUNT_ZERO 0x01
+#define PWM_INTERRUPT_COUNT_LOAD 0x02
+#define PWM_INTERRUPT_COUNT_COMPA_UP 0x04
+#define PWM_INTERRUPT_COUNT_COMPA_DOWN 0x08
+
+
 #endif

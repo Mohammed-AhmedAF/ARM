@@ -8,6 +8,8 @@
 /*Status: Not fully tested*/
 /********/
 
+static void (*ptFPWM_0_callback) (void);
+
 void PWM_vidInit(PWMConfig_t * ptPWMConfig)
 {
 		/*Disabling generator*/
@@ -41,7 +43,7 @@ static void PWM_vidConfigCountDir(u8 u8Module, u8 u8Generator, u8 u8CountDir)
 		{
 			switch(u8Generator)
 			{
-				case PWM_GENERTOR_0:
+				case PWM_GENERATOR_0:
 					CLEAR_BIT(PWM0_CTL0,1);
 					break;
 				case PWM_GENERATOR_1:
@@ -59,7 +61,7 @@ static void PWM_vidConfigCountDir(u8 u8Module, u8 u8Generator, u8 u8CountDir)
 		{
 			switch(u8Generator)
 			{
-				case PWM_GENERTOR_0:
+				case PWM_GENERATOR_0:
 					SET_BIT(PWM0_CTL0,1);
 					break;
 				case PWM_GENERATOR_1:
@@ -85,7 +87,7 @@ static void PWM_vidEnableGenerator(u8 u8Module, u8 u8Generator)
 	{
 		switch(u8Generator)
 		{
-			case PWM_GENERTOR_0:
+			case PWM_GENERATOR_0:
 					SET_BIT(PWM0_CTL0,0);
 					break;
 				case PWM_GENERATOR_1:
@@ -111,7 +113,7 @@ static void PWM_vidDisableGenerator(u8 u8Module, u8 u8Generator)
 	{
 		switch(u8Generator)
 		{
-			case PWM_GENERTOR_0:
+			case PWM_GENERATOR_0:
 					CLEAR_BIT(PWM0_CTL0,0);
 					break;
 				case PWM_GENERATOR_1:
@@ -149,7 +151,7 @@ static void PWM_vidAssignLoadVal(u8 u8Module, u8 u8Generator, u16 u16LoadVal)
 	{
 		switch(u8Generator)
 		{
-			case PWM_GENERTOR_0:
+			case PWM_GENERATOR_0:
 					PWM0_LOAD0 = u16LoadVal;
 					break;
 				case PWM_GENERATOR_1:
@@ -175,7 +177,7 @@ static void PWM_vidAssignCompVal(u8 u8Module, u8 u8Generator, u16 u16CompVal)
 	{
 		switch(u8Generator)
 		{
-			case PWM_GENERTOR_0:
+			case PWM_GENERATOR_0:
 					PWM0_CMPA0 = u16CompVal;
 					break;
 				case PWM_GENERATOR_1:
@@ -201,7 +203,7 @@ static void PWM_vidSetOutput(u8 u8Module, u8 u8Generator, u8 u8Output)
 	{
 		switch(u8Generator)
 		{
-			case PWM_GENERTOR_0:
+			case PWM_GENERATOR_0:
 					PWM0_GENA0 = u8Output;
 					break;
 				case PWM_GENERATOR_1:
@@ -219,5 +221,44 @@ static void PWM_vidSetOutput(u8 u8Module, u8 u8Generator, u8 u8Output)
 	{
 	
 	}
-
 }
+
+void PWM_vidEnableInterrupt(u8 u8Module, u8 u8Generator,u8 u8InterruptID)
+{
+	if (u8Module == PWM_MODULE_0)
+	{
+		PWM0_INTEN |= (1<<u8Generator);
+		switch(u8Generator)
+		{
+			case PWM_GENERATOR_0:
+					PWM0_INTEN0 = u8InterruptID;
+				break;
+			case PWM_GENERATOR_1:
+					PWM0_INTEN1 = u8InterruptID;
+				break;
+			case PWM_GENERATOR_2:
+					PWM0_INTEN2 = u8InterruptID;
+				break;
+			case PWM_GENERATOR_3:
+					PWM0_INTEN3 = u8InterruptID;
+				break;
+		}
+	}
+	else
+	{
+	
+	
+	}
+}
+
+void PWM_vidPutISRFunction(void (*ptrF) (void))
+{
+	ptFPWM_0_callback = ptrF;
+}
+
+void PWM0_0_Handler(void)
+{
+	ptFPWM_0_callback();
+}
+
+
