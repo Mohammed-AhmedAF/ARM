@@ -15,8 +15,9 @@ void PWM_vidInit(PWMConfig_t * ptPWMConfig)
 
 		/*Count direction*/
 		PWM_vidConfigCountDir(ptPWMConfig->u8Module,ptPWMConfig->u8Generator,ptPWMConfig->u8CountDirection);
+		
 		/*Action*/
-		PWM0_GENA0 = 0x0000008C;
+		PWM_vidSetOutput(ptPWMConfig->u8Module,ptPWMConfig->u8Generator,ptPWMConfig->u8Output);
 	
 		/*Load value*/
 		PWM_vidAssignLoadVal(ptPWMConfig->u8Module,ptPWMConfig->u8Generator,ptPWMConfig->u16LoadVal);
@@ -30,13 +31,6 @@ void PWM_vidInit(PWMConfig_t * ptPWMConfig)
 		/*Selecting channel*/
 		PWM_vidSelectChannel(ptPWMConfig->u8Module,ptPWMConfig->u8Channel);
 	
-//	 PWM1->_3_CTL &= ~(1<<0);   /* Disable Generator 3 counter */
-//	  PWM1->_3_CTL &= ~(1<<1);   /* select down count mode of counter 3*/
-//    PWM1->_3_GENA = 0x0000008C;  /* Set PWM output when counter reloaded and clear when matches PWMCMPA */
-//    PWM1->_3_LOAD = 5000;     /* set load value for 50Hz 16MHz/64 = 250kHz and (250KHz/5000) */
-//    PWM1->_3_CMPA = 4999;     /* set duty cyle to to minumum value*/
-//    PWM1->_3_CTL = 1;           /* Enable Generator 3 counter */
-//    PWM1->ENABLE = 0x40;      /* Enable PWM1 channel 6 output */
 }
 
 static void PWM_vidConfigCountDir(u8 u8Module, u8 u8Generator, u8 u8CountDir)
@@ -199,4 +193,31 @@ static void PWM_vidAssignCompVal(u8 u8Module, u8 u8Generator, u16 u16CompVal)
 	{
 	
 	}
+}
+
+static void PWM_vidSetOutput(u8 u8Module, u8 u8Generator, u8 u8Output)
+{
+		if (u8Module == PWM_MODULE_0)
+	{
+		switch(u8Generator)
+		{
+			case PWM_GENERTOR_0:
+					PWM0_GENA0 = u8Output;
+					break;
+				case PWM_GENERATOR_1:
+					PWM0_GENA1 = u8Output;
+					break;
+				case PWM_GENERATOR_2:
+					PWM0_GENA2 = u8Output;
+					break;
+				case PWM_GENERATOR_3:
+					PWM0_GENA3 = u8Output;
+					break;
+		}
+	}
+	else
+	{
+	
+	}
+
 }
