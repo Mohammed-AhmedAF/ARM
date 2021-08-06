@@ -3,13 +3,13 @@
 #include "SYSCNTRL_interface.h"
 #include "TIMERS_interface.h"
 #include "GPIO_interface.h"
+#include "NVIC_interface.h"
 #include "SysTick_interface.h"
 #include "SCHEDULER_interface.h"
 
 
 static sTask_t SCHEDULER_tasksArr[SCHEDULER_MAX_TASKS];
 static TIMERConfig_t timer0AConfig;
-SysTickConfig_t SysTickConfig;
 
 
 void SCHEDULER_vidInit(u8 u8TickSource)	
@@ -17,21 +17,22 @@ void SCHEDULER_vidInit(u8 u8TickSource)
 	switch(u8TickSource)
 	{
 		case SCHEDULER_TICKSOURCE_TIMER0:
-		SYSCNTRL_vidEnableTimerClock(SYSCNTRL_TIMER_0);
-		timer0AConfig.ptrFunc = SCHEDULER_vidUpdate;
-		timer0AConfig.u16ReloadValue = 16000;
-		timer0AConfig.u8Config = TIMER_CONFIG_1632_16BIT;
-		timer0AConfig.u8TimerACountDir = TIMER_TIMERA_COUNTDIR_DOWN;
-		timer0AConfig.u8TimerAMode = TIMER_TIMERA_MODE_PERIODIC;
-		timer0AConfig.u8InterruptMask = TIMER_TIMERA_INTERRUPT_TIMEOUT;
+			SYSCNTRL_vidEnableTimerClock(SYSCNTRL_TIMER_0);
+			timer0AConfig.ptrFunc = SCHEDULER_vidUpdate;
+			timer0AConfig.u16ReloadValue = 16000;
+			timer0AConfig.u8Config = TIMER_CONFIG_1632_16BIT;
+			timer0AConfig.u8TimerACountDir = TIMER_TIMERA_COUNTDIR_DOWN;
+			timer0AConfig.u8TimerAMode = TIMER_TIMERA_MODE_PERIODIC;
+			timer0AConfig.u8InterruptMask = TIMER_TIMERA_INTERRUPT_TIMEOUT;
+			TIMERS_vidInit(&timer0AConfig);
+			NVIC_vidSetInterrupt(NVIC_TIMER0A);
 		break;
 		case SCHEDULER_TICKSOURCE_SYSTICK:
-
 			SysTick_vidInit(SYSTICK_SYSTEM_CLOCK,SYSTICK_INTERRUPT_ENABLED);
 			SysTick_vidSetValue(160000);
 			SysTick_vidPutISR(SCHEDULER_vidUpdate);
 			SysTick_vidStart();
-			break;
+		break;
 	}
 	
 }
