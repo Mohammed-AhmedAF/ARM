@@ -99,6 +99,10 @@ int main(void)
 	GPIO_vidConfigInterrupt(GPIO_PORTF,GPIO_PIN0,&Ext0Conf);
 	
 	NVIC_vidSetInterrupt(NVIC_GPIOF);
+	/*Absolutely necessary to change the priority of ISR, otherwise the program
+	will go into hard fault.
+	*/
+	NVIC_vidSetPriority(NVIC_GPIOF,6);
 	
 	/*Event group*/
 	myEventGroup = xEventGroupCreate();
