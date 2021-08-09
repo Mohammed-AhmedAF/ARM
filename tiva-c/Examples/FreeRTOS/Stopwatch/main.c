@@ -12,10 +12,17 @@ void vidToggleLEDs(void * ptrParam);
 void vidProcessButtons(void);
 void vidControlWatch(void * prtParam);
 
+#define STOPWATCH_ACTION_COUNT 0
+#define STOPWATCH_ACTION_PAUSE 1
+#define STOPWATCH_ACTION_RESET 2
+
+volatile u8Action = STOPWATCH_ACTION_COUNT;
 
 #define RED_EVENT_BIT 0x01
 #define BLUE_EVENT_BIT 0x10
 #define UPDATE_DISPLAY 0x02
+
+
 
 static EventGroupHandle_t myEventGroup;
 TaskHandle_t redTaskHandle;
@@ -58,9 +65,21 @@ void vidControlWatch(void * ptrParam)
 	const TickType_t xDelay = pdMS_TO_TICKS(1000);
 	while(1)
 	{
-		u8Seconds++;
-		xEventGroupSetBits(myEventGroup,UPDATE_DISPLAY);
+		switch(u8Action)
+		{
+			case STOPWATCH_ACTION_PAUSE:
+				break;
+			case STOPWATCH_ACTION_RESET:
+				u8Seconds = 0;
+				u8Action = STOPWATCH_ACTION_COUNT;
+			xEventGroupSetBits(myEventGroup,UPDATE_DISPLAY);
+				break;
+			default:
+			u8Seconds++;
+			xEventGroupSetBits(myEventGroup,UPDATE_DISPLAY);
+		}
 		vTaskDelayUntil(&xLastWakeTime,xDelay);
+
 
 	}
 }
@@ -75,12 +94,21 @@ void vidProcessButtons(void)
 	{
 		xEventGroupSetBitsFromISR(myEventGroup,RED_EVENT_BIT,&xHigherPriorityTaskWoken);
 		portEND_SWITCHING_ISR(xHigherPriorityTaskWoken)
+		if (u8Action == STOPWATCH_ACTION_COUNT)
+		{
+			u8Action = STOPWATCH_ACTION_PAUSE;
+		}
+		else if (u8Action == STOPWATCH_ACTION_PAUSE)
+		{
+			u8Action = STOPWATCH_ACTION_COUNT;
+		}
 		GPIO_vidClearInterrupt(GPIO_PORTF,GPIO_PIN0);
 	}
 	else if (GPIO_u8GetInterruptStatus(GPIO_PORTF,GPIO_PIN4)) 
 	{
 		xEventGroupSetBitsFromISR(myEventGroup,BLUE_EVENT_BIT,&xHigherPriorityTaskWoken);
 		portEND_SWITCHING_ISR(xHigherPriorityTaskWoken)
+		u8Action = STOPWATCH_ACTION_RESET;
 		GPIO_vidClearInterrupt(GPIO_PORTF,GPIO_PIN4);
 
 	}
