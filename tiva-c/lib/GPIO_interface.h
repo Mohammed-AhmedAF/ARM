@@ -60,6 +60,10 @@ u8 GPIO_u8GetInterruptStatus(u8 u8Port, u8 u8Pin);
 #define GPIO_PIN6 6
 #define GPIO_PIN7 7
 
+#define GPIO_LED_RED GPIO_PIN1
+#define GPIO_LED_BLUE GPIO_PIN2
+#define GPIO_LED_GREEN GPIO_PIN3
+
 #define GPIO_INPUT 0
 #define GPIO_OUTPUT 1
 
