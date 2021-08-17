@@ -12,6 +12,11 @@
 #include "GPIO_interface.h"
 
 static void (*ptrF_GPIOF) (void);
+static void (*ptrF_GPIOA) (void);
+static void (*ptrF_GPIOB) (void);
+static void (*ptrF_GPIOC) (void);
+static void (*ptrF_GPIOD) (void);
+static void (*ptrF_GPIOE) (void);
 
 void GPIO_vidSetPinDirection(u8 u8PortNumCpy, u8 u8PinNumCpy, u8 u8DirectionCpy) {
 	switch (u8PortNumCpy) {
@@ -772,8 +777,23 @@ void GPIO_vidPutISR(u8 u8Port, void (*ptrF) (void))
 {
 	switch(u8Port)
 	{
+		case GPIO_PORTA:
+			ptrF_GPIOA = ptrF;
+			break;
+		case GPIO_PORTB:
+			ptrF_GPIOB = ptrF;
+			break;
+		case GPIO_PORTC:
+			ptrF_GPIOC = ptrF;
+		break;
+		case GPIO_PORTD:
+			ptrF_GPIOD = ptrF;
+		break;
+		case GPIO_PORTE:
+			ptrF_GPIOE = ptrF;
+		break;
 		case GPIO_PORTF:
-		ptrF_GPIOF	= ptrF;
+			ptrF_GPIOF = ptrF;
 		break;
 	}
 
@@ -795,7 +815,7 @@ void GPIO_vidConfigInterrupt(u8 u8Port, u8 u8Pin,ExtInterruptConfig_t * extInter
 	GPIO_vidSelectInterruptEvent(u8Port,u8Pin,extInterruptConfig->u8InterruptEvent);
 
 	/*ISR function*/
-	GPIO_vidPutISR(GPIO_PORTF,extInterruptConfig->ptrFunc);
+	GPIO_vidPutISR(u8Port,extInterruptConfig->ptrFunc);
 	
 	/*Clear interrupt*/
 	GPIO_vidClearInterrupt(u8Port,u8Pin);
@@ -836,4 +856,24 @@ u8 GPIO_u8GetInterruptStatus(u8 u8Port, u8 u8Pin)
 void GPIOF_Handler()
 {
 	ptrF_GPIOF();
+}
+
+void GPIOA_Handler()
+{
+	ptrF_GPIOA();
+}
+
+void GPIOB_Handler()
+{
+	ptrF_GPIOB();
+}
+
+void GPIOC_Handler()
+{
+	ptrF_GPIOC();
+}
+
+void GPIOD_Handler()
+{
+	ptrF_GPIOD();
 }
