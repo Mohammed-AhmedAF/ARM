@@ -12,24 +12,19 @@
 
 void vidToggleBlue(void * prtParam);
 void vidProcessButtons(void);
-void vidTestBlinking(void * ptrParam);
 void vidHandleUART(void);
 void vidUARTCompanion(void * prtParam);
 volatile u8 u8SpeedFlag = 0;
 
 TaskHandle_t redTaskHandle;
-TaskHandle_t uartTaskHandle;
 TaskHandle_t uartCompanionHandle;
 QueueHandle_t xMailbox;
 
 volatile  u8 u8Char;
 
-
-static QueueHandle_t xQueue;
 void vidToggleRed(void * ptrParam)
 {
-	EventBits_t receivedEvents;
-	u8 u8Char = 'i';
+	u8 u8Char = '8';
 	while(1)
 	{
 		if(xQueueReceive(xMailbox,&u8Char,0) == 1)
@@ -51,47 +46,15 @@ void vidToggleRed(void * ptrParam)
 	}
 }
 
-
-void vidTestBlinking(void * ptrParam)
-{
-	TickType_t xDelay = pdMS_TO_TICKS(1000);
-	TickType_t xLastWakeUp = xTaskGetTickCount();
-	u8 u8Count = 0;
-	while(1)
-	{
-		
-		
-		GPIO_vidTogglePin(GPIO_PORTF,GPIO_PIN3);
-		if (u8SpeedFlag == 1)
-		{
-			u8SpeedFlag = 0;
-			xDelay = pdMS_TO_TICKS(200);
-
-		}
-		else
-		{
-			xDelay = pdMS_TO_TICKS(1000);
-		}
-		vTaskDelayUntil(&xLastWakeUp,xDelay);
-		
-		u8Count++;
-		if (u8Count == 5)
-		{
-			u8Count = 0;
-
-		}
-	}
-}
-
 void vidProcessButtons(void)
 {
 	BaseType_t HigherPriorityTaskWoken;
 	HigherPriorityTaskWoken = pdFALSE;
-	u8 u8A = 'r';
+	u8 u8A;
 	if (GPIO_u8GetInterruptStatus(GPIO_PORTF,GPIO_PIN0) == 1)
 	{
+		u8A = 'r';
 		xQueueOverwriteFromISR(xMailbox,&u8A,&HigherPriorityTaskWoken);
-		//vTaskNotifyGiveFromISR(redTaskHandle,&HigherPriorityTaskWoken);
 		GPIO_vidClearInterrupt(GPIO_PORTF,GPIO_PIN0);
 		if (HigherPriorityTaskWoken == pdTRUE)
 		{
@@ -115,30 +78,24 @@ void vidUARTCompanion(void * ptrParam)
 {
 	while(1)
 	{
-	vTaskSuspend(NULL);
-	if (u8Char == 'a')
-	{
-					GPIO_vidTogglePin(GPIO_PORTF,GPIO_PIN3);
+		vTaskSuspend(NULL);
+		if (u8Char == 'a')
+		{
+						GPIO_vidTogglePin(GPIO_PORTF,GPIO_PIN3);
 
-	}
-	else
-	{
-	UART0_vidSendByte(u8Char);
-						GPIO_vidTogglePin(GPIO_PORTF,GPIO_PIN1);
-
-	}
-}	
+		}
+		else
+		{
+			UART0_vidSendByte(u8Char);
+			GPIO_vidTogglePin(GPIO_PORTF,GPIO_PIN1);
+		}
+	}	
 }
 
 void vidHandleUART(void)
 {
 
-
-	BaseType_t xCheckIfYieldRequied;
 	u8Char = UART0_u8GetReceivedByte();
-	xCheckIfYieldRequied = xQueueSendToBackFromISR(xQueue,&u8Char,portMAX_DELAY);
-	//xCheckIfYieldRequied = xTaskResumeFromISR(uartCompanionHandle);
-	portYIELD_FROM_ISR(xCheckIfYieldRequied);
 
 }
 
