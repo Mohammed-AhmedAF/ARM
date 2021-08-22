@@ -120,6 +120,7 @@ int main(void)
 	SYSCNTRL_vidEnableGPIOClock(SYSCNTRL_GPIO_PORTF);
 	SYSCNTRL_vidEnableUARTClock(SYSCNTRL_UART0);
 	
+	/*On-board LEDs configuration*/
 	GPIO_vidSetPinDirection(GPIO_PORTF,GPIO_PIN1,GPIO_OUTPUT);
 	GPIO_vidSetPinDigEnable(GPIO_PORTF,GPIO_PIN1,GPIO_DEN_SET);
 
@@ -159,6 +160,7 @@ int main(void)
 	NVIC_vidSetInterrupt(NVIC_GPIOF);
 	NVIC_vidSetPriority(NVIC_GPIOF,6);
 	
+	/*UART pin configuration*/
 	GPIO_vidSelectAlterFunction(GPIO_PORTA,GPIO_PIN0);
 	GPIO_vidSelectAlterFunction(GPIO_PORTA,GPIO_PIN1);
 	GPIO_vidSetPinDirection(GPIO_PORTA,GPIO_PIN1,GPIO_OUTPUT);
@@ -167,7 +169,7 @@ int main(void)
 	GPIO_vidConfigPortControl(GPIO_PORTA,GPIO_PIN0,0x01);
 	GPIO_vidConfigPortControl(GPIO_PORTA,GPIO_PIN1,0x01);
 
-	
+	/*UART configuration*/
 	UARTConfig_t UART0Config;
 	UART0Config.u8InterruptEnabled = UART_INTERRUPT_DISABLED;
 	UART0Config.u8FIFOEnabled = UART_FIFO_ENABLED;
@@ -188,8 +190,6 @@ int main(void)
 	xTaskCreate(vidControlWatch,"Control",100,NULL,1,NULL);
 	
 	vTaskStartScheduler();
-	
-	__enable_irq();
-	
+		
 	while(1);
 }
