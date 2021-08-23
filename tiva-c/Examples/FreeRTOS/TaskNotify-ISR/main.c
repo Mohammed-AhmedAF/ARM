@@ -149,9 +149,8 @@ int main(void)
 	xTaskCreate(vidToggleRed,"red",100,NULL,1,&redTaskHandle);
 	xTaskCreate(vidToggleBlue,"blue",100,NULL,1,&blueTaskHandle);
 	
+	/*Running the RTOS scheduler*/
 	vTaskStartScheduler();
-	
-	__enable_irq();
 	
 	while(1);
 }
