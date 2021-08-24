@@ -33,7 +33,6 @@ void vidToggleLEDs(void * ptrParam)
 		{
 			GPIO_vidTogglePin(GPIO_PORTF,GPIO_PIN2);
 
-
 		}
 	}
 }
@@ -53,8 +52,7 @@ void vidProcessButtons(void)
 	else if (GPIO_u8GetInterruptStatus(GPIO_PORTF,GPIO_PIN4)) 
 	{
 		xEventGroupSetBitsFromISR(myEventGroup,BLUE_EVENT_BIT,&xHigherPriorityTaskWoken);
-				portEND_SWITCHING_ISR(xHigherPriorityTaskWoken)
-
+		portEND_SWITCHING_ISR(xHigherPriorityTaskWoken)
 		GPIO_vidClearInterrupt(GPIO_PORTF,GPIO_PIN4);
 
 	}
@@ -62,8 +60,10 @@ void vidProcessButtons(void)
 
 int main(void)
 {
+	/*Enabling clock to used peripherals*/
 	SYSCNTRL_vidEnableGPIOClock(SYSCNTRL_GPIO_PORTF);
 	
+	/*LED pins configuration*/
 	GPIO_vidSetPinDirection(GPIO_PORTF,GPIO_PIN1,GPIO_OUTPUT);
 	GPIO_vidSetPinDigEnable(GPIO_PORTF,GPIO_PIN1,GPIO_DEN_SET);
 
@@ -79,6 +79,7 @@ int main(void)
 	GPIO_vidCommit(GPIO_PORTF,GPIO_PIN4);
 	GPIO_vidLock(GPIO_PORTF);
 	
+	/*Buttons configuration*/
 	GPIOConfig_t gpioButton0Conf;
 	gpioButton0Conf.u8AlternateFunc = GPIO_ALTERFUNC_UNSET;
 	gpioButton0Conf.u8DigEnable = GPIO_DEN_SET;
@@ -90,6 +91,7 @@ int main(void)
 	gpioButton0Conf.u8Pin = GPIO_PIN4;
 	GPIO_vidConfigurePin(&gpioButton0Conf);
 	
+	/*External interrupt configuration*/
 	ExtInterruptConfig_t Ext0Conf;
 	Ext0Conf.ptrFunc = vidProcessButtons;
 	Ext0Conf.u8BothEdges = GPIO_INTERRUPT_EVENTCONTROLLED;
@@ -103,15 +105,14 @@ int main(void)
 	NVIC_vidSetInterrupt(NVIC_GPIOF);
 	NVIC_vidSetPriority(NVIC_GPIOF,6);
 	
-	/*Event group*/
+	/*Event group creation*/
 	myEventGroup = xEventGroupCreate();
 	
 	/*Creating RTOS tasks*/
 	xTaskCreate(vidToggleLEDs,"Toggling",100,NULL,1,&redTaskHandle);
 	
+	/*Running RTOS scheduler*/
 	vTaskStartScheduler();
-	
-	__enable_irq();
-	
+		
 	while(1);
 }
