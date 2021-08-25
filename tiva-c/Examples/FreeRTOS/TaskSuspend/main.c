@@ -1,3 +1,5 @@
+/*Two tasks are suspended, resumed by pressing the on-board buttons of Tiva-C*/
+
 #include <FreeRTOS.h>
 #include <task.h>>
 #include "Macros.h"
@@ -50,8 +52,8 @@ void vidProcessSwitch(void)
 
 int main(void)
 {
+	/*Enabling running clock */
 	SYSCNTRL_vidEnableGPIOClock(SYSCNTRL_GPIO_PORTF);
-	
 	
 	GPIO_vidSetPinDirection(GPIO_PORTF,GPIO_LED_GREEN,GPIO_OUTPUT);
 	GPIO_vidSetPinDigEnable(GPIO_PORTF,GPIO_LED_GREEN,GPIO_DEN_SET);
@@ -78,11 +80,11 @@ int main(void)
 	GPIO_vidConfigInterrupt(GPIO_PORTF,GPIO_PIN0,&switch0Config);
 	GPIO_vidConfigInterrupt(GPIO_PORTF,GPIO_PIN4,&switch0Config);
 
+	/*Setting NVIC for external interrupt on Port F*/
 	NVIC_vidSetInterrupt(NVIC_GPIOF);
 	NVIC_vidSetPriority(NVIC_GPIOF,5);
 	
-	__enable_irq();
-	
+	/*Creating tasks*/
 	xTaskCreate(taskBlinkGreenLED,"blink",100,NULL,1,&blinkGreenLEDHandle);
 	xTaskCreate(taskBlinkRedLED,"blinkRed",100,NULL,1,&blinkRedLEDHandle);
 	vTaskStartScheduler();
