@@ -116,6 +116,7 @@ void vidProcessButtons(void)
 
 int main(void)
 {
+	/*Enabling running clock for used peripherals*/
 	SYSCNTRL_vidEnableGPIOClock(SYSCNTRL_GPIO_PORTA);
 	SYSCNTRL_vidEnableGPIOClock(SYSCNTRL_GPIO_PORTF);
 	SYSCNTRL_vidEnableUARTClock(SYSCNTRL_UART0);
@@ -189,6 +190,7 @@ int main(void)
 	xTaskCreate(vidToggleLEDs,"Toggling",100,NULL,2,&redTaskHandle);
 	xTaskCreate(vidControlWatch,"Control",100,NULL,1,NULL);
 	
+	/*Starting RTOS scheduler*/
 	vTaskStartScheduler();
 		
 	while(1);
