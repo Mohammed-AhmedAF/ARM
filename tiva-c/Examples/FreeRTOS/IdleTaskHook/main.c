@@ -18,7 +18,7 @@ void blinker2Task(void * ptrParam);
 void blinkerTask(void * ptrParam)
 {
 	TickType_t xLastWakeTime = xTaskGetTickCount();
-	TickType_t xDelay = pdMS_TO_TICKS(250);
+	TickType_t xDelay = pdMS_TO_TICKS(500);
 	while(1)
 	{
 		GPIO_vidTogglePin(GPIO_PORTF,GPIO_LED_GREEN);
@@ -40,15 +40,6 @@ void blinker2Task(void * ptrParam)
 
 		GPIO_vidTogglePin(GPIO_PORTF,GPIO_PIN2);
 		vTaskDelayUntil(&xLastWakeUpTime,xDelay);
-		if (u8DeleteFlag == 0)
-		{
-			u8DeleteFlag = 1;
-			if (blinkerTaskHandle != NULL)
-	{
-			vTaskEndScheduler
-	}
-
-		}
 	}
 
 }
@@ -72,6 +63,7 @@ void vidProcessButtons(void)
 
 int main(void)
 {
+	/*Enabling running clock for used peripherals*/
 	SYSCNTRL_vidEnableGPIOClock(SYSCNTRL_GPIO_PORTF);
 	
 	/*On-board pin configuration*/
@@ -84,7 +76,7 @@ int main(void)
 	GPIO_vidSetPinDirection(GPIO_PORTF,GPIO_PIN3,GPIO_OUTPUT);
 	GPIO_vidSetPinDigEnable(GPIO_PORTF,GPIO_PIN3,GPIO_DEN_SET);
 	
-	
+	/*Buttons configuration*/
 	GPIO_vidUnlock(GPIO_PORTF);
 	GPIO_vidCommit(GPIO_PORTF,GPIO_PIN0);
 	GPIO_vidCommit(GPIO_PORTF,GPIO_PIN4);
@@ -115,6 +107,7 @@ int main(void)
 	xTaskCreate(blinkerTask,"blinker",100,NULL,1,&blinkerTaskHandle);
 	xTaskCreate(blinker2Task,"blinker2",100,NULL,1,NULL);
 	
+	/*Starting RTOS scheduler*/
 	vTaskStartScheduler();
 	
 	while(1);
