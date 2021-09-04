@@ -184,8 +184,6 @@ int main(void)
 	xTaskCreate(vidUARTCompanion,"companion",100,NULL,1,&uartCompanionHandle);
 
 	vTaskStartScheduler();
-	
-	__enable_irq();
-	
+		
 	while(1);
 }
