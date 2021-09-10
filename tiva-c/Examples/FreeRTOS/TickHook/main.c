@@ -5,6 +5,9 @@
 #include "SYSCNTRL_interface.h"
 #include "GPIO_interface.h"
 
+/*configUSE_TICK_HOOK should be set to 1*/
+
+
 volatile u32 u32Count = 0;
 
 /*A task just put for testing*/
@@ -31,6 +34,7 @@ int main(void)
 	/*You will have to create at least one task, otherwise vApplicationTickHook will not be run.*/
 	xTaskCreate(vidBlinkerTask,"blinker",100,NULL,1,NULL);
 	
+	/*Starting RTOS scheduler*/
 	vTaskStartScheduler();
 	
 	while(1);
