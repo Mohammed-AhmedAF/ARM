@@ -1,0 +1,2 @@
+# Temperature Getter
+TM4C123GH6PM connected via UART to ESP32 which is connected to the DHT22 sensor. Tiva-C has another UART module that sends the temperature and humidity to computer. A python script handles the received bytes from the Tiva-C and writes it to file.
