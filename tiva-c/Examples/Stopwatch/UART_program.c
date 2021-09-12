@@ -2,6 +2,7 @@
 #include "STD_TYPES.h"
 #include "TM4C123.h"
 #include "UART_interface.h"
+#include "UART_config.h"
 
 void (*UART0_callback) (void);
 void (*UART1_callback) (void);
