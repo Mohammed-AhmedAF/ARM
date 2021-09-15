@@ -84,7 +84,7 @@ void vidControlWatch(void * ptrParam)
 	}
 }
 
-
+/*Function to be executed when external interrupt is triggered*/
 void vidProcessButtons(void)
 {
 	BaseType_t xHigherPriorityTaskWoken, xResult;
