@@ -48,7 +48,7 @@ int main(void)
 	blink1.u8Led = GPIO_LED_RED;
 	blink1.u16Ms = 50;
 	
-	
+	/*You will need change the MINIMAL_STACK_SIZE to 128*/
 	xTaskCreate(vidBlinkTask,"blinker0",120, (void *) &blink0,1,NULL);
 	xTaskCreate(vidBlinkTask,"toto",120, (void*) &blink1,1,NULL);
 
