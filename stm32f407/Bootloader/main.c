@@ -18,10 +18,12 @@
   */
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
-#include "main.h"
-#include <stdarg.h>
 
+#include <stdarg.h>
 #include <string.h>
+#include <stdint.h>
+#include "main.h"
+
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
  static void printmsg(char *format,...);
@@ -31,7 +33,7 @@
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
 #define D_UART   &huart2
-
+#define C_UART &huart3
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -48,6 +50,8 @@ CRC_HandleTypeDef hcrc;
 
 UART_HandleTypeDef huart2;
 UART_HandleTypeDef huart3;
+
+uint8_t bl_rx_buffer[BL_RX_LEN];
 
 /* USER CODE BEGIN PV */
 
@@ -108,22 +112,27 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  while (1)
+ if ( HAL_GPIO_ReadPin(B1_GPIO_Port,B1_Pin) == GPIO_PIN_RESET )
   {
-    /* USER CODE END WHILE */
-if (HAL_GPIO_ReadPin(B1_GPIO_Port,B1_Pin) == GPIO_PIN_RESET)
-	{
-		printmsg("BL_DEBUG: Jumping to user application.");
-		//bootloader_jump_to_user_app();
-	}
-	else
-	{
-			//printmsg("BL_DEBUG: Jumping to user application.");
+	  printmsg("BL_DEBUG_MSG:Button is pressed .. going to BL mode\n\r");
 
-	}
+	  //we should continue in bootloader mode
+	  bootloader_uart_read_data();
+
+  }
+  else
+  {
+	  printmsg("BL_DEBUG_MSG:Button is not pressed .. executing user app\n");
+	  
+		//jump to user application
+		bootloader_jump_to_user_app();
+
+  }
+
+    /* USER CODE END WHILE */
+
     /* USER CODE BEGIN 3 */
   /* USER CODE END 3 */
-	}
 }
 
 /**
@@ -273,24 +282,13 @@ static void MX_GPIO_Init(void)
 
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOA_CLK_ENABLE();
-  __HAL_RCC_GPIOB_CLK_ENABLE();
   __HAL_RCC_GPIOC_CLK_ENABLE();
 
   /*Configure GPIO pin : PA0 */
   GPIO_InitStruct.Pin = GPIO_PIN_0;
   GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
-  GPIO_InitStruct.Pull = GPIO_PULLUP;
-  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-
-  /*Configure GPIO pin : PB1 */
-  GPIO_InitStruct.Pin = GPIO_PIN_1;
-  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
-
-  /* EXTI interrupt init*/
-  HAL_NVIC_SetPriority(EXTI0_IRQn, 0, 0);
-  HAL_NVIC_EnableIRQ(EXTI0_IRQn);
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
 }
 
@@ -336,9 +334,109 @@ void bootloader_jump_to_user_app(void)
  
 void bootloader_uart_read_data(void)
 {
+	uint8_t rcv_len = 0;
+	
+	while(1)
+	{
+		memset(bl_rx_buffer,0,200);
+		/*Here we will read and decode commans coming from the host*/
+		/*First read 1 byte of the command, that is the length of the command packet*/
+		HAL_UART_Receive(C_UART,bl_rx_buffer,1,HAL_MAX_DELAY);
+		/*Storing command length*/
+		rcv_len = bl_rx_buffer[0];
+		/*Getting command code*/
+		HAL_UART_Receive(C_UART,&bl_rx_buffer[1],1,HAL_MAX_DELAY);
+		switch(bl_rx_buffer[1])
+		{
+			case BL_GET_VER:
+                bootloader_handle_getver_cmd(bl_rx_buffer);
+                break;
+            case BL_GET_HELP:
+                bootloader_handle_gethelp_cmd(bl_rx_buffer);
+                break;
+            case BL_GET_CID:
+                bootloader_handle_getcid_cmd(bl_rx_buffer);
+                break;
+            case BL_GET_RDP_STATUS:
+                bootloader_handle_getrdp_cmd(bl_rx_buffer);
+                break;
+            case BL_GO_TO_ADDR:
+                bootloader_handle_go_cmd(bl_rx_buffer);
+                break;
+            case BL_FLASH_ERASE:
+                bootloader_handle_flash_erase_cmd(bl_rx_buffer);
+                break;
+            case BL_MEM_WRITE:
+                bootloader_handle_mem_write_cmd(bl_rx_buffer);
+                break;
+            case BL_EN_RW_PROTECT:
+                bootloader_handle_en_rw_protect(bl_rx_buffer);
+                break;
+            case BL_MEM_READ:
+                bootloader_handle_mem_read(bl_rx_buffer);
+                break;
+            case BL_READ_SECTOR_P_STATUS:
+                bootloader_handle_read_sector_protection_status(bl_rx_buffer);
+                break;
+            case BL_OTP_READ:
+                bootloader_handle_read_otp(bl_rx_buffer);
+                break;
+						case BL_DIS_R_W_PROTECT:
+                bootloader_handle_dis_rw_protect(bl_rx_buffer);
+                break;
+             default:
+                printmsg("BL_DEBUG_MSG:Invalid command code received from host \n");
+                break;
+			
+		}
+		
+		
+		
+	}
+}
+
+
+
+
+void bootloader_handle_getver_cmd(uint8_t *bl_rx_buffer)
+{
+}
+void bootloader_handle_gethelp_cmd(uint8_t *pBuffer)
+{
+}
+void bootloader_handle_getcid_cmd(uint8_t *pBuffer)
+{
+}
+void bootloader_handle_getrdp_cmd(uint8_t *pBuffer)
+{
+}
+void bootloader_handle_go_cmd(uint8_t *pBuffer)
+{
+}
+void bootloader_handle_flash_erase_cmd(uint8_t *pBuffer)
+{}
+void bootloader_handle_mem_write_cmd(uint8_t *pBuffer)
+{}
+void bootloader_handle_en_rw_protect(uint8_t *pBuffer)
+{}
+void bootloader_handle_mem_read (uint8_t *pBuffer)
+{}
+void bootloader_handle_read_sector_protection_status(uint8_t *pBuffer)
+{}
+void bootloader_handle_read_otp(uint8_t *pBuffer)
+{
+}
+void bootloader_handle_dis_rw_protect(uint8_t *pBuffer)
+{
+}
+
+void bootloader_send_ack(uint8_t command_code, uint8_t follow_len)
+{
+}
+void bootloader_send_nack(void)
+{
 
 }
- 
  
 /* USER CODE END 4 */
 
