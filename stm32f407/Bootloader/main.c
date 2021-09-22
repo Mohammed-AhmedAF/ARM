@@ -32,8 +32,9 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-#define D_UART   &huart2
-#define C_UART &huart3
+
+#define D_UART   &huart3
+#define C_UART &huart2
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -50,6 +51,16 @@ CRC_HandleTypeDef hcrc;
 
 UART_HandleTypeDef huart2;
 UART_HandleTypeDef huart3;
+
+uint8_t supported_commands[] = {
+                               BL_GET_VER ,
+                               BL_GET_HELP,
+                               BL_GET_CID,
+                               BL_GET_RDP_STATUS,
+                               BL_GO_TO_ADDR,
+                               BL_FLASH_ERASE,
+                               BL_MEM_WRITE,
+                               BL_READ_SECTOR_P_STATUS} ;
 
 uint8_t bl_rx_buffer[BL_RX_LEN];
 
@@ -115,7 +126,6 @@ int main(void)
  if ( HAL_GPIO_ReadPin(B1_GPIO_Port,B1_Pin) == GPIO_PIN_RESET )
   {
 	  printmsg("BL_DEBUG_MSG:Button is pressed .. going to BL mode\n\r");
-
 	  //we should continue in bootloader mode
 	  bootloader_uart_read_data();
 
@@ -350,7 +360,7 @@ void bootloader_uart_read_data(void)
 		{
 			case BL_GET_VER:
                 bootloader_handle_getver_cmd(bl_rx_buffer);
-                break;
+			break;
             case BL_GET_HELP:
                 bootloader_handle_gethelp_cmd(bl_rx_buffer);
                 break;
@@ -396,22 +406,171 @@ void bootloader_uart_read_data(void)
 }
 
 
+uint8_t bootloader_verify_crc (uint8_t *pData, uint32_t len, uint32_t crc_host)
+{
+    uint32_t uwCRCValue=0xff;
 
+    for (uint32_t i=0 ; i < len ; i++)
+	{
+        uint32_t i_data = pData[i];
+        uwCRCValue = HAL_CRC_Accumulate(&hcrc, &i_data, 1);
+	}
+
+	 /* Reset CRC Calculation Unit */
+  __HAL_CRC_DR_RESET(&hcrc);
+
+	if( uwCRCValue == crc_host)
+	{
+		return VERIFY_CRC_SUCCESS;
+	}
+
+	return VERIFY_CRC_FAIL;
+}
 
 void bootloader_handle_getver_cmd(uint8_t *bl_rx_buffer)
 {
+	 uint8_t bl_version;
+
+    // 1) verify the checksum
+      printmsg("BL_DEBUG_MSG:bootloader_handle_getver_cmd\n");
+
+	 //Total length of the command packet
+	  uint32_t command_packet_len = bl_rx_buffer[0]+1 ;
+
+	  //extract the CRC32 sent by the Host
+	  uint32_t host_crc = 10;
+	  host_crc = *((uint32_t * ) (bl_rx_buffer+command_packet_len - 4) ) ;
+
+    if (bootloader_verify_crc(&bl_rx_buffer[0],command_packet_len-4,host_crc))
+    {
+        printmsg("BL_DEBUG_MSG:checksum success !!\n");
+        // checksum is correct..
+        bootloader_send_ack(bl_rx_buffer[0],1);
+        bl_version=get_bootloader_version();
+        printmsg("BL_DEBUG_MSG:BL_VER : %d %#x\n\r",bl_version,bl_version);
+        bootloader_uart_write_data(&bl_version,1);
+
+    }else
+    {
+        printmsg("BL_DEBUG_MSG:checksum fail !!\n\r");
+				printmsg("Host crc: %d\n\r",(uint8_t) host_crc);
+        //checksum is wrong send nack
+        bootloader_send_nack();
+    }
 }
 void bootloader_handle_gethelp_cmd(uint8_t *pBuffer)
 {
+	
+	printmsg("BL_DEBUG_MSG:bootloader_handle_gethelp_cmd\n");
+
+	//Total length of the command packet
+	uint32_t command_packet_len = bl_rx_buffer[0]+1 ;
+
+	//extract the CRC32 sent by the Host
+	uint32_t host_crc = *((uint32_t * ) (bl_rx_buffer+command_packet_len - 4) ) ;
+
+	if ( bootloader_verify_crc(&bl_rx_buffer[0],command_packet_len-4,host_crc))
+	{
+        printmsg("BL_DEBUG_MSG:checksum success !!\n");
+        bootloader_send_ack(pBuffer[0],sizeof(supported_commands));
+        bootloader_uart_write_data(supported_commands,sizeof(supported_commands) );
+
+	}else
+	{
+        printmsg("BL_DEBUG_MSG:checksum fail !!\n");
+        bootloader_send_nack();
+	}
 }
 void bootloader_handle_getcid_cmd(uint8_t *pBuffer)
 {
+	uint16_t bl_cid_num = 0;
+	printmsg("BL_DEBUG_MSG:bootloader_handle_getcid_cmd\n");
+
+    //Total length of the command packet
+	uint32_t command_packet_len = bl_rx_buffer[0]+1 ;
+
+	//extract the CRC32 sent by the Host
+	uint32_t host_crc = *((uint32_t * ) (bl_rx_buffer+command_packet_len - 4) ) ;
+
+	if (! bootloader_verify_crc(&bl_rx_buffer[0],command_packet_len-4,host_crc))
+	{
+        printmsg("BL_DEBUG_MSG:checksum success !!\n");
+        bootloader_send_ack(pBuffer[0],2);
+        bl_cid_num = get_mcu_chip_id();
+        printmsg("BL_DEBUG_MSG:MCU id : %d %#x !!\n",bl_cid_num, bl_cid_num);
+        bootloader_uart_write_data((uint8_t *)&bl_cid_num,2);
+
+	}else
+	{
+        printmsg("BL_DEBUG_MSG:checksum fail !!\n");
+        bootloader_send_nack();
+	}
+
 }
 void bootloader_handle_getrdp_cmd(uint8_t *pBuffer)
 {
 }
 void bootloader_handle_go_cmd(uint8_t *pBuffer)
 {
+	
+    uint32_t go_address=0;
+    uint8_t addr_valid = ADDR_VALID;
+    uint8_t addr_invalid = ADDR_INVALID;
+
+    printmsg("BL_DEBUG_MSG:bootloader_handle_go_cmd\n");
+
+    //Total length of the command packet
+	uint32_t command_packet_len = bl_rx_buffer[0]+1 ;
+
+	//extract the CRC32 sent by the Host
+	uint32_t host_crc = *((uint32_t * ) (bl_rx_buffer+command_packet_len - 4) ) ;
+
+	if (! bootloader_verify_crc(&bl_rx_buffer[0],command_packet_len-4,host_crc))
+	{
+        printmsg("BL_DEBUG_MSG:checksum success !!\n");
+
+        bootloader_send_ack(pBuffer[0],1);
+
+        //extract the go address
+        go_address = *((uint32_t *)&pBuffer[2] );
+        printmsg("BL_DEBUG_MSG:GO addr: %#x\n",go_address);
+
+        if( verify_address(go_address) == ADDR_VALID )
+        {
+            //tell host that address is fine
+            bootloader_uart_write_data(&addr_valid,1);
+
+            /*jump to "go" address.
+            we dont care what is being done there.
+            host must ensure that valid code is present over there
+            Its not the duty of bootloader. so just trust and jump */
+
+            /* Not doing the below line will result in hardfault exception for ARM cortex M */
+            //watch : https://www.youtube.com/watch?v=VX_12SjnNhY
+
+            go_address+=1; //make T bit =1
+
+            void (*lets_jump)(void) = (void *)go_address;
+
+            printmsg("BL_DEBUG_MSG: jumping to go address! \n");
+
+            lets_jump();
+
+		}else
+		{
+            printmsg("BL_DEBUG_MSG:GO addr invalid ! \n");
+            //tell host that address is invalid
+            bootloader_uart_write_data(&addr_invalid,1);
+		}
+
+	}else
+	{
+        printmsg("BL_DEBUG_MSG:checksum fail !!\n");
+        bootloader_send_nack();
+	}
+
+
+	
 }
 void bootloader_handle_flash_erase_cmd(uint8_t *pBuffer)
 {}
@@ -430,14 +589,79 @@ void bootloader_handle_dis_rw_protect(uint8_t *pBuffer)
 {
 }
 
+void bootloader_uart_write_data(uint8_t *pBuffer,uint32_t len)
+{
+    /*you can replace the below ST's USART driver API call with your MCUs driver API call */
+	HAL_UART_Transmit(C_UART,pBuffer,len,HAL_MAX_DELAY);
+
+}
+
+
+uint8_t get_bootloader_version(void)
+{
+  return (uint8_t)BL_VERSION;
+}
+
+
 void bootloader_send_ack(uint8_t command_code, uint8_t follow_len)
 {
+	uint8_t ack[2];
+	ack[0] = BL_ACK;
+	ack[1] = follow_len;
+	HAL_UART_Transmit(C_UART,ack,2,HAL_MAX_DELAY);
 }
 void bootloader_send_nack(void)
 {
-
+	uint8_t nack = BL_NACK;
+	HAL_UART_Transmit(C_UART,&nack,1,HAL_MAX_DELAY);
 }
  
+uint8_t verify_address(uint32_t go_address)
+{
+	//so, what are the valid addresses to which we can jump ?
+	//can we jump to system memory ? yes
+	//can we jump to sram1 memory ?  yes
+	//can we jump to sram2 memory ? yes
+	//can we jump to backup sram memory ? yes
+	//can we jump to peripheral memory ? its possible , but dont allow. so no
+	//can we jump to external memory ? yes.
+
+//incomplete -poorly written .. optimize it
+	if ( go_address >= SRAM1_BASE && go_address <= SRAM1_END)
+	{
+		return ADDR_VALID;
+	}
+	else if ( go_address >= SRAM2_BASE && go_address <= SRAM2_END)
+	{
+		return ADDR_VALID;
+	}
+	else if ( go_address >= FLASH_BASE && go_address <= FLASH_END)
+	{
+		return ADDR_VALID;
+	}
+	else if ( go_address >= BKPSRAM_BASE && go_address <= BKPSRAM_END)
+	{
+		return ADDR_VALID;
+	}
+	else
+		return ADDR_INVALID;
+}
+
+//Read the chip identifier or device Identifier
+uint16_t get_mcu_chip_id(void)
+{
+/*
+	The STM32F446xx MCUs integrate an MCU ID code. This ID identifies the ST MCU partnumber
+	and the die revision. It is part of the DBG_MCU component and is mapped on the
+	external PPB bus (see Section 33.16 on page 1304). This code is accessible using the
+	JTAG debug pCat.2ort (4 to 5 pins) or the SW debug port (two pins) or by the user software.
+	It is even accessible while the MCU is under system reset. */
+	uint16_t cid;
+	cid = (uint16_t)(DBGMCU->IDCODE) & 0x0FFF;
+	return  cid;
+
+}
+
 /* USER CODE END 4 */
 
 /**
