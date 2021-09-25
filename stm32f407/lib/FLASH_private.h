@@ -1,0 +1,15 @@
+#ifndef _FLASH_PRIVATE_H
+#define _FLASH_PRIVATE_H
+
+#define UNLOCK_KEY1 0x45670123
+#define UNLOCK_KEY2 0xCDEF89AB
+
+#define FLASH_ACR * (u32*) 0x40023C00
+#define FLASH_KEYR * (u32*) 0x40023C04
+#define FLASH_OPTKEYR * (u32*) 0x40023C08
+#define FLASH_SR * (u32*) 0x40023C0C
+#define FLASH_CR * (u32*) 0x40023C10
+#define FLASH_OTCR * (u32*) 0x40023C14
+
+
+#endif
