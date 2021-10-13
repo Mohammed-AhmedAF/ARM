@@ -51,7 +51,6 @@ int main(void)
 	/*For 115200 baudrate*/
 	uartConfig.u8Integer = 17;
 	uartConfig.u8Fraction = 23;
-	uartConfig.u8WordLength = UART_CLOCKSOURCE_RC;
 	uartConfig.u8WordLength = UART_WORDSIZE_8;
 		
 	GPIOA_AFSEL |= 0x03;
