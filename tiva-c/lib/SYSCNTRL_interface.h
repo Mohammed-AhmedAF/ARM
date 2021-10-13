@@ -7,6 +7,7 @@ void SYSCNTRL_vidEnableTimerClock(u8 u8Timer);
 void SYSCNTRL_vidEnableI2CClock(u8 u8I2CModule);
 void SYSCNTRL_vidEnableADCClock(u8 u8ADCPeriph);
 void SYSCNTRL_vidSelectGPIOBus(u8 u8GPIOPort,u8 u8Bus);
+void SYSCNTRL_vidChangeSysClock(u8 u8SysClock);
 
 	
 #define SYSCNTRL_GPIO_PORTA 0
@@ -34,4 +35,13 @@ void SYSCNTRL_vidSelectGPIOBus(u8 u8GPIOPort,u8 u8Bus);
 
 #define SYSCNTRL_BUS_AHB 1
 #define SYSCNTRL_BUS_APB 2
+
+#define SYSCNTRL_SYSCLOCK_10MHZ 0
+#define SYSCNTRL_SYSCLOCK_16MHZ 1
+#define SYSCNTRL_SYSCLOCK_20MHZ 2
+#define SYSCNTRL_SYSCLOCK_25MHZ 3
+#define SYSCNTRL_SYSCLOCK_40MHZ 4
+#define SYSCNTRL_SYSCLOCK_50MHZ 5
+#define SYSCNTRL_SYSCLOCK_80MHZ 6
+
 #endif
