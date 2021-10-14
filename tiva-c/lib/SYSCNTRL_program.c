@@ -154,6 +154,9 @@ void SYSCNTRL_vidChangeSysClock(u8 u8SysClock)
 	//RCC2[28:21]=SYSDIV2 400MHz/(4+1) = 80MHz
 	switch (u8SysClock)
 	{
+		case SYSCNTRL_SYSCLOCK_8MHZ:
+		SYSCTL->RCC2 = (SYSCTL->RCC2 & ~0x1FC00000) + (0x32 << 22);
+		break;
 	case SYSCNTRL_SYSCLOCK_10MHZ:
 		SYSCTL->RCC2 = (SYSCTL->RCC2 & ~0x1FC00000) + (0x27 << 22);
 		break;
@@ -168,7 +171,6 @@ void SYSCNTRL_vidChangeSysClock(u8 u8SysClock)
 		break;
 	case SYSCNTRL_SYSCLOCK_40MHZ:
 		SYSCTL->RCC2 = (SYSCTL->RCC2 & ~0x1FC00000) + (0x09 << 22);
-
 		break;
 	case SYSCNTRL_SYSCLOCK_50MHZ:
 		SYSCTL->RCC2 = (SYSCTL->RCC2 & ~0x1FC00000) + (0x07 << 22);
