@@ -1,5 +1,4 @@
-/*From udemy course: Build Your Own RealTime Operating Systems from first principles./
-/*Practice on STM32 and TIVA C boards*/
+
 SYSCTL_RCGCGPIO_R EQU 0x400FE608
 GPIO_PORTF_DIR_R EQU 0x40025400
 GPIO_PORTF_DEN_R EQU 0x4002551C
@@ -23,17 +22,17 @@ GPIOF_Init
 		STR R0,[R1]
 		
 		LDR R1, =GPIO_PORTF_DIR_R
-		MOV R0,#0x02
+		MOV R0,#0x04
 		STR R0,[R1]
 		
 		LDR R1,=GPIO_PORTF_DEN_R
-		MOV R0,0x02
+		MOV R0,0x04
 		STR R0,[R1]
 		BX LR
 
 LIGHT_ON
 		LDR R1,=GPIO_PORTF_DATA_R
-		MOV R0,#0x02
+		MOV R0,#0x04
 		STR R0,[R1]
 		BX LR
 		
