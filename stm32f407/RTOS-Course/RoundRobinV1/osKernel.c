@@ -68,9 +68,37 @@ void osKernelLaunch(uint32_t quanta)
 
  void osThreadYield(void)
  {
+			SysTick->VAL = 0;
 	    INTCTRL = 0x04000000; // trigger SysTick
 
  }
- 
- 
 
+void osSemaphoreInit(uint32_t * pu32Semaphore, uint32_t u32Value)
+{
+	*pu32Semaphore = u32Value;
+}
+
+void osSemaphoreSet(uint32_t * pu32Semaphore)
+{
+__disable_irq();
+	*pu32Semaphore+=1;
+__enable_irq();
+
+}
+
+void osSemaphoreWait(uint32_t * pu32Semaphore)
+{
+	__disable_irq();
+	while(*pu32Semaphore <= 0)
+	{
+		__disable_irq();
+		/*Cooperative semaphore*/
+		osThreadYield();
+		__enable_irq();
+	}
+	*pu32Semaphore-=1;
+	__enable_irq();
+
+}
+
+ 
