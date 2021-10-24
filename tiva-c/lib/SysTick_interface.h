@@ -23,6 +23,7 @@ void SysTick_vidPutISR(void (*pf) (void));
 
 #define SYSTICK_SYSTEM_CLOCK 2
 #define SYSTICK_INTERRUPT_ENABLED 1
+#define SYSTICK_INTERRUPT_DISABLED 0
 #define SYSTICK_NO_INTERRUPT 0
 
 
