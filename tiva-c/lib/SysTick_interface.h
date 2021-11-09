@@ -19,6 +19,7 @@ void SysTick_vidStart(void);
 void SysTick_vidStop(void);
 void SysTick_vidToggle(void);
 void SysTick_vidPutISR(void (*pf) (void));
+void SysTick_vidSetBusyWait(u32 u32Ticks);
 
 
 #define SYSTICK_SYSTEM_CLOCK 2
@@ -26,8 +27,11 @@ void SysTick_vidPutISR(void (*pf) (void));
 #define SYSTICK_INTERRUPT_DISABLED 0
 #define SYSTICK_NO_INTERRUPT 0
 
-
+/*Bit defintions*/
 #define SYSTEM_CLOCK 2
 #define INTERRUPT_ENABLE 1
 #define ENABLE_SYSTICK 0
+#define COUNTFLAG 16
+
+
 #endif

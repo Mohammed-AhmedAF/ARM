@@ -5,6 +5,16 @@
 
 
 void (*callback) (void);
+volatile u8 u8BusyWaitFlag = 1;
+void vidCheckForBusyWait(void)
+{
+	if (GET_BIT(SysTick->CTRL,COUNTFLAG) == 1)
+		{
+			SysTick_vidStop();
+			u8BusyWaitFlag = 0;
+		}
+}
+
 
 void SysTick_vidInitExtended(SysTickConfig_t * SysTickConfig) {
 	/*Configuring Clock Source*/
@@ -46,6 +56,30 @@ void SysTick_vidInit(u8 u8isClockSource, u8 u8isInterruptEnabled) {
 		CLEAR_BIT(SysTick->CTRL,INTERRUPT_ENABLE);
 	}
 
+}
+
+/*Delay function*/
+void SysTick_vidSetBusyWait(u32 u32Ticks)
+{
+	/*Disable interrupt*/
+	SET_BIT(SysTick->CTRL,INTERRUPT_ENABLE);
+	
+	/*Setting ticks*/
+	SysTick_vidSetValue(u32Ticks);
+	
+	/*Put function to be executed when SysTick reaches 0*/
+	SysTick_vidPutISR(vidCheckForBusyWait);
+	
+	/*Set flag to be used in while loop*/
+	u8BusyWaitFlag = 1;
+	
+	/*Start SysTick*/
+	SysTick_vidStart();
+	
+	/*Check flag*/
+	while(u8BusyWaitFlag)
+	{
+	}
 }
 
 void SysTick_vidPutISR(void (*pf) (void))
