@@ -20,6 +20,7 @@ void SysTick_vidStop(void);
 void SysTick_vidToggle(void);
 void SysTick_vidPutISR(void (*pf) (void));
 void SysTick_vidSetBusyWait(u32 u32Ticks);
+void _vidCheckForBusyWait(void);
 
 
 #define SYSTICK_SYSTEM_CLOCK 2

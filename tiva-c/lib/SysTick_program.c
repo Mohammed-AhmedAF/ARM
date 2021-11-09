@@ -3,10 +3,12 @@
 #include "SysTick_private.h"
 #include "SysTick_interface.h"
 
+/*Function pointer to be assigned a callback function*/
+static void (*callback) (void);
 
-void (*callback) (void);
-volatile u8 u8BusyWaitFlag = 1;
-void vidCheckForBusyWait(void)
+static volatile u8 u8BusyWaitFlag = 1;
+
+void _vidCheckForBusyWait(void)
 {
 	if (GET_BIT(SysTick->CTRL,COUNTFLAG) == 1)
 		{
@@ -68,7 +70,7 @@ void SysTick_vidSetBusyWait(u32 u32Ticks)
 	SysTick_vidSetValue(u32Ticks);
 	
 	/*Put function to be executed when SysTick reaches 0*/
-	SysTick_vidPutISR(vidCheckForBusyWait);
+	SysTick_vidPutISR(_vidCheckForBusyWait);
 	
 	/*Set flag to be used in while loop*/
 	u8BusyWaitFlag = 1;
