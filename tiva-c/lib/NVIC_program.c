@@ -54,14 +54,17 @@ if (u8InterruptID < 32)
 
 u8 NVIC_u8GetPending(u8 u8InterruptID)
 {
+	u8 u8PendingResult = 0;
 	if (u8InterruptID < 32)
 	{
-		GET_BIT(NVIC->ISPR[0],u8InterruptID);
+		u8PendingResult = GET_BIT(NVIC->ISPR[0],u8InterruptID);
 	}
 	else if ((u8InterruptID >= 32) & (u8InterruptID < 63))
 	{
-		GET_BIT(NVIC->ISPR[1],u8InterruptID);
+		u8PendingResult = GET_BIT(NVIC->ISPR[1],u8InterruptID);
 	}
+	
+	return u8PendingResult;
 }
 
 void NVIC_vidSetPriority(u8 u8InterruptID, u8 u8InterruptPriority)
