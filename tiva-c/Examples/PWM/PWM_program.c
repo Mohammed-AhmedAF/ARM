@@ -22,7 +22,7 @@ void PWM_vidInit(PWMConfig_t * ptPWMConfig)
 		PWM_vidConfigCountDir(ptPWMConfig->u8Module,ptPWMConfig->u8Generator,ptPWMConfig->u8CountDirection);
 		
 		/*Action*/
-		PWM_vidSetOutput(ptPWMConfig->u8Module,ptPWMConfig->u8Generator,ptPWMConfig->u8Output);
+		PWM_vidSetOutput(ptPWMConfig->u8Module,ptPWMConfig->u8Generator,ptPWMConfig->u16Output);
 	
 		/*Load value*/
 		PWM_vidAssignLoadVal(ptPWMConfig->u8Module,ptPWMConfig->u8Generator,ptPWMConfig->u16LoadVal);
@@ -38,7 +38,7 @@ void PWM_vidInit(PWMConfig_t * ptPWMConfig)
 	
 }
 
-static void PWM_vidConfigCountDir(u8 u8Module, u8 u8Generator, u8 u8CountDir)
+void PWM_vidConfigCountDir(u8 u8Module, u8 u8Generator, u8 u8CountDir)
 {
 	if (u8Module == PWM_MODULE_0)
 	{
@@ -84,7 +84,7 @@ static void PWM_vidConfigCountDir(u8 u8Module, u8 u8Generator, u8 u8CountDir)
 	}
 }
 
-static void PWM_vidEnableGenerator(u8 u8Module, u8 u8Generator)
+void PWM_vidEnableGenerator(u8 u8Module, u8 u8Generator)
 {
 	if (u8Module == PWM_MODULE_0)
 	{
@@ -110,7 +110,7 @@ static void PWM_vidEnableGenerator(u8 u8Module, u8 u8Generator)
 	}
 }
 
-static void PWM_vidDisableGenerator(u8 u8Module, u8 u8Generator)
+void PWM_vidDisableGenerator(u8 u8Module, u8 u8Generator)
 {
 	if (u8Module == PWM_MODULE_0)
 	{
@@ -136,19 +136,19 @@ static void PWM_vidDisableGenerator(u8 u8Module, u8 u8Generator)
 	}
 }
 
-static void PWM_vidSelectChannel(u8 u8Module,u8 u8Channel)
+void PWM_vidSelectChannel(u8 u8Module,u8 u8Channel)
 {
 	if (u8Module == PWM_MODULE_0)
 	{
 		PWM0_ENABLE |= (1<<u8Channel);
 	}
-	else
+	else if (u8Module == PWM_MODULE_1)
 	{
-	
+		//PWM1_ENABLE |= (1<<u8Channel);
 	}
 }	
 
-static void PWM_vidAssignLoadVal(u8 u8Module, u8 u8Generator, u16 u16LoadVal)
+void PWM_vidAssignLoadVal(u8 u8Module, u8 u8Generator, u16 u16LoadVal)
 {
 	if (u8Module == PWM_MODULE_0)
 	{
@@ -174,7 +174,7 @@ static void PWM_vidAssignLoadVal(u8 u8Module, u8 u8Generator, u16 u16LoadVal)
 	}
 }
 
-static void PWM_vidAssignCompVal(u8 u8Module, u8 u8Generator, u16 u16CompVal)
+void PWM_vidAssignCompVal(u8 u8Module, u8 u8Generator, u16 u16CompVal)
 {
 	if (u8Module == PWM_MODULE_0)
 	{
@@ -196,11 +196,61 @@ static void PWM_vidAssignCompVal(u8 u8Module, u8 u8Generator, u16 u16CompVal)
 	}
 	else
 	{
-	
+		switch(u8Generator)
+		{
+				case PWM_GENERATOR_0:
+					PWM0_CMPB0 = u16CompVal;
+					break;
+				case PWM_GENERATOR_1:
+					PWM0_CMPB1 = u16CompVal;
+					break;
+				case PWM_GENERATOR_2:
+					PWM0_CMPB2 = u16CompVal;
+					break;
+				case PWM_GENERATOR_3:
+					PWM0_CMPB3 = u16CompVal;
+					break;
+		}
 	}
 }
 
-static void PWM_vidSetOutput(u8 u8Module, u8 u8Generator, u8 u8Output)
+void PWM_vidSetCompValue(u8 u8Module,u8 u8Generator, u8 u8Channel, u16 u16CompVal)
+{
+	if (u8Module == PWM_MODULE_0)
+	{
+		switch(u8Generator)
+		{
+			case PWM_GENERATOR_0:
+					if (u8Channel == PWM_CHANNEL_0)
+					{
+					PWM0_CMPA0 = u16CompVal;
+					}
+					else if (u8Channel == PWM_CHANNEL_1)
+					{
+					PWM0_CMPB0 = u16CompVal;
+					}
+					break;
+					case PWM_GENERATOR_1:
+					if (u8Channel == PWM_CHANNEL_0)
+					{
+					PWM0_CMPA1 = u16CompVal;
+					}
+					else
+					{
+					PWM0_CMPB1 = u16CompVal;
+					}
+					break;
+				case PWM_GENERATOR_2:
+					PWM0_CMPA2 = u16CompVal;
+					break;
+				case PWM_GENERATOR_3:
+					PWM0_CMPA3 = u16CompVal;
+					break;
+		}
+	}
+}
+
+void PWM_vidSetOutput(u8 u8Module, u8 u8Generator, u8 u8Output)
 {
 		if (u8Module == PWM_MODULE_0)
 	{
@@ -222,7 +272,50 @@ static void PWM_vidSetOutput(u8 u8Module, u8 u8Generator, u8 u8Output)
 	}
 	else
 	{
-	
+	switch(u8Generator)
+		{
+			case PWM_GENERATOR_0:
+					PWM0_GENB0 = u8Output;
+					break;
+				case PWM_GENERATOR_1:
+					PWM0_GENB1 = u8Output;
+					break;
+				case PWM_GENERATOR_2:
+					PWM0_GENB2 = u8Output;
+					break;
+				case PWM_GENERATOR_3:
+					PWM0_GENB3 = u8Output;
+					break;
+		}
+	}
+}
+
+void PWM_vidSetOutput_test(u8 u8Module, u8 u8Generator,u8 u8Block, u16 u16Output)
+{
+	if (u8Module == PWM_MODULE_0)
+	{
+		switch(u8Generator)
+		{
+			case PWM_GENERATOR_0:
+				if (u8Block == PWM_BLOCK_A)
+				{
+					PWM0_GENA0 = u16Output;
+				}
+				else
+				{
+					PWM0_GENB0 = u16Output;
+				}
+					break;
+				case PWM_GENERATOR_1:
+					PWM0_GENA1 = u16Output;
+					break;
+				case PWM_GENERATOR_2:
+					PWM0_GENA2 = u16Output;
+					break;
+				case PWM_GENERATOR_3:
+					PWM0_GENA3 = u16Output;
+					break;
+		}
 	}
 }
 

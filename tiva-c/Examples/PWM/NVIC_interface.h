@@ -19,5 +19,7 @@ void NVIC_vidSetPriority(u8 u8InterruptID, u8 u8InterruptPriority);
 #define NVIC_TIMER0A 19
 #define NVIC_TIMER0B 20
 #define NVIC_PWM0_0 10
+#define NVIC_PWM0_1 11
+#define NVIC_PWM0_2 12
 
 #endif
