@@ -4,7 +4,6 @@
 #include "SYSCNTRL_interface.h"
 #include "FreeRTOS.h"
 #include "task.h"
-#include "FreeRTOSConfig.h"             // ARM.FreeRTOS::RTOS:Config
 #include "semphr.h"
 
 void vidTask1(void * ptrArg);
@@ -17,8 +16,8 @@ void vidTask1(void * ptrArg)
 	TickType_t xLastWakeTime = xTaskGetTickCount();
 	while(1)
 	{
-			vTaskDelayUntil(&xLastWakeTime,pdMS_TO_TICKS(50));
-      xSemaphoreTake(mySemaphore,portMAX_DELAY);
+	vTaskDelayUntil(&xLastWakeTime,pdMS_TO_TICKS(50));
+      	xSemaphoreTake(mySemaphore,portMAX_DELAY);
 		for (u8 i = 0; i < 10; i++)
 		{
 			GPIO_vidTogglePin(GPIO_PORTF,GPIO_LED_GREEN);
@@ -35,7 +34,7 @@ void vidTask2(void * ptrArg)
 	const TickType_t xDelay = pdMS_TO_TICKS(700);
 	while(1)
 	{
-			TickType_t xLastWakeTime = xTaskGetTickCount();
+		TickType_t xLastWakeTime = xTaskGetTickCount();
 
 		vTaskDelayUntil(&xLastWakeTime,pdMS_TO_TICKS(100));
 		xSemaphoreTake(mySemaphore,portMAX_DELAY);
