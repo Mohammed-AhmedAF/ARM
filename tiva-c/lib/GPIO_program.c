@@ -11,12 +11,12 @@
 #include "GPIO_private.h"
 #include "GPIO_interface.h"
 
-static void (*ptrF_GPIOF) (void);
 static void (*ptrF_GPIOA) (void);
 static void (*ptrF_GPIOB) (void);
 static void (*ptrF_GPIOC) (void);
 static void (*ptrF_GPIOD) (void);
 static void (*ptrF_GPIOE) (void);
+static void (*ptrF_GPIOF) (void);
 
 void GPIO_vidSetPinDirection(u8 u8PortNumCpy, u8 u8PinNumCpy, u8 u8DirectionCpy) {
 	switch (u8PortNumCpy) {
@@ -50,6 +50,16 @@ void GPIO_vidSetPinDirection(u8 u8PortNumCpy, u8 u8PinNumCpy, u8 u8DirectionCpy)
 			}
 			else {
 				CLEAR_BIT(GPIOD_DIR,u8PinNumCpy);
+			}
+			break;
+		case GPIO_PORTE:
+			if (u8DirectionCpy == GPIO_OUTPUT)
+			{
+				SET_BIT(GPIOE_DIR,u8PinNumCpy);
+			}
+			else
+			{
+				CLEAR_BIT(GPIOE_DIR,u8PinNumCpy);
 			}
 			break;
 		case GPIO_PORTF:
@@ -99,6 +109,14 @@ void GPIO_vidSetPinValue(u8 u8PortNumCpy, u8 u8PinNumCpy, u8 u8Value) {
 				CLEAR_BIT(GPIOD_DATA,u8PinNumCpy);
 			}
 			break;
+		case GPIO_PORTE:
+			if (u8Value == STD_HIGH) {
+				SET_BIT(GPIOE_DATA,u8PinNumCpy);
+			}
+			else {
+				CLEAR_BIT(GPIOE_DATA,u8PinNumCpy);
+			}
+			break;
 		case GPIO_PORTF:
 			if (u8Value == STD_HIGH) {
 				SET_BIT(GPIOF_DATA,u8PinNumCpy);
@@ -142,6 +160,14 @@ void GPIO_vidSetPinDigEnable(u8 u8PortNumCpy, u8 u8PinNumCpy, u8 u8DigEnable) {
 			}
 			else {
 				CLEAR_BIT(GPIOD_DEN,u8PinNumCpy);
+			}
+			break;
+		case GPIO_PORTE:
+			if (u8DigEnable == GPIO_DEN_SET) {
+				SET_BIT(GPIOE_DEN,u8PinNumCpy);
+			}
+			else {
+				CLEAR_BIT(GPIOE_DEN,u8PinNumCpy);
 			}
 			break;
 		case GPIO_PORTF:
@@ -234,7 +260,7 @@ switch (u8Port) {
 				CLEAR_BIT(GPIOD_PUR,u8Pin);
 			}
 			break;
-			case GPIO_PORTE:
+		case GPIO_PORTE:
 			if (u8PURConfig == GPIO_PUR_ENABLED) {
 				SET_BIT(GPIOE_PUR,u8Pin);
 			}
@@ -288,7 +314,7 @@ switch (u8Port) {
 				CLEAR_BIT(GPIOD_PDR,u8Pin);
 			}
 			break;
-			case GPIO_PORTE:
+		case GPIO_PORTE:
 			if (u8PURConfig == GPIO_PDR_ENABLED) {
 				SET_BIT(GPIOE_PDR,u8Pin);
 			}
@@ -852,12 +878,6 @@ u8 GPIO_u8GetInterruptStatus(u8 u8Port, u8 u8Pin)
 	return result;
 }
 
-
-void GPIOF_Handler()
-{
-	ptrF_GPIOF();
-}
-
 void GPIOA_Handler()
 {
 	ptrF_GPIOA();
@@ -876,4 +896,13 @@ void GPIOC_Handler()
 void GPIOD_Handler()
 {
 	ptrF_GPIOD();
+}
+
+void GPIOE_Handler()
+{
+	ptrF_GPIOE();
+}
+void GPIOF_Handler()
+{
+	ptrF_GPIOF();
 }
