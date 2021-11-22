@@ -21,5 +21,7 @@ Drivers for several peripherals and simple projects of TI Tiva-C TM4C123GH6PM, i
 | Tx1 | PB1 |
 | Rx2 | PD6 |
 | Tx2 | PD7 |
-| Tx3 | PC6 |
-| Rx3 | PC7 |
+| Rx3 | PC6 |
+| Tx3 | PC7 |
+| Rx4 | PC4 |
+| Tx4 | PC5 |
