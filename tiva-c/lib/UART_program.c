@@ -6,6 +6,7 @@
 void (*UART0_callback) (void);
 void (*UART1_callback) (void);
 void (*UART2_callback) (void);
+void (*UART3_callback) (void);
 
 
 void UART0_vidInit(UARTConfig_t * UARTConfig)
@@ -387,10 +388,135 @@ void UART2_vidSendString(char *str)
 	}
 }
 
+void UART3_vidInit(UARTConfig_t * UARTConfig)
+{
+	UART3->CTL = 0;         /* UART5 module disbable */
+	
+    UART3->IBRD = UARTConfig->u16Integer;      /* for 9600 baud rate, integer = 104 */
+    UART3->FBRD = UARTConfig->u8Fraction;       /* for 9600 baud rate, fractional = 11*/
+	
+		/*select system clock*/
+		if (UARTConfig->u8ClockSource == UART_CLOCKSOURCE_RC)
+		{
+			UART3->CC |= 0; 
+		}
+		else
+		{
+			UART3->CC = 0x5;
+		}
+		UART3->DR &= 0;
+		
+		if (UARTConfig->u8FIFOEnabled)
+		{
+			SET_BIT(UART3->LCRH,4);
+		}
+		else
+		{
+			CLEAR_BIT(UART3->LCRH,4);
+		}
+	
+		/*Data length*/
+		switch(UARTConfig->u8WordLength)
+		{
+			case UART_WORDSIZE_5:
+				UART3->LCRH = 0x00;
+				break;
+			case UART_WORDSIZE_6:
+				UART3->LCRH = 0x20;
+				break;
+			case UART_WORDSIZE_7:
+				UART3->LCRH = 0x40;
+				break;
+			case UART_WORDSIZE_8:
+				UART3->LCRH = 0x60;     /* data lenght 8-bit, not parity bit, no FIFO */
+				break;
+		
+		}
+		
+		if (UARTConfig->u8HighSpeedEnabled == UART_HIGHSPEED_FALSE)
+		{
+			CLEAR_BIT(UART3->CTL,5);
+		}
+		else
+		{
+			SET_BIT(UART3->CTL,5);
+
+		}
+		
+		/*Select Rx or TX or bot to be enabled*/
+		switch(UARTConfig->u8RxTx)
+		{
+			case UART_RXTX_BOTH:
+				SET_BIT(UART3->CTL,8);
+				SET_BIT(UART3->CTL,9);
+				break;
+			case UART_RXTX_RX_ONLY:
+						SET_BIT(UART3->CTL,9);
+				break;
+			case UART_RXTX_TX_ONLY:
+				SET_BIT(UART3->CTL,8);
+			break;
+		}
+		
+		/*Enabled UART*/
+		SET_BIT(UART3->CTL,0);
+	
+		if (UARTConfig->u8InterruptEnabled)
+		{
+			/*Receive interrupt*/
+			SET_BIT(UART3->IM,4);
+		}
+		else
+		{
+			CLEAR_BIT(UART3->IM,4);
+		}
+		
+		/*Function to be executed when interrupt occurs*/
+		if (UARTConfig->u8InterruptEnabled)
+		{
+			UART3_vidPutISRFunction(UARTConfig->ptrF);
+		}
+		else
+		{
+		
+		}
+}
+
+void UART3_vidPutISRFunction(void(*ptrF)(void))
+{
+	UART3_callback = ptrF;
+}
+
+void UART3_vidSendByte(unsigned char data)  
+{
+    while((UART3->FR & (1<<5)) != 0); /* wait until Tx buffer not full */
+    UART3->DR = data;                  /* before giving it another byte */
+}
+
+char UART3_u8GetReceivedByte(void)
+{
+	return (u8) UART3->DR;
+}
+
+
 void UART2_Handler()
 {
 	UART2_callback();
 	UART2->ICR = 0x0010;
+}
+
+void UART3_Handler()
+{
+	UART3_callback();
+	UART3->ICR = 0x0010;
+}
+
+void UART3_vidSendString(char *str)
+{
+  while(*str)
+	{
+		UART3_vidSendByte(*(str++));
+	}
 }
 
 void UART_vidSendNumber(void (*ptrF) (u8),u16 u16Number)

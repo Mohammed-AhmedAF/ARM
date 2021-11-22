@@ -67,7 +67,11 @@ char UART2_u8GetReceivedByte(void);
 void UART2_vidSendString(char *str);
 void UART2_vidPutISRFunction(void(*ptrF)(void));
 
-
-
+/*UART3*/
+void UART3_vidInit(UARTConfig_t * UARTConfig);
+void UART3_vidPutISRFunction(void(*ptrF)(void));
+void UART3_vidSendByte(unsigned char data);
+char UART3_u8GetReceivedByte(void);
+void UART3_vidSendString(char *str);
 
 #endif
