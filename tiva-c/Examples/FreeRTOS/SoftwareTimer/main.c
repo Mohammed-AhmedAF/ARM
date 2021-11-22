@@ -82,7 +82,8 @@ int main(void)
 
 	NVIC_vidSetInterrupt(NVIC_GPIOF);
 	NVIC_vidSetPriority(NVIC_GPIOF,6);
-
+	
+	/*Creating auto-reload timer*/
 	blinkTimerHandle = xTimerCreate("blink",pdMS_TO_TICKS(100),pdTRUE,(void*) 0,vidBlink);
 	xTimerStart(blinkTimerHandle,portMAX_DELAY);
 	
