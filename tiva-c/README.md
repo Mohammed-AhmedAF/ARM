@@ -11,3 +11,17 @@ Drivers for several peripherals and simple projects of TI Tiva-C TM4C123GH6PM, i
 - SPI
 - I2C
 - ADC
+
+### UART Wiring
+| UART | pin |
+|---------|---------|
+| Rx0 | PA0 |
+| Tx0 | PA1 |
+| Rx1 | PB0 |
+| Tx1 | PB1 |
+| Rx2 | PD6 |
+| Tx2 | PD7 |
+| Rx3 | PC6 |
+| Tx3 | PC7 |
+| Rx4 | PC4 |
+| Tx4 | PC5 |
