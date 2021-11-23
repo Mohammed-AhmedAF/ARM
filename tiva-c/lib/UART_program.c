@@ -498,6 +498,13 @@ char UART3_u8GetReceivedByte(void)
 	return (u8) UART3->DR;
 }
 
+char UART3_Receiver(void)  
+{
+    char data;
+	  while((UART3->FR & (1<<4)) != 0); /* wait until Rx buffer is not full */
+    data = (char) UART3->DR ;  	/* before giving it another byte */
+    return (unsigned char) data; 
+}
 
 void UART2_Handler()
 {
