@@ -63,6 +63,7 @@ void osKernelLaunch(uint32_t quanta)
 	SysTick->CTRL =0;
 	SysTick->VAL=0;
 	SysTick->LOAD = (quanta* MILLIS_PRESCALER)-1;
+	/*Defining SysTick priority*/
   	SYSPRI3 =(SYSPRI3&0x00FFFFFF)|0xE0000000; // priority 7
 
 	SysTick->CTRL =0x00000007;
@@ -71,8 +72,8 @@ void osKernelLaunch(uint32_t quanta)
 
  void osThreadYield(void)
  {
-			SysTick->VAL = 0;
-	    INTCTRL = 0x04000000; // trigger SysTick
+	SysTick->VAL = 0;
+	INTCTRL = 0x04000000; // trigger SysTick
 
  }
 
