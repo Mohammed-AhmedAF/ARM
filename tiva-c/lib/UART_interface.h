@@ -83,4 +83,28 @@ void UART4_vidPutISRFunction(void(*ptrF)(void));
 char UART4_u8GetReceivedByte(void);
 void UART4_vidSendString(char *str);
 
+/*UART5*/
+void UART5_vidInit(UARTConfig_t * UARTConfig);
+void UART5_vidSendByte(unsigned char data);
+char UART5_Receiver(void);
+void UART5_vidPutISRFunction(void(*ptrF)(void));
+char UART5_u8GetReceivedByte(void);
+void UART5_vidSendString(char *str);
+
+/*UART6*/
+void UART6_vidInit(UARTConfig_t * UARTConfig);
+void UART6_vidSendByte(unsigned char data);
+char UART6_Receiver(void);
+void UART6_vidPutISRFunction(void(*ptrF)(void));
+char UART6_u8GetReceivedByte(void);
+void UART6_vidSendString(char *str);
+
+/*UART7*/
+void UART7_vidInit(UARTConfig_t * UARTConfig);
+void UART7_vidSendByte(unsigned char data);
+char UART7_Receiver(void);
+void UART7_vidPutISRFunction(void(*ptrF)(void));
+char UART7_u8GetReceivedByte(void);
+void UART7_vidSendString(char *str);
+
 #endif
