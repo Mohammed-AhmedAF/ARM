@@ -75,4 +75,12 @@ void UART3_vidPutISRFunction(void(*ptrF)(void));
 char UART3_u8GetReceivedByte(void);
 void UART3_vidSendString(char *str);
 
+/*UART4*/
+void UART4_vidInit(UARTConfig_t * UARTConfig);
+void UART4_vidSendByte(unsigned char data);
+char UART4_Receiver(void);
+void UART4_vidPutISRFunction(void(*ptrF)(void));
+char UART4_u8GetReceivedByte(void);
+void UART4_vidSendString(char *str);
+
 #endif

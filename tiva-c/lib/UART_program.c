@@ -7,7 +7,7 @@ void (*UART0_callback) (void);
 void (*UART1_callback) (void);
 void (*UART2_callback) (void);
 void (*UART3_callback) (void);
-
+void (*UART4_callback) (void);
 
 void UART0_vidInit(UARTConfig_t * UARTConfig)
 {
@@ -133,6 +133,7 @@ void UART0_vidSendString(char *str)
 		UART0_vidSendByte(*(str++));
 	}
 }
+
 
 void UART0_Handler()
 {
@@ -388,6 +389,12 @@ void UART2_vidSendString(char *str)
 	}
 }
 
+void UART2_Handler()
+{
+	UART2_callback();
+	UART2->ICR = 0x0010;
+}
+
 void UART3_vidInit(UARTConfig_t * UARTConfig)
 {
 	UART3->CTL = 0;         /* UART5 module disbable */
@@ -506,10 +513,12 @@ char UART3_Receiver(void)
     return (unsigned char) data; 
 }
 
-void UART2_Handler()
+void UART3_vidSendString(char *str)
 {
-	UART2_callback();
-	UART2->ICR = 0x0010;
+  while(*str)
+	{
+		UART3_vidSendByte(*(str++));
+	}
 }
 
 void UART3_Handler()
@@ -518,13 +527,142 @@ void UART3_Handler()
 	UART3->ICR = 0x0010;
 }
 
-void UART3_vidSendString(char *str)
+
+void UART4_vidInit(UARTConfig_t * UARTConfig)
+{
+		UART4->CTL = 0;         /* UART5 module disbable */
+	
+    UART4->IBRD = UARTConfig->u16Integer;      /* for 9600 baud rate, integer = 104 */
+    UART4->FBRD = UARTConfig->u8Fraction;       /* for 9600 baud rate, fractional = 11*/
+	
+		/*select system clock*/
+		if (UARTConfig->u8ClockSource == UART_CLOCKSOURCE_RC)
+		{
+			UART4->CC |= 0; 
+		}
+		else
+		{
+			UART4->CC = 0x5;
+		}
+		UART4->DR &= 0;
+		
+		if (UARTConfig->u8FIFOEnabled)
+		{
+			SET_BIT(UART4->LCRH,4);
+		}
+		else
+		{
+			CLEAR_BIT(UART4->LCRH,4);
+		}
+	
+		/*Data length*/
+		switch(UARTConfig->u8WordLength)
+		{
+			case UART_WORDSIZE_5:
+				UART4->LCRH = 0x00;
+				break;
+			case UART_WORDSIZE_6:
+				UART4->LCRH = 0x20;
+				break;
+			case UART_WORDSIZE_7:
+				UART4->LCRH = 0x40;
+				break;
+			case UART_WORDSIZE_8:
+				UART4->LCRH = 0x60;     /* data lenght 8-bit, not parity bit, no FIFO */
+				break;
+		
+		}
+		
+		if (UARTConfig->u8HighSpeedEnabled == UART_HIGHSPEED_FALSE)
+		{
+			CLEAR_BIT(UART4->CTL,5);
+		}
+		else
+		{
+			SET_BIT(UART4->CTL,5);
+
+		}
+		
+		/*Select Rx or TX or bot to be enabled*/
+		switch(UARTConfig->u8RxTx)
+		{
+			case UART_RXTX_BOTH:
+				SET_BIT(UART4->CTL,8);
+				SET_BIT(UART4->CTL,9);
+				break;
+			case UART_RXTX_RX_ONLY:
+						SET_BIT(UART4->CTL,9);
+				break;
+			case UART_RXTX_TX_ONLY:
+				SET_BIT(UART4->CTL,8);
+			break;
+		}
+		
+		/*Enabled UART*/
+		SET_BIT(UART4->CTL,0);
+	
+		if (UARTConfig->u8InterruptEnabled)
+		{
+			/*Receive interrupt*/
+			SET_BIT(UART4->IM,4);
+		}
+		else
+		{
+			CLEAR_BIT(UART4->IM,4);
+		}
+		
+		/*Function to be executed when interrupt occurs*/
+		if (UARTConfig->u8InterruptEnabled)
+		{
+			UART4_vidPutISRFunction(UARTConfig->ptrF);
+		}
+		else
+		{
+		
+		}
+}
+
+void UART4_vidSendByte(unsigned char data)  
+{
+    while((UART4->FR & (1<<5)) != 0); /* wait until Tx buffer not full */
+    UART4->DR = data;                  /* before giving it another byte */
+}
+
+char UART4_Receiver(void)  
+{
+    char data;
+	  while((UART4->FR & (1<<4)) != 0); /* wait until Rx buffer is not full */
+    data = (char) UART4->DR ;  	/* before giving it another byte */
+    return (unsigned char) data; 
+}
+
+char UART4_u8GetReceivedByte(void)
+{
+	return (u8) UART4->DR;
+}
+
+void UART4_vidPutISRFunction(void(*ptrF)(void))
+	
+{
+	UART4_callback = ptrF;
+}
+
+void UART4_vidSendString(char *str)
 {
   while(*str)
 	{
-		UART3_vidSendByte(*(str++));
+		UART4_vidSendByte(*(str++));
 	}
 }
+
+void UART4_Handler()
+{
+	UART4_callback();
+	UART4->ICR = 0x0010;
+}
+
+
+
 
 void UART_vidSendNumber(void (*ptrF) (u8),u16 u16Number)
 {
