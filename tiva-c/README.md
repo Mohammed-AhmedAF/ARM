@@ -12,6 +12,9 @@ Drivers for several peripherals and simple projects of TI Tiva-C TM4C123GH6PM, i
 - I2C
 - ADC
 
+### Peripherals of Tiva-C
+* 8 UART
+
 ### UART Wiring
 | UART | pin |
 |---------|---------|
