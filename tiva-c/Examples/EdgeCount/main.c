@@ -4,11 +4,10 @@
 #include "SysTick_interface.h"
 #include "GPIO_interface.h"
 #include "SYSCNTRL_interface.h"
+#include "TIMERS_interface.h"
 
 
-u16 TIMER0_u16GetCount(void);
 void getCountForOneSec(void);
-void vidInitEdgeCount(void);
 
 
 volatile u16Count = 0;
@@ -49,11 +48,6 @@ int main(void)
 	while(1);
 }
 
-u16 TIMER0_u16GetCount(void)
-{
-	return (u16) TIMER0->TAR;
-
-}
 
 void getCountForOneSec(void)
 {
@@ -68,15 +62,3 @@ void getCountForOneSec(void)
 	
 }
 
-void vidInitEdgeCount(void)
-{
-	CLEAR_BIT(TIMER0->CTL,0); /*Ensuring that the timer is disabled*/
-	TIMER0->CFG |= 0x4; /*16 bit timer configuration*/
-	CLEAR_BIT(TIMER0->TAMR,2); /*Edge count*/
-	TIMER0->TAMR |= 0x3; /*Capture mode*/
-	SET_BIT(TIMER0->TAMR,4); /*Count direction: up*/
-	TIMER0->TAMATCHR = 0xFFFF;
-	TIMER0->TAPMR = 0xFF;
-	CLEAR_BIT(TIMER0->CTL,2); /*Positive edge*/
-	TIMER0->CTL |= (1<<0); /*Start timer*/
-}
