@@ -39,6 +39,7 @@ Drivers for several peripherals and simple projects of TI Tiva-C TM4C123GH6PM, i
 
 ### I2C Wiring
 | I2C | pin |
+| ---- | ---- |
 | SCL0 | PB2 |
 | SDA0 | PB3 |
 | SCL1 | PA6 |
