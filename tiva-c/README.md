@@ -14,6 +14,8 @@ Drivers for several peripherals and simple projects of TI Tiva-C TM4C123GH6PM, i
 
 ### Peripherals of Tiva-C
 * 8 UART
+* 4 SPI
+* 4 I2C
 
 ### UART Wiring
 | UART | pin |
@@ -34,3 +36,15 @@ Drivers for several peripherals and simple projects of TI Tiva-C TM4C123GH6PM, i
 | Tx6 | PD5 |
 | Rx7 | PE0 |
 | Tx7 | PE1 |
+
+### I2C Wiring
+| I2C | pin |
+| ---- | ---- |
+| SCL0 | PB2 |
+| SDA0 | PB3 |
+| SCL1 | PA6 |
+| SDA1 | PA7 |
+| SCL2 | PE4 |
+| SDA2 | PE5 |
+| SCL3 | PD0 |
+| SDA3 | PD1 |
