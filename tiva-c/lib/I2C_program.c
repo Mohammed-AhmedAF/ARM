@@ -5,106 +5,240 @@
 #include "TM4C123GH6PM.h"
 
 
-char I2C1_write(int slaveAddr, char memAddr, char data)
-{
-	char error;
-	
-	I2C1->MSA = slaveAddr << 1;
-	I2C1->MDR = memAddr;
-	I2C1->MCS = 3;
-	
-	error = I2C1_wait_till_done();
-	if (error) return error;
-	
-	/*Send data*/
-	I2C1->MDR = data;
-	I2C1->MCS = 5;
-	error = I2C1_wait_till_done();
-	while(I2C1->MCS & 0x40);
-	error = I2C1->MCS & 0xE;
-	if (error) return error;
-	
-	return 0;
-	
-	
-}
+static void (*ptrFI2C0) (void);
+static void (*ptrFI2C1) (void);
+static void (*ptrFI2C2) (void);
+static void (*ptrFI2C3) (void);
 
-void I2C1_vidInit(void)
+void I2C0_vidInit(I2CConfig * i2cConfig)
 {
-	SYSCTL->RCGCI2C |= 0x02;
-	
-	
-	GPIOA->AFSEL |= 0xC0;
-	GPIOA->PCTL &= ~0xFF000000;
-	GPIOA->PCTL |= 0x33000000;
-	
-	GPIOA->DEN |= 0xC0;
-	GPIOA->ODR |= 0x80;
-	
-	I2C1->MCR = 0x10;
-	I2C1->MTPR = 7;
-}
-
-static int I2C1_wait_till_done(void)
-{
-	while(I2C1->MCS & 1);
-	return I2C1->MCS & 0xE;
-	
-}
-
-char I2C1_read(int slaveAddr, char memAddr, int byteCount, u8 * data)
-{
-	char error;
-	
-	if (byteCount <= 0)
+	/*Mode: Master or Slave*/
+	switch(i2cConfig->u8Mode)
 	{
-		return -1;
+		case I2C_MODE_MASTER:
+			SET_BIT(I2C0->MCR,4);
+			break;
+		case I2C_MODE_SLAVE:
+			CLEAR_BIT(I2C0->MCR,4);
+			break;
 	}
+
+	/*Calculation of timer period*/
+	/*100,000 kbps*/
+	I2C0->MTPR = i2cConfig->u8TimerPeriod;
 	
-	I2C1->MSA = slaveAddr << 1;
-	I2C1->MDR = memAddr;
-	I2C1->MCS = 3;
+	/*Interrupt configuration*/
+//	if (i2cConfig->u8Interrupt == I2C_INTERRUPT_RIS_ENABLED)
+//	{
+//		SET_BIT(I2C0->MIMR,0);
+//	}
+//	else
+//	{
+//		CLEAR_BIT(I2C0->MIMR,0);
+//	}
 	
-	error = I2C1_wait_till_done();
-	if (error)
+	/*Adding handler*/
+//	if ((i2cConfig->u8Interrupt == I2C_INTERRUPT_RIS_ENABLED)
+//		|| (i2cConfig->u8Interrupt == I2C_INTERRUPT_CLKIM_ENABLED))
+//	{
+//		I2C0_vidPutISRFunction(i2cConfig->ptrFun);
+//	}
+	
+}
+
+void I2C1_vidInit(I2CConfig * i2cConfig)
+{
+/*Mode: Master or Slave*/
+	switch(i2cConfig->u8Mode)
 	{
-		return error;
+		case I2C_MODE_MASTER:
+			SET_BIT(I2C1->MCR,4);
+			break;
+		case I2C_MODE_SLAVE:
+			CLEAR_BIT(I2C1->MCR,4);
+			break;
 	}
+
 	
-		I2C1->MSA = (slaveAddr << 1) + 1;
-		
-		if (byteCount == 1)
-		{
-			I2C1->MCS = 7;
-		}
-		else {
-			I2C1->MCS = 0xB;
-		}	
-				error = I2C1_wait_till_done();
-			if (error) return error;
+	/*Calculation of timer period*/
+	/*100,000 kbps*/
+	I2C1->MTPR = i2cConfig->u8TimerPeriod;
+}
+
+void I2C2_vidInit(I2CConfig * i2cConfig)
+{
+/*Mode: Master or Slave*/
+	switch(i2cConfig->u8Mode)
+	{
+		case I2C_MODE_MASTER:
+			SET_BIT(I2C2->MCR,4);
+			break;
+		case I2C_MODE_SLAVE:
+			CLEAR_BIT(I2C2->MCR,4);
+			break;
+	}
+
 	
-		*data++ = I2C1->MDR;
+	/*Calculation of timer period*/
+	/*100,000 kbps*/
+	I2C2->MTPR = i2cConfig->u8TimerPeriod;
+}
+
+void I2C3_vidInit(I2CConfig * i2cConfig)
+{
+/*Mode: Master or Slave*/
+	switch(i2cConfig->u8Mode)
+	{
+		case I2C_MODE_MASTER:
+			SET_BIT(I2C3->MCR,4);
+			break;
+		case I2C_MODE_SLAVE:
+			CLEAR_BIT(I2C3->MCR,4);
+			break;
+	}
+
+	
+	/*Calculation of timer period*/
+	/*100,000 kbps*/
+	I2C0->MTPR = i2cConfig->u8TimerPeriod;
+}
+
+void I2C0_vidSendByte(u8 u8Byte)
+{
+	/*Slave address*/
+	/*Bit0 specifies R/W*/
+	I2C0->MSA |= 2<<1;
+
+	/*Data to be sent*/
+	I2C0->MDR = u8Byte;
+	
+	/*STOP START RUN*/
+	I2C0->MCS = (I2C_CNTRL_RUN | I2C_CNTRL_START | I2C_CNTRL_STOP);
+	
+	/*Wait for the busy bit to become 0*/
+	while(GET_BIT(I2C0->MCS,0) == 1);
+}
+
+void I2C0_vidPutISRFunction(void (*ptrF) (void))
+{
+	ptrFI2C0 = ptrF;
+}
+
+void I2C1_vidSendByte(u8 u8Byte)
+{
+	/*Slave address*/
+	/*Bit0 specifies R/W*/
+	I2C1->MSA |= 2<<1;
+
+	/*Data to be sent*/
+	I2C1->MDR = u8Byte;
+	
+	/*STOP START RUN*/
+	I2C1->MCS |= (I2C_CNTRL_RUN | I2C_CNTRL_START | I2C_CNTRL_STOP);
+	
+	/*Wait for the busy bit to become 0*/
+	while(GET_BIT(I2C1->MCS,0) == 1);
+}
+
+void I2C2_vidSendByte(u8 u8Byte)
+{
+	/*Slave address*/
+	/*Bit0 specifies R/W*/
+	I2C2->MSA |= 2<<1;
+
+	/*Data to be sent*/
+	I2C2->MDR = u8Byte;
+	
+	/*STOP START RUN*/
+	I2C2->MCS |= (I2C_CNTRL_RUN | I2C_CNTRL_START | I2C_CNTRL_STOP);
+	
+	/*Wait for the busy bit to become 0*/
+	while(GET_BIT(I2C2->MCS,0) == 1);
+}
+
+void I2C3_vidSendByte(u8 u8Byte)
+{
+	/*Slave address*/
+	/*Bit0 specifies R/W*/
+	I2C3->MSA |= 2<<1;
+
+	/*Data to be sent*/
+	I2C3->MDR = u8Byte;
+	
+	/*STOP START RUN*/
+	I2C3->MCS |= (I2C_CNTRL_RUN | I2C_CNTRL_START | I2C_CNTRL_STOP);
+	
+	/*Wait for the busy bit to become 0*/
+	while(GET_BIT(I2C3->MCS,0) == 1);
+}
+
+void I2C0_vidSendMultipleBytes(u8 * u8ptData, u8 u8DataSize)
+{
+
+	/*Slave address*/
+	/*Bit0 specifies R/W*/
+	I2C0->MSA |= 2<<1;
+
+	/*First byte to be sent*/
+	I2C0->MDR = *u8ptData;
+	u8DataSize--;
+	/*START RUN*/
+	I2C0->MCS |= (I2C_CNTRL_RUN | I2C_CNTRL_START | I2C_CNTRL_ACK);
+	
+	/*Wait for the busy bit to become 0*/
+	while(GET_BIT(I2C0->MCS,0) == 1);
+	
+	/*Sending rest of bytes*/
+	while (u8DataSize > 1)
+	{
+	I2C0->MDR = *u8ptData++;
+	u8DataSize--;
+	/*RUN*/
+	I2C0->MCS |= (I2C_CNTRL_RUN | I2C_CNTRL_ACK);
+	
+	/*Wait for the busy bit to become 0*/
+	while(GET_BIT(I2C0->MCS,0) == 1);
+	}
 		
-		if (--byteCount == 0)
-		{
-			while(I2C1->MCS & 0x40);
-			return 0;
-		}
-		
-		while(byteCount > 1)
-		{
-			I2C1->MCS = 9;
-			error = I2C1_wait_till_done();
-			if (error)  return error;
-			byteCount--;
-			*data++ = I2C1->MDR;
-		}
-		
-		I2C1->MCS = 5;
-		error = I2C1_wait_till_done();
-		*data = I2C1->MDR;
-		while(I2C1->MCS & 0x40);
-		
-		return 0; /*No error*/
-		
+	/*Sending the last byte*/
+	I2C0->MDR = *u8ptData++;
+	I2C0->MCS |= (I2C_CNTRL_RUN | I2C_CNTRL_STOP);
+
+	
+	/*Wait for the busy bit to become 0*/
+	while(GET_BIT(I2C0->MCS,0) == 1);
+	
+}
+
+
+void I2C0_vidClearInterrupt(u8 u8InterruptID)
+{
+	if (u8InterruptID == I2C_INTERRUPT_RIS_ID)
+	{
+		SET_BIT(I2C0->MICR,0);
+	}
+	else if(u8InterruptID == I2C_INTERRUPT_CLKIM_ID)
+	{
+		SET_BIT(I2C0->MICR,1);
+	}
+}
+
+void I2C0_Handler()
+{
+	ptrFI2C0();
+}
+
+void I2C1_Handler()
+{
+	ptrFI2C1();
+}
+
+void I2C2_Handler()
+{
+	ptrFI2C2();
+}
+
+void I2C3_Handler()
+{
+	ptrFI2C3();
 }

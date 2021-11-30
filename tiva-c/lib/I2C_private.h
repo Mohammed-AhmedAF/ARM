@@ -24,4 +24,10 @@ typedef struct
 #define I2C2 ((I2C_TYPE*) 0x40022000)
 #define I2C3 ((I2C_TYPE*) 0x40023000)
 
+/*Macros used in driver*/
+#define I2C_CNTRL_ACK 0x08
+#define I2C_CNTRL_STOP 0x04
+#define I2C_CNTRL_START 0x02
+#define I2C_CNTRL_RUN 0x01
+
 #endif
