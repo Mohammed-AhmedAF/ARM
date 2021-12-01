@@ -33,7 +33,7 @@ void I2C2_vidClearInterrupt(u8 u8InterruptID);
 
 /*I2C3*/
 void I2C3_vidInit(I2CConfig * i2cConfig);
-u8 I2C3_u8SendByte(u8 u8Byte);
+u8 I2C3_u8SendByte(u8 u8SlaveAddress, u8 u8MemAddress,u8 u8DataByte);
 void I2C3_vidSendMultipleBytes(u8 * u8ptData, u8 u8DataSize);
 void I2C3_vidPutISRFunction(void (*ptrF) (void));
 void I2C3_vidClearInterrupt(u8 u8InterruptID);

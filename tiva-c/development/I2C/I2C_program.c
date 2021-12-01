@@ -25,7 +25,7 @@ void I2C0_vidInit(I2CConfig * i2cConfig)
 
 	/*Calculation of timer period*/
 	/*100,000 kbps*/
-	I2C0->MTPR = 7;
+	I2C0->MTPR = i2cConfig->u8TimerPeriod;
 	
 	/*Interrupt configuration*/
 	if (i2cConfig->u8Interrupt == I2C_INTERRUPT_RIS_ENABLED)
@@ -106,7 +106,7 @@ u8 I2C0_u8SendByte(u8 u8Byte)
 	I2C0->MDR = u8Byte;
 	
 	/*STOP START RUN*/
-	I2C0->MCS = (I2C_CNTRL_RUN | I2C_CNTRL_START | I2C_CNTRL_STOP);
+	I2C0->MCS = (I2C_CNTRL_RUN | I2C_CNTRL_START);
 	
 	/*Wait for the busy bit to become 0*/
 	while(GET_BIT(I2C0->MCS,0) == 1);
@@ -218,21 +218,29 @@ u8 I2C2_u8SendByte(u8 u8Byte)
 	return GET_BIT(I2C2->MCS,1);
 }
 
-u8 I2C3_u8SendByte(u8 u8Byte)
+u8 I2C3_u8SendByte(u8 u8SlaveAddress, u8 u8MemAddress, u8 u8DataByte)
 {
 	/*Slave address*/
 	/*Bit0 specifies R/W*/
-	I2C3->MSA |= 2<<1;
+	I2C3->MSA |= (u8SlaveAddress)<<1;
 
 	/*Data to be sent*/
-	I2C3->MDR = u8Byte;
+	I2C3->MDR = u8MemAddress;
 	
 	/*STOP START RUN*/
-	I2C3->MCS |= (I2C_CNTRL_RUN | I2C_CNTRL_START | I2C_CNTRL_STOP);
+	I2C3->MCS = (I2C_CNTRL_RUN | I2C_CNTRL_START);
 	
 	/*Wait for the busy bit to become 0*/
 	while(GET_BIT(I2C3->MCS,0) == 1);
 	
+	/*Actual data*/
+	I2C3->MDR = u8DataByte;
+	I2C3->MCS = (I2C_CNTRL_RUN | I2C_CNTRL_STOP);
+	
+	/*Wait for the busy bit to become 0*/
+	while(GET_BIT(I2C3->MCS,0) == 1);
+	
+	/*Check error bit*/
 	return GET_BIT(I2C3->MCS,1);
 
 }

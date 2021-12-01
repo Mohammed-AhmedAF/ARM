@@ -7,7 +7,7 @@
 void vidBlinkOnSysTick(void)
 {
 	GPIO_vidTogglePin(GPIO_PORTF,GPIO_LED_RED);
-	I2C3_u8SendByte('a');
+	I2C3_u8SendByte(2,0,'a');
 }
 
 

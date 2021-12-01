@@ -13,7 +13,7 @@ static u8 u8Message[]={'L','C','D','Q','M'};
 
 void vidBlink(void)
 {
-	u8Result = I2C3_u8SendByte('a');
+	u8Result = I2C3_u8SendByte(2,0,'b');
 	if (u8Result == 1)
 	{
 		//GPIO_vidTogglePin(GPIO_PORTF,GPIO_LED_RED);
@@ -46,14 +46,14 @@ int main(void)
 	SYSCNTRL_vidEnableI2CClock(SYSCNTRL_I2C_3);
 	
 	/*I2C pins GPIO configuration*/
-	GPIO_vidSelectAlterFunction(GPIO_PORTD,GPIO_PIN0);
+  GPIO_vidSelectAlterFunction(GPIO_PORTD,GPIO_PIN0);
 	GPIO_vidSelectAlterFunction(GPIO_PORTD,GPIO_PIN1);
-	GPIO_vidSetPinDigEnable(GPIO_PORTD,GPIO_PIN0,GPIO_DEN_SET);
+  GPIO_vidSetPinDigEnable(GPIO_PORTD,GPIO_PIN0,GPIO_DEN_SET);
 	GPIO_vidSetPinDigEnable(GPIO_PORTD,GPIO_PIN1,GPIO_DEN_SET);
 	GPIO_vidConfigPortControl(GPIO_PORTD,GPIO_PIN0,0x3);
 	GPIO_vidConfigPortControl(GPIO_PORTD,GPIO_PIN1,0x3);
 	GPIO_vidEnablePinOpenDrain(GPIO_PORTD,GPIO_PIN1);
-	
+
 	/*LED GPIO configuration*/
 	GPIO_vidSetPinDigEnable(GPIO_PORTF,GPIO_LED_GREEN,GPIO_DEN_SET);
 	GPIO_vidSetPinDirection(GPIO_PORTF,GPIO_LED_GREEN,GPIO_OUTPUT);
