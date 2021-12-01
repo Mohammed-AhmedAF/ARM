@@ -12,28 +12,28 @@ typedef struct
 /*Function declaration*/
 /*I2C0*/
 void I2C0_vidInit(I2CConfig * i2cConfig);
-void I2C0_vidSendByte(u8 u8Byte);
+u8 I2C0_u8SendByte(u8 u8Byte);
 void I2C0_vidSendMultipleBytes(u8 * u8ptData, u8 u8DataSize);
 void I2C0_vidPutISRFunction(void (*ptrF) (void));
 void I2C0_vidClearInterrupt(u8 u8InterruptID);
 
 /*I2C1*/
 void I2C1_vidInit(I2CConfig * i2cConfig);
-void I2C1_vidSendByte(u8 u8Byte);
+u8 I2C1_u8SendByte(u8 u8Byte);
 void I2C1_vidSendMultipleBytes(u8 * u8ptData, u8 u8DataSize);
 void I2C1_vidPutISRFunction(void (*ptrF) (void));
 void I2C1_vidClearInterrupt(u8 u8InterruptID);
 
 /*I2C2*/
 void I2C2_vidInit(I2CConfig * i2cConfig);
-void I2C2_vidSendByte(u8 u8Byte);
+u8 I2C2_u8SendByte(u8 u8Byte);
 void I2C2_vidSendMultipleBytes(u8 * u8ptData, u8 u8DataSize);
 void I2C2_vidPutISRFunction(void (*ptrF) (void));
 void I2C2_vidClearInterrupt(u8 u8InterruptID);
 
 /*I2C3*/
 void I2C3_vidInit(I2CConfig * i2cConfig);
-void I2C3_vidSendByte(u8 u8Byte);
+u8 I2C3_u8SendByte(u8 u8Byte);
 void I2C3_vidSendMultipleBytes(u8 * u8ptData, u8 u8DataSize);
 void I2C3_vidPutISRFunction(void (*ptrF) (void));
 void I2C3_vidClearInterrupt(u8 u8InterruptID);
@@ -48,5 +48,9 @@ void I2C3_vidClearInterrupt(u8 u8InterruptID);
 
 #define I2C_INTERRUPT_RIS_ID 0
 #define I2C_INTERRUPT_CLKIM_ID 1
+
+#define I2C_SPEED_100K 100000
+
+#define I2C_CALC(SysClk,speed) ((SysClk/(20*speed))-1)
 
 #endif
