@@ -2,9 +2,10 @@
 #define _SYSCNTRL_INTERFACE_H
 
 void SYSCNTRL_vidEnableGPIOClock(u8 u8PortNumber);
+void SYSCNTRL_vidEnableSPIClock(u8 u8SPIChannel);
 void SYSCNTRL_vidEnableUARTClock(u8 u8UARTChannel);
 void SYSCNTRL_vidEnableTimerClock(u8 u8Timer);
-void SYSCNTRL_vidEnableI2CClock(u8 u8I2CModule);
+void SYSCNTRL_vidEnableI2CClock(u8 u8I2CPeriph);
 void SYSCNTRL_vidEnableADCClock(u8 u8ADCPeriph);
 void SYSCNTRL_vidSelectGPIOBus(u8 u8GPIOPort,u8 u8Bus);
 void SYSCNTRL_vidChangeSysClock(u8 u8SysClock);
@@ -26,6 +27,10 @@ void SYSCNTRL_vidChangeSysClock(u8 u8SysClock);
 #define SYSCNTRL_UART1 1
 #define SYSCNTRL_UART2 2
 
+#define SYSCNTRL_SPI0 0
+#define SYSCNTRL_SPI1 1
+#define SYSCNTRL_SPI2 2
+#define SYSCNTRL_SPI3 3
 
 #define SYSCNTRL_TIMER_0 0
 #define SYSCNTRL_TIMER_1 1

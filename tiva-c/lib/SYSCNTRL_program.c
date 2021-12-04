@@ -45,6 +45,44 @@ void SYSCNTRL_vidEnableUARTClock(u8 u8UARTChannel)
 	}
 }
 
+void SYSCNTRL_vidEnableSPIClock(u8 u8SPIChannel)
+{
+	switch(u8SPIChannel)
+	{
+		case SYSCNTRL_SPI0:
+				SET_BIT(RCGCSSI,0);
+			break;
+		case SYSCNTRL_SPI1:
+				SET_BIT(RCGCSSI,1);
+			break;
+		case SYSCNTRL_SPI2:
+				SET_BIT(RCGCSSI,2);
+			break;
+		case SYSCNTRL_SPI3:
+				SET_BIT(RCGCSSI,3);
+			break;
+	}
+}
+
+void SYSCNTRL_vidEnableI2CClock(u8 u8I2CPeriph)
+{
+	switch(u8I2CPeriph)
+	{
+		case SYSCNTRL_I2C_0:
+			SET_BIT(RCGCI2C,0);
+		break;
+		case SYSCNTRL_I2C_1:
+			SET_BIT(RCGCI2C,1);
+		break;
+		case SYSCNTRL_I2C_2:
+			SET_BIT(RCGCI2C,2);
+		break;
+		case SYSCNTRL_I2C_3:
+			SET_BIT(RCGCI2C,3);
+		break;
+	}
+}
+
 void SYSCNTRL_vidEnableADCClock(u8 u8ADCPeriph)
 {
 	switch (u8ADCPeriph)
@@ -63,7 +101,7 @@ void SYSCNTRL_vidEnableTimerClock(u8 u8Timer)
 	switch (u8Timer)
 	{
 	case SYSCNTRL_TIMER_0:
-		SET_BIT(RCGCTIMER, 0);
+		SET_BIT(RCGCTIMER,0);
 		break;
 	}
 }
