@@ -48,3 +48,6 @@ Drivers for several peripherals and simple projects of TI Tiva-C TM4C123GH6PM, i
 | SDA2 | PE5 |
 | SCL3 | PD0 |
 | SDA3 | PD1 |
+
+### Timers
+6 GPTM
