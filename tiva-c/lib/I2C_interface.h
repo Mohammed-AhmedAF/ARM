@@ -49,4 +49,7 @@ void I2C3_vidClearInterrupt(u8 u8InterruptID);
 #define I2C_INTERRUPT_RIS_ID 0
 #define I2C_INTERRUPT_CLKIM_ID 1
 
+#define I2C_SPEED_100K 100000
+#define I2C_CALC(SysClk,speed) ((SysClk/(20*speed))-1)
+
 #endif
