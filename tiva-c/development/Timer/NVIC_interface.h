@@ -32,6 +32,8 @@ u8 NVIC_u8GetPending(u8 u8InterruptID);
 #define NVIC_TIMER2B 24
 #define NVIC_TIMER3A 35 
 #define NVIC_TIMER3B 36
+#define NVIC_TIMER4A 70
+#define NVIC_TIMER4B 71
 #define NVIC_TIMER5A 92
 #define NVIC_TIEMR5B 93
 #define NVIC_PWM0_0 10

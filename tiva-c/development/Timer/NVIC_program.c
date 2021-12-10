@@ -13,6 +13,10 @@ void NVIC_vidSetInterrupt(u8 u8InterruptID)
 	{
 		NVIC->ISER[1] |= (1<<(u8InterruptID-32));
 	}
+	else if ((u8InterruptID >= 64) & (u8InterruptID < 97))
+	{
+			NVIC->ISER[2] |= (1<<(u8InterruptID-64));
+	}
 }
 
 void NVIC_vidClearInterrupt(u8 u8InterruptID)
@@ -24,6 +28,10 @@ void NVIC_vidClearInterrupt(u8 u8InterruptID)
 	else if ((u8InterruptID >= 32) & (u8InterruptID < 63))
 	{
 		NVIC->ICER[1] |= (1<<(u8InterruptID-32));
+	}
+	else if ((u8InterruptID >= 64) & (u8InterruptID < 97))
+	{
+			NVIC->ICER[2] |= (1<<(u8InterruptID-64));
 	}
 }
 
@@ -38,6 +46,10 @@ if (u8InterruptID < 32)
 	{
 		NVIC->ISPR[1] |= (1<<(u8InterruptID-32));
 	}
+	else if ((u8InterruptID >= 64) & (u8InterruptID < 97))
+	{
+			NVIC->ISPR[2] |= (1<<(u8InterruptID-64));
+	}
 }
 
 void NVIC_vidClearPending(u8 u8InterruptID)
@@ -50,6 +62,10 @@ if (u8InterruptID < 32)
 	{
 		NVIC->ICPR[1] |= (1<<(u8InterruptID-32));
 	}
+	else if ((u8InterruptID >= 64) & (u8InterruptID < 97))
+	{
+			NVIC->ICPR[2] |= (1<<(u8InterruptID-64));
+	}
 }
 
 u8 NVIC_u8GetPending(u8 u8InterruptID)
@@ -61,7 +77,12 @@ u8 NVIC_u8GetPending(u8 u8InterruptID)
 	}
 	else if ((u8InterruptID >= 32) & (u8InterruptID < 63))
 	{
-		u8PendingResult = GET_BIT(NVIC->ISPR[1],u8InterruptID);
+		u8PendingResult = GET_BIT(NVIC->ISPR[1],(u8InterruptID-32));
+	}
+	else if ((u8InterruptID >= 64) & (u8InterruptID < 97))
+	{
+		u8PendingResult = GET_BIT(NVIC->ISPR[1],(u8InterruptID-64));
+
 	}
 	
 	return u8PendingResult;

@@ -56,6 +56,12 @@ void TIMERS_vidPutFunction(u8 u8Timer, void (*ptFun)(void))
 	case TIMERS_TIMER4B:
 		TIMER4B_vidCallBack = ptFun;
 		break;
+	case TIMERS_TIMER5A:
+		TIMER5A_vidCallBack = ptFun;
+		break;
+	case TIMERS_TIMER5B:
+		TIMER5B_vidCallBack = ptFun;
+		break;
 	}
 }
 
@@ -188,7 +194,7 @@ void TIMERS_vidInit(TIMERConfig_t *TIMERConfig)
 	TIMERS_vidSelectModeA(TIMERConfig->u8TimerID, TIMERConfig->u8TimerAMode);
 	
 	/*Setting load value*/
-	GPTM0_TAILR |= TIMERConfig->u16ReloadValue;
+	TIMERS_vidSetLoadValueA(TIMERConfig->u8TimerID,TIMERConfig->u16ReloadValue);
 
 	/*Capture mode*/
 	TIMERS_vidSelectCaptModeA(TIMERConfig->u8TimerID, TIMERConfig->u8TimerACaptMode);
@@ -201,7 +207,7 @@ void TIMERS_vidInit(TIMERConfig_t *TIMERConfig)
 	
 	/*Interrupt mask*/
 	TIMERS_vidEnableInterruptA(TIMERConfig->u8TimerID,TIMERConfig->u8InterruptMask);
-	TIMERS_vidPutFunction(TIMERS_TIMER0A,TIMERConfig->ptrFunc);
+	TIMERS_vidPutFunction(TIMERConfig->u8InterruptID,TIMERConfig->ptrFunc);
 	/*Enable timer 0*/
 	TIMERS_vidEnableTimer(TIMERConfig->u8TimerID, TIMERS_BLOCK_A);
 }
@@ -650,6 +656,31 @@ void TIMERS_vidSelectCaptModeA(u8 u8Timer, u8 u8CaptMode)
 		break;
 	}
 		break;
+	}
+}
+
+void TIMERS_vidSetLoadValueA(u8 u8Timer, u32 u32LoadValue)
+{
+	switch(u8Timer)
+	{
+		case TIMERS_TIMER_0:
+			GPTM0_TAILR = u32LoadValue;
+			break;
+		case TIMERS_TIMER_1:
+			GPTM1_TAILR = u32LoadValue;
+			break;
+		case TIMERS_TIMER_2:
+			GPTM2_TAILR = u32LoadValue;
+			break;
+		case TIMERS_TIMER_3:
+			GPTM3_TAILR = u32LoadValue;
+			break;
+		case TIMERS_TIMER_4:
+			GPTM4_TAILR = u32LoadValue;
+			break;
+		case TIMERS_TIMER_5:
+			GPTM5_TAILR = u32LoadValue;
+			break;
 	}
 }
 

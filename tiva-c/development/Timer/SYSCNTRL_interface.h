@@ -36,7 +36,7 @@ void SYSCNTRL_vidChangeSysClock(u8 u8SysClock);
 #define SYSCNTRL_TIMER_1 1
 #define SYSCNTRL_TIMER_2 2
 #define SYSCNTRL_TIMER_3 3
-#define SYSCNTRL_TIEMR_4 4
+#define SYSCNTRL_TIMER_4 4
 #define SYSCNTRL_TIMER_5 5
 
 #define SYSCNTRL_ADC_0 0

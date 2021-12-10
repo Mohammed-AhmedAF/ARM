@@ -12,6 +12,7 @@ typedef struct
 	u8 u8TimerACountDir;
 	u8 u8TimerAEventMode;
 	u8 u8InterruptMask;
+	u8 u8InterruptID;
 	void (*ptrFunc) (void);
 } TIMERConfig_t;
 
@@ -44,6 +45,7 @@ void TIMERS_vidSelectCaptModeA(u8 u8Timer, u8 u8CaptMode);
 void TIMERS_vidSelectEventModeA(u8 u8Timer, u8 u8EventMode);
 void TIMERS_vidClearInterruptFlag(u8 u8Timer, u8 u8InterruptFlag);
 void TIMERS_vidSetLoadValueA(u8 u8Timer, u32 u32LoadValue);
+void TIMERS_u8GetInterruptID(u8 u8TimerID, u8 u8TimerBlock);
 
 
 /*TIMER IDs*/

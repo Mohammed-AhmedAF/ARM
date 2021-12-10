@@ -112,6 +112,12 @@ void SYSCNTRL_vidEnableTimerClock(u8 u8Timer)
 	case SYSCNTRL_TIMER_3:
 		SET_BIT(RCGCTIMER,3);
 		break;
+	case SYSCNTRL_TIMER_4:
+		SET_BIT(RCGCTIMER,4);
+	break;
+	case SYSCNTRL_TIMER_5:
+		SET_BIT(RCGCTIMER,5);
+	break;
 	}
 }
 
