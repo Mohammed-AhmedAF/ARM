@@ -22,6 +22,75 @@ static void (*TIMER4B_vidCallBack)(void);
 static void (*TIMER5A_vidCallBack)(void);
 static void (*TIMER5B_vidCallBack)(void);
 
+u8 TIMERS_u8GetInterruptID(u8 u8TimerID, u8 u8TimerBlock)
+{
+	u8 u8InterruptID = TIMERS_TIMER0A;
+	switch(u8TimerID)
+	{
+		case TIMERS_TIMER_0:
+			if (u8TimerBlock == TIMERS_BLOCK_A)
+			{
+				u8InterruptID = TIMERS_TIMER0A;
+			}
+			else
+			{
+				u8InterruptID = TIMERS_TIMER0B;
+			}
+			break;
+		case TIMERS_TIMER_1:
+			if (u8TimerBlock == TIMERS_BLOCK_A)
+			{
+				u8InterruptID = TIMERS_TIMER1A;
+			}
+			else
+			{
+				u8InterruptID = TIMERS_TIMER1B;
+			}
+			break;
+		case TIMERS_TIMER_2:
+			if (u8TimerBlock == TIMERS_BLOCK_A)
+			{
+				u8InterruptID = TIMERS_TIMER2A;
+			}
+			else
+			{
+				u8InterruptID = TIMERS_TIMER2B;
+			}
+			break;
+		case TIMERS_TIMER_3:
+			if (u8TimerBlock == TIMERS_BLOCK_A)
+			{
+				u8InterruptID = TIMERS_TIMER3A;
+			}
+			else
+			{
+				u8InterruptID = TIMERS_TIMER3B;
+			}
+			break;
+		case TIMERS_TIMER_4:
+			if (u8TimerBlock == TIMERS_BLOCK_A)
+			{
+				u8InterruptID = TIMERS_TIMER4A;
+			}
+			else
+			{
+				u8InterruptID = TIMERS_TIMER4B;
+			}
+			break;
+		case TIMERS_TIMER_5:
+			if (u8TimerBlock == TIMERS_BLOCK_A)
+			{
+				u8InterruptID = TIMERS_TIMER5A;
+			}
+			else
+			{
+				u8InterruptID = TIMERS_TIMER5B;
+			}
+			break;
+	}
+	return u8InterruptID;
+}
+
 void TIMERS_vidPutFunction(u8 u8Timer, void (*ptFun)(void))
 {
 	switch (u8Timer)
@@ -207,7 +276,8 @@ void TIMERS_vidInit(TIMERConfig_t *TIMERConfig)
 	
 	/*Interrupt mask*/
 	TIMERS_vidEnableInterruptA(TIMERConfig->u8TimerID,TIMERConfig->u8InterruptMask);
-	TIMERS_vidPutFunction(TIMERConfig->u8InterruptID,TIMERConfig->ptrFunc);
+	u8 u8InterruptID = TIMERS_u8GetInterruptID(TIMERConfig->u8InterruptID,TIMERConfig->u8TimerBlock);
+	TIMERS_vidPutFunction(u8InterruptID,TIMERConfig->ptrFunc);
 	/*Enable timer 0*/
 	TIMERS_vidEnableTimer(TIMERConfig->u8TimerID, TIMERS_BLOCK_A);
 }
