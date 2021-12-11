@@ -22,6 +22,37 @@ static void (*TIMER4B_vidCallBack)(void);
 static void (*TIMER5A_vidCallBack)(void);
 static void (*TIMER5B_vidCallBack)(void);
 
+void TIMERS_vidInit(TIMERConfig_t *TIMERConfig)
+{
+	/*Disable timer*/
+	TIMERS_vidDisableTimer(TIMERConfig->u8TimerID, TIMERS_BLOCK_A);
+
+	/*Timer configuration*/
+	TIMERS_vidSelectTimerConfig(TIMERConfig->u8TimerID, TIMERConfig->u8Config);
+
+	/*Timer0 A mode*/
+	TIMERS_vidSelectModeA(TIMERConfig->u8TimerID, TIMERConfig->u8TimerAMode);
+	
+	/*Setting load value*/
+	TIMERS_vidSetLoadValueA(TIMERConfig->u8TimerID,TIMERConfig->u16ReloadValue);
+
+	/*Capture mode*/
+	TIMERS_vidSelectCaptModeA(TIMERConfig->u8TimerID, TIMERConfig->u8TimerACaptMode);
+
+	/*Count direction*/
+	TIMERS_vidSelectCountDirectionA(TIMERConfig->u8TimerID, TIMERConfig->u8TimerACountDir);
+
+	/*Event mode*/
+	TIMERS_vidSelectEventModeA(TIMERConfig->u8TimerID,TIMERConfig->u8TimerAEventMode);
+	
+	/*Interrupt mask*/
+	TIMERS_vidEnableInterruptA(TIMERConfig->u8TimerID,TIMERConfig->u8InterruptMask);
+	u8 u8InterruptID = TIMERS_u8GetInterruptID(TIMERConfig->u8TimerID,TIMERConfig->u8TimerBlock);
+	TIMERS_vidPutFunction(u8InterruptID,TIMERConfig->ptrFunc);
+	/*Enable timer 0*/
+	TIMERS_vidEnableTimer(TIMERConfig->u8TimerID, TIMERS_BLOCK_A);
+}
+
 u8 TIMERS_u8GetInterruptID(u8 u8TimerID, u8 u8TimerBlock)
 {
 	u8 u8InterruptID = TIMERS_TIMER0A;
@@ -249,37 +280,6 @@ u32 TIMER0A_u32MeasureTimerPeriod(void)
 		;											/* wait till second positive edge captured*/
 	fallingEdge = TIMER0->TAR;						/* save the timestamp */
 	return (fallingEdge - risingEdge) & 0x00FFFFFF; /* return the time difference which is time period */
-}
-
-void TIMERS_vidInit(TIMERConfig_t *TIMERConfig)
-{
-	/*Disable timer*/
-	TIMERS_vidDisableTimer(TIMERConfig->u8TimerID, TIMERS_BLOCK_A);
-
-	/*Timer configuration*/
-	TIMERS_vidSelectTimerConfig(TIMERConfig->u8TimerID, TIMERConfig->u8Config);
-
-	/*Timer0 A mode*/
-	TIMERS_vidSelectModeA(TIMERConfig->u8TimerID, TIMERConfig->u8TimerAMode);
-	
-	/*Setting load value*/
-	TIMERS_vidSetLoadValueA(TIMERConfig->u8TimerID,TIMERConfig->u16ReloadValue);
-
-	/*Capture mode*/
-	TIMERS_vidSelectCaptModeA(TIMERConfig->u8TimerID, TIMERConfig->u8TimerACaptMode);
-
-	/*Count direction*/
-	TIMERS_vidSelectCountDirectionA(TIMERConfig->u8TimerID, TIMERConfig->u8TimerACountDir);
-
-	/*Event mode*/
-	TIMERS_vidSelectEventModeA(TIMERConfig->u8TimerID,TIMERConfig->u8TimerAEventMode);
-	
-	/*Interrupt mask*/
-	TIMERS_vidEnableInterruptA(TIMERConfig->u8TimerID,TIMERConfig->u8InterruptMask);
-	u8 u8InterruptID = TIMERS_u8GetInterruptID(TIMERConfig->u8InterruptID,TIMERConfig->u8TimerBlock);
-	TIMERS_vidPutFunction(u8InterruptID,TIMERConfig->ptrFunc);
-	/*Enable timer 0*/
-	TIMERS_vidEnableTimer(TIMERConfig->u8TimerID, TIMERS_BLOCK_A);
 }
 
 void TIMER0B_vidInit(TIMERConfig_t *TIMERConfig)
@@ -1110,7 +1110,7 @@ void TIMERS_vidDisableTimer(u8 u8TimerID, u8 u8TimerBlock)
 void TIMER0A_Handler(void)
 {
 	TIMER0A_vidCallBack();
-	SET_BIT(GPTM0_ICR, 1); /*To clear interrupt flag*/
+	SET_BIT(GPTM0_ICR, 0); /*To clear interrupt flag*/
 }
 
 void TIMER0B_Handler(void)
@@ -1123,7 +1123,7 @@ void TIMER0B_Handler(void)
 void TIMER1A_Handler(void)
 {
 	TIMER1A_vidCallBack();
-	SET_BIT(GPTM1_ICR, 1);
+	SET_BIT(GPTM1_ICR, 0);
 }
 
 void TIMER1B_Handler(void)
@@ -1136,7 +1136,7 @@ void TIMER1B_Handler(void)
 void TIMER2A_Handler(void)
 {
 	TIMER2A_vidCallBack();
-	SET_BIT(GPTM2_ICR, 1);
+	SET_BIT(GPTM2_ICR, 0);
 }
 
 void TIMER2B_Handler(void)
@@ -1149,7 +1149,7 @@ void TIMER2B_Handler(void)
 void TIMER3A_Handler(void)
 {
 	TIMER3A_vidCallBack();
-	SET_BIT(GPTM3_ICR, 1);
+	SET_BIT(GPTM3_ICR, 0);
 }
 
 void TIMER3B_Handler(void)
@@ -1162,7 +1162,7 @@ void TIMER3B_Handler(void)
 void TIMER4A_Handler(void)
 {
 	TIMER4A_vidCallBack();
-	SET_BIT(GPTM4_ICR, 1);
+	SET_BIT(GPTM4_ICR, 0);
 }
 
 void TIMER4B_Handler(void)
@@ -1175,7 +1175,7 @@ void TIMER4B_Handler(void)
 void TIMER5A_Handler(void)
 {
 	TIMER5A_vidCallBack();
-	SET_BIT(GPTM5_ICR, 1);
+	SET_BIT(GPTM5_ICR, 0);
 }
 
 void TIMER5B_Handler(void)

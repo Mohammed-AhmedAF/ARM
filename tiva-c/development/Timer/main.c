@@ -19,14 +19,13 @@ static void vidBlinkA(void)
 		GPIO_vidTogglePin(GPIO_PORTF,GPIO_PIN1);
 		u8CountA = 0;
 	}
-	TIMERS_vidClearInterruptFlag(TIMERS_TIMER_4,TIMERS_INTERRUPT_BLOCKA_TIMEOUT);
 }
 
 int main(void)
 {
 /*Enabling clock for peripherals*/
 	SYSCNTRL_vidEnableGPIOClock(SYSCNTRL_GPIO_PORTF);
-	SYSCNTRL_vidEnableTimerClock(SYSCNTRL_TIMER_4);
+	SYSCNTRL_vidEnableTimerClock(SYSCNTRL_TIMER_3);
 	
 	/*GPIO pin configuration*/
 	GPIO_vidSetPinDirection(GPIO_PORTF,GPIO_PIN1,GPIO_DIR_OUTPUT);
@@ -38,9 +37,9 @@ int main(void)
 	/*Timer configuration*/
 	TIMERConfig_t timer0AConfig;
 	timer0AConfig.ptrFunc = vidBlinkA;
-	timer0AConfig.u8TimerID = TIMERS_TIMER_4;
+	timer0AConfig.u8TimerID = TIMERS_TIMER_3;
+	timer0AConfig.u8TimerBlock = TIMERS_BLOCK_A;
 	timer0AConfig.u16ReloadValue = 60000;
-	timer0AConfig.u8InterruptID = TIMERS_TIMER4A;
 	timer0AConfig.u8Config = TIMER_CONFIG_1632_16BIT;
 	timer0AConfig.u8InterruptMask = TIMER_TIMERA_INTERRUPT_TIMEOUT;
 	timer0AConfig.u8TimerAMode = TIMER_TIMERA_MODE_PERIODIC;
@@ -49,7 +48,7 @@ int main(void)
 	
 	
 	/*NVIC configuration*/
-	NVIC_vidSetInterrupt(NVIC_TIMER4A);
+	NVIC_vidSetInterrupt(NVIC_TIMER3A);
 	
 	/*Enable global interrupt*/
 	__enable_irq();
