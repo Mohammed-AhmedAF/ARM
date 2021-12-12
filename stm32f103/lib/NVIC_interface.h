@@ -23,5 +23,6 @@ void NVIC_vidSetPriority(u8 u8ID, u8 u8GroupPriority, u8 u8SubPriority, u32 u32G
 #define NVIC_TIM2 28
 #define NVIC_TIM3 29
 #define NVIC_TIM4 30
+#define NVIC_TIM5 57
 
 #endif
