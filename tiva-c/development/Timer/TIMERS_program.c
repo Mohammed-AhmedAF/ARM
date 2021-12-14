@@ -25,32 +25,57 @@ static void (*TIMER5B_vidCallBack)(void);
 void TIMERS_vidInit(TIMERConfig_t *TIMERConfig)
 {
 	/*Disable timer*/
-	TIMERS_vidDisableTimer(TIMERConfig->u8TimerID, TIMERS_BLOCK_A);
+	TIMERS_vidDisableTimer(TIMERConfig->u8TimerID, TIMERConfig->u8TimerBlock);
 
 	/*Timer configuration*/
 	TIMERS_vidSelectTimerConfig(TIMERConfig->u8TimerID, TIMERConfig->u8Config);
 
-	/*Timer0 A mode*/
-	TIMERS_vidSelectModeA(TIMERConfig->u8TimerID, TIMERConfig->u8TimerAMode);
+	if (TIMERConfig->u8TimerBlock == TIMERS_BLOCK_A)
+	{
+		/*Timer mode*/
+		TIMERS_vidSelectModeA(TIMERConfig->u8TimerID, TIMERConfig->u8TimerAMode);
+		
+		/*Setting load value*/
+		TIMERS_vidSetLoadValueA(TIMERConfig->u8TimerID,TIMERConfig->u16ReloadValue);
+
+		/*Setting prescaler*/
+		TIMERS_vidSetPrescalerValueA(TIMERConfig->u8TimerID,TIMERConfig->u8PrescalerValue);
+
+		/*Count direction*/
+		TIMERS_vidSelectCountDirectionA(TIMERConfig->u8TimerID, TIMERConfig->u8TimerACountDir);
+		
+		/*Interrupt mask*/
+		TIMERS_vidEnableInterruptA(TIMERConfig->u8TimerID,TIMERConfig->u8InterruptMask);
+		
+		/*Capture mode*/
+		TIMERS_vidSelectCaptModeA(TIMERConfig->u8TimerID, TIMERConfig->u8TimerACaptMode);
+
+		/*Event mode*/
+		TIMERS_vidSelectEventModeA(TIMERConfig->u8TimerID,TIMERConfig->u8TimerAEventMode);
+	}
+	else
+	{
+		/*Timer mode*/
+		TIMERS_vidSelectModeB(TIMERConfig->u8TimerID, TIMERConfig->u8TimerAMode);
+		
+		/*Load value*/
+		TIMERS_vidSetLoadValueB(TIMERConfig->u8TimerID,TIMERConfig->u16ReloadValue);
+		
+		/*Prescaler*/
+		TIMERS_vidSetPrescalerValueB(TIMERConfig->u8TimerID,TIMERConfig->u8PrescalerValue);
+		
+		/*Count direction*/
+		TIMERS_vidSelectCountDirectionB(TIMERConfig->u8TimerID, TIMERConfig->u8TimerACountDir);
+		
+		/*Enable interrupt*/
+		TIMERS_vidEnableInterruptB(TIMERConfig->u8TimerID,TIMERConfig->u8InterruptMask);
+	}
 	
-	/*Setting load value*/
-	TIMERS_vidSetLoadValueA(TIMERConfig->u8TimerID,TIMERConfig->u16ReloadValue);
-
-	/*Capture mode*/
-	TIMERS_vidSelectCaptModeA(TIMERConfig->u8TimerID, TIMERConfig->u8TimerACaptMode);
-
-	/*Count direction*/
-	TIMERS_vidSelectCountDirectionA(TIMERConfig->u8TimerID, TIMERConfig->u8TimerACountDir);
-
-	/*Event mode*/
-	TIMERS_vidSelectEventModeA(TIMERConfig->u8TimerID,TIMERConfig->u8TimerAEventMode);
 	
-	/*Interrupt mask*/
-	TIMERS_vidEnableInterruptA(TIMERConfig->u8TimerID,TIMERConfig->u8InterruptMask);
 	u8 u8InterruptID = TIMERS_u8GetInterruptID(TIMERConfig->u8TimerID,TIMERConfig->u8TimerBlock);
 	TIMERS_vidPutFunction(u8InterruptID,TIMERConfig->ptrFunc);
 	/*Enable timer 0*/
-	TIMERS_vidEnableTimer(TIMERConfig->u8TimerID, TIMERS_BLOCK_A);
+	TIMERS_vidEnableTimer(TIMERConfig->u8TimerID,TIMERConfig->u8TimerBlock);
 }
 
 u8 TIMERS_u8GetInterruptID(u8 u8TimerID, u8 u8TimerBlock)
@@ -457,6 +482,99 @@ void TIMERS_vidSelectModeA(u8 u8TimerID, u8 u8Mode)
 	}
 }
 
+void TIMERS_vidSelectModeB(u8 u8TimerID, u8 u8Mode)
+{
+	switch (u8TimerID)
+	{
+	case TIMERS_TIMER_0:
+		switch (u8Mode)
+		{
+		case TIMER_TIMERA_MODE_ONESHOOT:
+			GPTM0_TBMR |= 0x01;
+			break;
+		case TIMER_TIMERA_MODE_PERIODIC:
+			GPTM0_TBMR |= 0x02;
+			break;
+		case TIMER_TIMERA_MODE_CAPTURE:
+			GPTM0_TBMR |= 0x03;
+			break;
+		}
+		break;
+
+	case TIMERS_TIMER_1:
+		switch (u8Mode)
+		{
+		case TIMER_TIMERA_MODE_ONESHOOT:
+			GPTM1_TBMR |= 0x01;
+			break;
+		case TIMER_TIMERA_MODE_PERIODIC:
+			GPTM1_TBMR |= 0x02;
+			break;
+		case TIMER_TIMERA_MODE_CAPTURE:
+			GPTM1_TBMR |= 0x03;
+			break;
+		}
+		break;
+	case TIMERS_TIMER_2:
+		switch (u8Mode)
+		{
+		case TIMER_TIMERA_MODE_ONESHOOT:
+			GPTM2_TBMR |= 0x01;
+			break;
+		case TIMER_TIMERA_MODE_PERIODIC:
+			GPTM2_TBMR |= 0x02;
+			break;
+		case TIMER_TIMERA_MODE_CAPTURE:
+			GPTM2_TBMR |= 0x03;
+			break;
+		}
+		break;
+	case TIMERS_TIMER_3:
+		switch (u8Mode)
+		{
+		case TIMER_TIMERA_MODE_ONESHOOT:
+			GPTM3_TBMR |= 0x01;
+			break;
+		case TIMER_TIMERA_MODE_PERIODIC:
+			GPTM3_TBMR |= 0x02;
+			break;
+		case TIMER_TIMERA_MODE_CAPTURE:
+			GPTM3_TBMR |= 0x03;
+			break;
+		}
+		break;
+	case TIMERS_TIMER_4:
+		switch (u8Mode)
+		{
+		case TIMER_TIMERA_MODE_ONESHOOT:
+			GPTM4_TBMR |= 0x01;
+			break;
+		case TIMER_TIMERA_MODE_PERIODIC:
+			GPTM4_TBMR |= 0x02;
+			break;
+		case TIMER_TIMERA_MODE_CAPTURE:
+			GPTM4_TBMR |= 0x03;
+			break;
+		}
+		break;
+	case TIMERS_TIMER_5:
+		switch (u8Mode)
+		{
+		case TIMER_TIMERA_MODE_ONESHOOT:
+			GPTM5_TBMR |= 0x01;
+			break;
+		case TIMER_TIMERA_MODE_PERIODIC:
+			GPTM5_TBMR |= 0x02;
+			break;
+		case TIMER_TIMERA_MODE_CAPTURE:
+			GPTM5_TBMR |= 0x03;
+			break;
+		}
+		break;
+	}
+}
+
+
 void TIMER0_vidDisable(u8 u8Timer0Sub)
 {
 	switch (u8Timer0Sub)
@@ -545,6 +663,69 @@ void TIMERS_vidSelectCountDirectionA(u8 u8TimerID, u8 u8CountDir)
 
 void TIMERS_vidSelectCountDirectionB(u8 u8TimerID, u8 u8CountDir)
 {
+		switch (u8TimerID)
+	{
+	case TIMERS_TIMER_0:
+		if (u8CountDir == TIMERS_COUNTDIR_UP)
+		{
+			SET_BIT(GPTM0_TBMR, 4);
+		}
+		else
+		{
+			CLEAR_BIT(GPTM0_TBMR, 4);
+		}
+		break;
+	case TIMERS_TIMER_1:
+		if (u8CountDir == TIMERS_COUNTDIR_UP)
+		{
+			SET_BIT(GPTM1_TBMR, 4);
+		}
+		else
+		{
+			CLEAR_BIT(GPTM1_TBMR, 4);
+		}
+		break;
+	case TIMERS_TIMER_2:
+		if (u8CountDir == TIMERS_COUNTDIR_UP)
+		{
+			SET_BIT(GPTM2_TBMR, 4);
+		}
+		else
+		{
+			CLEAR_BIT(GPTM2_TBMR, 4);
+		}
+		break;
+	case TIMERS_TIMER_3:
+		if (u8CountDir == TIMERS_COUNTDIR_UP)
+		{
+			SET_BIT(GPTM3_TBMR, 4);
+		}
+		else
+		{
+			CLEAR_BIT(GPTM3_TBMR, 4);
+		}
+		break;
+	case TIMERS_TIMER_4:
+		if (u8CountDir == TIMERS_COUNTDIR_UP)
+		{
+			SET_BIT(GPTM4_TBMR, 4);
+		}
+		else
+		{
+			CLEAR_BIT(GPTM4_TBMR, 4);
+		}
+		break;
+	case TIMERS_TIMER_5:
+		if (u8CountDir == TIMERS_COUNTDIR_UP)
+		{
+			SET_BIT(GPTM5_TBMR, 4);
+		}
+		else
+		{
+			CLEAR_BIT(GPTM5_TBMR, 4);
+		}
+		break;
+	}
 }
 
 void TIMERS_vidEnableInterruptA(u8 u8Timer, u8 u8Interrupt)
@@ -656,6 +837,115 @@ void TIMERS_vidEnableInterruptA(u8 u8Timer, u8 u8Interrupt)
 	}
 }
 
+void TIMERS_vidEnableInterruptB(u8 u8Timer, u8 u8Interrupt)
+{
+switch(u8Timer)
+	{
+		case TIMERS_TIMER_0:
+			switch (u8Interrupt)
+	{
+	case TIMER_TIMERA_INTERRUPT_TIMEOUT:
+				  GPTM0_IMR |= (1<<8); /*Enable time-out interrupt*/
+					GPTM0_ICR |= (1<<8);
+				break;
+			case TIMER_TIMERA_INTERRUPT_CAPTUREMODE_MATCH:
+					GPTM0_IMR |= (1<<9);
+					GPTM0_ICR |= (1<<9);
+				break;
+			case TIMER_TIMERA_INTERRUPT_CAPTUREMODE_EVENT:
+				GPTM0_IMR |= (1<<10);
+					GPTM0_ICR |= (1<<10);
+				break;
+	}
+			break;
+		case TIMERS_TIMER_1:
+						switch (u8Interrupt)
+	{
+			case TIMER_TIMERA_INTERRUPT_TIMEOUT:
+				  GPTM1_IMR |= (1<<8); /*Enable time-out interrupt*/
+					GPTM1_ICR |= 1<<8;
+				break;
+			case TIMER_TIMERA_INTERRUPT_CAPTUREMODE_MATCH:
+					GPTM1_IMR |= (1<<9);
+					GPTM1_ICR |= (1<<9);
+				break;
+			case TIMER_TIMERA_INTERRUPT_CAPTUREMODE_EVENT:
+				GPTM1_IMR |= (1<<10);
+					GPTM1_ICR |= (1<<10);
+				break;
+	}
+			break;
+		case TIMERS_TIMER_2:
+			switch(u8Interrupt)
+			{
+			case TIMER_TIMERA_INTERRUPT_TIMEOUT:
+				  GPTM2_IMR |= (1<<8); /*Enable time-out interrupt*/
+					GPTM2_ICR |= (1<<8);
+				break;
+			case TIMER_TIMERA_INTERRUPT_CAPTUREMODE_MATCH:
+					GPTM2_IMR |= (1<<9);
+					GPTM2_ICR |= (1<<9);
+				break;
+			case TIMER_TIMERA_INTERRUPT_CAPTUREMODE_EVENT:
+				GPTM2_IMR |= (1<<10);
+					GPTM2_ICR |= (1<<10);
+				break;
+		}
+			break;
+		case TIMERS_TIMER_3:
+				switch(u8Interrupt)
+			{
+			case TIMER_TIMERA_INTERRUPT_TIMEOUT:
+				  GPTM3_IMR |= (1<<8); /*Enable time-out interrupt*/
+					GPTM3_ICR |= 1<<8;
+				break;
+			case TIMER_TIMERA_INTERRUPT_CAPTUREMODE_MATCH:
+					GPTM3_IMR |= (1<<9);
+					GPTM3_ICR |= (1<<9);
+				break;
+			case TIMER_TIMERA_INTERRUPT_CAPTUREMODE_EVENT:
+				GPTM3_IMR |= (1<<10);
+					GPTM3_ICR |= (1<<10);
+				break;
+		}
+			break;
+		case TIMERS_TIMER_4:
+				switch(u8Interrupt)
+			{
+			case TIMER_TIMERA_INTERRUPT_TIMEOUT:
+				  GPTM4_IMR |= (1<<8); /*Enable time-out interrupt*/
+					GPTM4_ICR |= 1<<8;
+				break;
+			case TIMER_TIMERA_INTERRUPT_CAPTUREMODE_MATCH:
+					GPTM4_IMR |= (1<<9);
+					GPTM4_ICR |= (1<<9);
+				break;
+			case TIMER_TIMERA_INTERRUPT_CAPTUREMODE_EVENT:
+				GPTM4_IMR |= (1<<10);
+					GPTM4_ICR |= (1<<10);
+				break;
+		}
+			break;
+		case TIMERS_TIMER_5:
+				switch(u8Interrupt)
+			{
+			case TIMER_TIMERA_INTERRUPT_TIMEOUT:
+				  GPTM5_IMR |= (1<<8); /*Enable time-out interrupt*/
+					GPTM5_ICR |= 1<<8;
+				break;
+			case TIMER_TIMERA_INTERRUPT_CAPTUREMODE_MATCH:
+					GPTM5_IMR |= (1<<9);
+					GPTM5_ICR |= (1<<9);
+				break;
+			case TIMER_TIMERA_INTERRUPT_CAPTUREMODE_EVENT:
+				GPTM5_IMR |= (1<<10);
+					GPTM5_ICR |= (1<<10);
+				break;
+		}
+			break;
+	}
+}
+
 void TIMERS_vidSelectCaptModeA(u8 u8Timer, u8 u8CaptMode)
 {
 	switch(u8Timer)
@@ -750,6 +1040,31 @@ void TIMERS_vidSetLoadValueA(u8 u8Timer, u32 u32LoadValue)
 			break;
 		case TIMERS_TIMER_5:
 			GPTM5_TAILR = u32LoadValue;
+			break;
+	}
+}
+
+void TIMERS_vidSetLoadValueB(u8 u8Timer, u32 u32LoadValue)
+{
+	switch(u8Timer)
+	{
+		case TIMERS_TIMER_0:
+			GPTM0_TBILR = u32LoadValue;
+			break;
+		case TIMERS_TIMER_1:
+			GPTM1_TBILR = u32LoadValue;
+			break;
+		case TIMERS_TIMER_2:
+			GPTM2_TBILR = u32LoadValue;
+			break;
+		case TIMERS_TIMER_3:
+			GPTM3_TBILR = u32LoadValue;
+			break;
+		case TIMERS_TIMER_4:
+			GPTM4_TBILR = u32LoadValue;
+			break;
+		case TIMERS_TIMER_5:
+			GPTM5_TBILR = u32LoadValue;
 			break;
 	}
 }
@@ -1112,6 +1427,58 @@ void TIMER0A_Handler(void)
 	TIMER0A_vidCallBack();
 	SET_BIT(GPTM0_ICR, 0); /*To clear interrupt flag*/
 }
+
+void TIMERS_vidSetPrescalerValueA(u8 u8TimerID,u8 u8PrescalerValue)
+{
+switch(u8TimerID)
+	{
+		case TIMERS_TIMER_0:
+			TIMER0->TAPR = u8PrescalerValue;
+			break;
+		case TIMERS_TIMER_1:
+			TIMER1->TAPR = u8PrescalerValue;
+			break;
+		case TIMERS_TIMER_2:
+			TIMER2->TAPR = u8PrescalerValue;
+			break;
+		case TIMERS_TIMER_3:
+			TIMER3->TAPR = u8PrescalerValue;
+			break;
+		case TIMERS_TIMER_4:
+			TIMER4->TAPR = u8PrescalerValue;
+			break;
+		case TIMERS_TIMER_5:
+			TIMER5->TAPR = u8PrescalerValue;
+			break;
+	}
+}
+
+void TIMERS_vidSetPrescalerValueB(u8 u8TimerID,u8 u8PrescalerValue)
+{
+	switch(u8TimerID)
+	{
+		case TIMERS_TIMER_0:
+			TIMER0->TBPR = u8PrescalerValue;
+			break;
+		case TIMERS_TIMER_1:
+			TIMER1->TBPR = u8PrescalerValue;
+			break;
+		case TIMERS_TIMER_2:
+			TIMER2->TBPR = u8PrescalerValue;
+			break;
+		case TIMERS_TIMER_3:
+			TIMER3->TBPR = u8PrescalerValue;
+			break;
+		case TIMERS_TIMER_4:
+			TIMER4->TBPR = u8PrescalerValue;
+			break;
+		case TIMERS_TIMER_5:
+			TIMER5->TBPR = u8PrescalerValue;
+			break;
+	}
+}
+
+
 
 void TIMER0B_Handler(void)
 {

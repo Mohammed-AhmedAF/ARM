@@ -4,6 +4,7 @@
 typedef struct 
 {
 	u16 u16ReloadValue;
+	u8 u8PrescalerValue;
 	u8 u8TimerID;
 	u8 u8TimerBlock;
 	u8 u8Config;
@@ -41,10 +42,14 @@ void TIMERS_vidSelectCountDirectionB(u8 u8TimerID, u8 u8CountDir);
 void TIMERS_vidSelectModeA(u8 u8Timer, u8 u8Mode);
 void TIMERS_vidSelectModeB(u8 u8Timer, u8 u8Mode);
 void TIMERS_vidEnableInterruptA(u8 u8Timer, u8 u8Interrupt);
+void TIMERS_vidEnableInterruptB(u8 u8Timer, u8 u8Interrupt);
 void TIMERS_vidSelectCaptModeA(u8 u8Timer, u8 u8CaptMode);
 void TIMERS_vidSelectEventModeA(u8 u8Timer, u8 u8EventMode);
 void TIMERS_vidClearInterruptFlag(u8 u8Timer, u8 u8InterruptFlag);
 void TIMERS_vidSetLoadValueA(u8 u8Timer, u32 u32LoadValue);
+void TIMERS_vidSetLoadValueB(u8 u8Timer, u32 u32LoadValue);
+void TIMERS_vidSetPrescalerValueA(u8 u8Timer, u8 u8PrescalerValue);
+void TIMERS_vidSetPrescalerValueB(u8 u8Timer, u8 u8PrescalerValue);
 u8 TIMERS_u8GetInterruptID(u8 u8TimerID, u8 u8TimerBlock);
 
 
@@ -56,9 +61,11 @@ u8 TIMERS_u8GetInterruptID(u8 u8TimerID, u8 u8TimerBlock);
 #define TIMERS_TIMER_4 4
 #define TIMERS_TIMER_5 5
 
+/*Block IDs*/
 #define TIMERS_BLOCK_A 0
 #define TIMERS_BLOCK_B 1
 
+/*Count directions*/
 #define TIMERS_COUNTDIR_DOWN 0
 #define TIMERS_COUNTDIR_UP 1
 
@@ -76,13 +83,14 @@ u8 TIMERS_u8GetInterruptID(u8 u8TimerID, u8 u8TimerBlock);
 #define TIMERS_TIMER5A 11
 #define TIMERS_TIMER5B 12
 
+/*Timer modes*/
 #define ONESHOOT_MODE 0x1
 #define PERIODIC_MODE 0x2
 #define CAPTURE_MODE 0x3
 #define TIMERS_TIMA_COUNT_UP (1U<<4)
 #define TIMERA_ENABLE 0
 
-/*GPTM mode*/
+/*GPTM configuration*/
 #define TIMER_CONFIG_1632_32BIT 1
 #define TIMER_CONGIG_3264_64BIT 2
 #define TIMER_CONFIG_1632_32BIT_RTC 3
@@ -137,5 +145,14 @@ u8 TIMERS_u8GetInterruptID(u8 u8TimerID, u8 u8TimerBlock);
 
 #define TIMERS_INTERRUPT_BLOCKA_TIMEOUT 0
 #define TIMERS_INTERRUPT_BLOCKA_CAPTMODE 1
+
+#define TIMERS_INTERRUPT_BLOCKB_TIMEOUT 0
+#define TIMERS_INTERRUPT_BLOCKB_CAPTMODE 1
+
+/*General macro definitions*/
+
+#define TIMER_INTERRUPT_TIMEOUT 1
+#define TIMER_INTERRUPT_CAPTUREMODE_MATCH 2
+#define TIMER_INTERRUPT_CAPTUREMODE_EVENT 3
 
 #endif
