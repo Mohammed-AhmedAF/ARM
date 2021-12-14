@@ -8,10 +8,10 @@ typedef struct
 	u8 u8TimerID;
 	u8 u8TimerBlock;
 	u8 u8Config;
-	u8 u8TimerAMode;
-	u8 u8TimerACaptMode;
-	u8 u8TimerACountDir;
-	u8 u8TimerAEventMode;
+	u8 u8TimerMode;
+	u8 u8TimerCaptMode;
+	u8 u8TimerCountDir;
+	u8 u8TimerEventMode;
 	u8 u8InterruptMask;
 	u8 u8InterruptID;
 	void (*ptrFunc) (void);
@@ -151,8 +151,17 @@ u8 TIMERS_u8GetInterruptID(u8 u8TimerID, u8 u8TimerBlock);
 
 /*General macro definitions*/
 
-#define TIMER_INTERRUPT_TIMEOUT 1
-#define TIMER_INTERRUPT_CAPTUREMODE_MATCH 2
-#define TIMER_INTERRUPT_CAPTUREMODE_EVENT 3
+#define TIMERS_INTERRUPT_TIMEOUT 1
+#define TIMERS_INTERRUPT_CAPTUREMODE_MATCH 2
+#define TIMERS_INTERRUPT_CAPTUREMODE_EVENT 3
 
+#define TIMERS_MODE_ONESHOOT 1
+#define TIMERS_MODE_PERIODIC 2
+#define TIMERS_MODE_CAPTURE 3
+
+#define TIMERS_CONFIG_1632_32BIT 1
+#define TIMERS_CONGIG_3264_64BIT 2
+#define TIMERS_CONFIG_1632_32BIT_RTC 3
+#define TIMERS_CONFIG_1632_16BIT 4
+#define TIMERS_CONFIG_3264_32BIT 5
 #endif

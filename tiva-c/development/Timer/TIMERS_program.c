@@ -33,7 +33,7 @@ void TIMERS_vidInit(TIMERConfig_t *TIMERConfig)
 	if (TIMERConfig->u8TimerBlock == TIMERS_BLOCK_A)
 	{
 		/*Timer mode*/
-		TIMERS_vidSelectModeA(TIMERConfig->u8TimerID, TIMERConfig->u8TimerAMode);
+		TIMERS_vidSelectModeA(TIMERConfig->u8TimerID, TIMERConfig->u8TimerMode);
 		
 		/*Setting load value*/
 		TIMERS_vidSetLoadValueA(TIMERConfig->u8TimerID,TIMERConfig->u16ReloadValue);
@@ -42,21 +42,21 @@ void TIMERS_vidInit(TIMERConfig_t *TIMERConfig)
 		TIMERS_vidSetPrescalerValueA(TIMERConfig->u8TimerID,TIMERConfig->u8PrescalerValue);
 
 		/*Count direction*/
-		TIMERS_vidSelectCountDirectionA(TIMERConfig->u8TimerID, TIMERConfig->u8TimerACountDir);
+		TIMERS_vidSelectCountDirectionA(TIMERConfig->u8TimerID, TIMERConfig->u8TimerCountDir);
 		
 		/*Interrupt mask*/
 		TIMERS_vidEnableInterruptA(TIMERConfig->u8TimerID,TIMERConfig->u8InterruptMask);
 		
 		/*Capture mode*/
-		TIMERS_vidSelectCaptModeA(TIMERConfig->u8TimerID, TIMERConfig->u8TimerACaptMode);
+		TIMERS_vidSelectCaptModeA(TIMERConfig->u8TimerID, TIMERConfig->u8TimerCaptMode);
 
 		/*Event mode*/
-		TIMERS_vidSelectEventModeA(TIMERConfig->u8TimerID,TIMERConfig->u8TimerAEventMode);
+		TIMERS_vidSelectEventModeA(TIMERConfig->u8TimerID,TIMERConfig->u8TimerEventMode);
 	}
 	else
 	{
 		/*Timer mode*/
-		TIMERS_vidSelectModeB(TIMERConfig->u8TimerID, TIMERConfig->u8TimerAMode);
+		TIMERS_vidSelectModeB(TIMERConfig->u8TimerID, TIMERConfig->u8TimerMode);
 		
 		/*Load value*/
 		TIMERS_vidSetLoadValueB(TIMERConfig->u8TimerID,TIMERConfig->u16ReloadValue);
@@ -65,7 +65,7 @@ void TIMERS_vidInit(TIMERConfig_t *TIMERConfig)
 		TIMERS_vidSetPrescalerValueB(TIMERConfig->u8TimerID,TIMERConfig->u8PrescalerValue);
 		
 		/*Count direction*/
-		TIMERS_vidSelectCountDirectionB(TIMERConfig->u8TimerID, TIMERConfig->u8TimerACountDir);
+		TIMERS_vidSelectCountDirectionB(TIMERConfig->u8TimerID, TIMERConfig->u8TimerCountDir);
 		
 		/*Enable interrupt*/
 		TIMERS_vidEnableInterruptB(TIMERConfig->u8TimerID,TIMERConfig->u8InterruptMask);
@@ -240,7 +240,7 @@ void TIMER0A_vidConfigInputCapt(TIMERConfig_t *TIMERConfig)
 		break;
 	}
 	/*Timer0 A mode*/
-	switch (TIMERConfig->u8TimerAMode)
+	switch (TIMERConfig->u8TimerMode)
 	{
 	case TIMER_TIMERA_MODE_ONESHOOT:
 		GPTM0_TAMR |= 0x01;
@@ -254,7 +254,7 @@ void TIMER0A_vidConfigInputCapt(TIMERConfig_t *TIMERConfig)
 	}
 
 	/*Capture mode*/
-	switch (TIMERConfig->u8TimerACaptMode)
+	switch (TIMERConfig->u8TimerCaptMode)
 	{
 	case TIMER_TIMERA_CAPTMODE_EDGECOUNT:
 		CLEAR_BIT(GPTM0_TAMR, 2);
@@ -264,7 +264,7 @@ void TIMER0A_vidConfigInputCapt(TIMERConfig_t *TIMERConfig)
 		break;
 	}
 	/*Count direction*/
-	switch (TIMERConfig->u8TimerACountDir)
+	switch (TIMERConfig->u8TimerCountDir)
 	{
 	case TIMER_TIMERA_COUNTDIR_DOWN:
 		CLEAR_BIT(GPTM0_TAMR, 4);
@@ -275,7 +275,7 @@ void TIMER0A_vidConfigInputCapt(TIMERConfig_t *TIMERConfig)
 	}
 
 	/*Event mode*/
-	switch (TIMERConfig->u8TimerAEventMode)
+	switch (TIMERConfig->u8TimerEventMode)
 	{
 	case TIMER_TIMERA_EVENTMODE_POSITIVE:
 		TIMER0->CTL &= ~(1 << 3) | ~(1 << 2); /* capture rising edges on PB6 pin */
@@ -316,7 +316,7 @@ void TIMER0B_vidInit(TIMERConfig_t *TIMERConfig)
 	TIMERS_vidSelectTimerConfig(TIMERS_TIMER_0, TIMERConfig->u8Config);
 
 	/*Timer0 B mode*/
-	switch (TIMERConfig->u8TimerAMode)
+	switch (TIMERConfig->u8TimerMode)
 	{
 	case TIMER_TIMERB_MODE_ONESHOOT:
 		GPTM0_TBMR |= 0x01;
@@ -331,7 +331,7 @@ void TIMER0B_vidInit(TIMERConfig_t *TIMERConfig)
 	}
 
 	/*Capture mode*/
-	switch (TIMERConfig->u8TimerACaptMode)
+	switch (TIMERConfig->u8TimerCaptMode)
 	{
 	case TIMER_TIMERB_CAPTMODE_EDGECOUNT:
 		CLEAR_BIT(GPTM0_TBMR, 2);
@@ -341,7 +341,7 @@ void TIMER0B_vidInit(TIMERConfig_t *TIMERConfig)
 		break;
 	}
 	/*Count direction*/
-	switch (TIMERConfig->u8TimerACountDir)
+	switch (TIMERConfig->u8TimerCountDir)
 	{
 	case TIMER_TIMERB_COUNTDIR_DOWN:
 		CLEAR_BIT(GPTM0_TBMR, 4);
@@ -353,7 +353,7 @@ void TIMER0B_vidInit(TIMERConfig_t *TIMERConfig)
 
 	/*Event mode*/
 
-	switch (TIMERConfig->u8TimerAEventMode)
+	switch (TIMERConfig->u8TimerEventMode)
 	{
 	case TIMER_TIMERB_EVENTMODE_POSITIVE:
 		TIMER0->CTL &= ~(1 << 10) | ~(1 << 11); /* capture rising edges on PB6 pin */
