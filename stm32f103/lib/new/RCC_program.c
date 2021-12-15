@@ -50,7 +50,7 @@ void RCC_voidEnableClock(u8 Copy_u8BusId, u8 Copy_u8PerId)
             SET_BIT(RCC_AHBENR,Copy_u8PerId);
             break;
             case RCC_APB1:
-            SET_BIT(RCC_AHBENR,Copy_u8PerId);
+            SET_BIT(RCC_APB1ENR,Copy_u8PerId);
             break;
             case RCC_APB2:
             SET_BIT(RCC_APB2ENR,Copy_u8PerId);
@@ -97,5 +97,17 @@ void RCC_voidDisableClock(u8 Copy_u8BusId, u8 Copy_u8PerId)
 
         //Return error code
     }
+}
 
+void RCC_vidResetPeripheral(u8 u8Bus, u8 u8PeripheralID)
+{
+	switch(u8Bus)
+	{
+		case RCC_APB1:
+			SET_BIT(RCC_APB1RSTR,u8PeripheralID);
+			break;
+		case RCC_APB2:
+			SET_BIT(RCC_APB2RSTR,u8PeripheralID);
+			break;
+	}
 }
