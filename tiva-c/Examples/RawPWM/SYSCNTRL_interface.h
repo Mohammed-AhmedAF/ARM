@@ -1,0 +1,57 @@
+#ifndef _SYSCNTRL_INTERFACE_H
+#define _SYSCNTRL_INTERFACE_H
+
+void SYSCNTRL_vidEnableGPIOClock(u8 u8PortNumber);
+void SYSCNTRL_vidEnableSPIClock(u8 u8SPIChannel);
+void SYSCNTRL_vidEnableUARTClock(u8 u8UARTChannel);
+void SYSCNTRL_vidEnableTimerClock(u8 u8Timer);
+void SYSCNTRL_vidEnableI2CClock(u8 u8I2CPeriph);
+void SYSCNTRL_vidEnableADCClock(u8 u8ADCPeriph);
+void SYSCNTRL_vidSelectGPIOBus(u8 u8GPIOPort,u8 u8Bus);
+void SYSCNTRL_vidChangeSysClock(u8 u8SysClock);
+
+	
+#define SYSCNTRL_GPIO_PORTA 0
+#define SYSCNTRL_GPIO_PORTB 1
+#define SYSCNTRL_GPIO_PORTC 2
+#define SYSCNTRL_GPIO_PORTD 3
+#define SYSCNTRL_GPIO_PORTE 4
+#define SYSCNTRL_GPIO_PORTF 5
+
+#define SYSCNTRL_I2C_0 0
+#define SYSCNTRL_I2C_1 1
+#define SYSCNTRL_I2C_2 2
+#define SYSCNTRL_I2C_3 3
+
+#define SYSCNTRL_UART0 0
+#define SYSCNTRL_UART1 1
+#define SYSCNTRL_UART2 2
+
+#define SYSCNTRL_SPI0 0
+#define SYSCNTRL_SPI1 1
+#define SYSCNTRL_SPI2 2
+#define SYSCNTRL_SPI3 3
+
+#define SYSCNTRL_TIMER_0 0
+#define SYSCNTRL_TIMER_1 1
+#define SYSCNTRL_TIMER_2 2
+#define SYSCNTRL_TIMER_3 3
+#define SYSCNTRL_TIMER_4 4
+#define SYSCNTRL_TIMER_5 5
+
+#define SYSCNTRL_ADC_0 0
+#define SYSCNTRL_ADC_1 1
+
+#define SYSCNTRL_BUS_AHB 1
+#define SYSCNTRL_BUS_APB 2
+
+#define SYSCNTRL_SYSCLOCK_8MHZ 0
+#define SYSCNTRL_SYSCLOCK_10MHZ 1
+#define SYSCNTRL_SYSCLOCK_16MHZ 2
+#define SYSCNTRL_SYSCLOCK_20MHZ 3
+#define SYSCNTRL_SYSCLOCK_25MHZ 4
+#define SYSCNTRL_SYSCLOCK_40MHZ 5
+#define SYSCNTRL_SYSCLOCK_50MHZ 6
+#define SYSCNTRL_SYSCLOCK_80MHZ 7
+
+#endif
