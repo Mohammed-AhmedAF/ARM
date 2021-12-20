@@ -39,17 +39,23 @@ void TIMERS_vidInit(TIMERConfig_t *TIMERConfig)
 		TIMERS_vidSetLoadValueA(TIMERConfig->u8TimerID,TIMERConfig->u16ReloadValue);
 
 		/*Setting prescaler*/
-		TIMERS_vidSetPrescalerValueA(TIMERConfig->u8TimerID,TIMERConfig->u8PrescalerValue);
+		TIMERS_vidSetPrescalerValueA(TIMERConfig->u8TimerID,TIMERConfig->u16PrescalerValue);
 
 		/*Count direction*/
 		TIMERS_vidSelectCountDirectionA(TIMERConfig->u8TimerID, TIMERConfig->u8TimerCountDir);
+		
+		/*Match*/
+		TIMERS_vidSetMatchValueA(TIMERConfig->u8TimerID,TIMERConfig->u32MatchValue);
+		
+		/*PWM*/
+		TIMERS_vidConfigPWMA(TIMERConfig->u8TimerID,TIMERConfig->u8PWM);
 		
 		/*Interrupt mask*/
 		TIMERS_vidEnableInterruptA(TIMERConfig->u8TimerID,TIMERConfig->u8InterruptMask);
 		
 		/*Capture mode*/
 		TIMERS_vidSelectCaptModeA(TIMERConfig->u8TimerID, TIMERConfig->u8TimerCaptMode);
-
+		
 		/*Event mode*/
 		TIMERS_vidSelectEventModeA(TIMERConfig->u8TimerID,TIMERConfig->u8TimerEventMode);
 	}
@@ -62,10 +68,16 @@ void TIMERS_vidInit(TIMERConfig_t *TIMERConfig)
 		TIMERS_vidSetLoadValueB(TIMERConfig->u8TimerID,TIMERConfig->u16ReloadValue);
 		
 		/*Prescaler*/
-		TIMERS_vidSetPrescalerValueB(TIMERConfig->u8TimerID,TIMERConfig->u8PrescalerValue);
+		TIMERS_vidSetPrescalerValueB(TIMERConfig->u8TimerID,TIMERConfig->u16PrescalerValue);
 		
 		/*Count direction*/
 		TIMERS_vidSelectCountDirectionB(TIMERConfig->u8TimerID, TIMERConfig->u8TimerCountDir);
+		
+		/*Match*/
+		TIMERS_vidSetMatchValueB(TIMERConfig->u8TimerID,TIMERConfig->u32MatchValue);
+		
+		/*PWM*/
+		TIMERS_vidConfigPWMB(TIMERConfig->u8TimerID,TIMERConfig->u8PWM);
 		
 		/*Enable interrupt*/
 		TIMERS_vidEnableInterruptB(TIMERConfig->u8TimerID,TIMERConfig->u8InterruptMask);
@@ -1428,57 +1440,241 @@ void TIMER0A_Handler(void)
 	SET_BIT(GPTM0_ICR, 0); /*To clear interrupt flag*/
 }
 
-void TIMERS_vidSetPrescalerValueA(u8 u8TimerID,u8 u8PrescalerValue)
+void TIMERS_vidSetPrescalerValueA(u8 u8TimerID,u16 u16PrescalerValue)
 {
 switch(u8TimerID)
 	{
 		case TIMERS_TIMER_0:
-			TIMER0->TAPR = u8PrescalerValue;
+			TIMER0->TAPR = u16PrescalerValue;
 			break;
 		case TIMERS_TIMER_1:
-			TIMER1->TAPR = u8PrescalerValue;
+			TIMER1->TAPR = u16PrescalerValue;
 			break;
 		case TIMERS_TIMER_2:
-			TIMER2->TAPR = u8PrescalerValue;
+			TIMER2->TAPR = u16PrescalerValue;
 			break;
 		case TIMERS_TIMER_3:
-			TIMER3->TAPR = u8PrescalerValue;
+			TIMER3->TAPR = u16PrescalerValue;
 			break;
 		case TIMERS_TIMER_4:
-			TIMER4->TAPR = u8PrescalerValue;
+			TIMER4->TAPR = u16PrescalerValue;
 			break;
 		case TIMERS_TIMER_5:
-			TIMER5->TAPR = u8PrescalerValue;
+			TIMER5->TAPR = u16PrescalerValue;
 			break;
 	}
 }
 
-void TIMERS_vidSetPrescalerValueB(u8 u8TimerID,u8 u8PrescalerValue)
+void TIMERS_vidSetPrescalerValueB(u8 u8TimerID,u16 u16PrescalerValue)
 {
 	switch(u8TimerID)
 	{
 		case TIMERS_TIMER_0:
-			TIMER0->TBPR = u8PrescalerValue;
+			TIMER0->TBPR = u16PrescalerValue;
 			break;
 		case TIMERS_TIMER_1:
-			TIMER1->TBPR = u8PrescalerValue;
+			TIMER1->TBPR = u16PrescalerValue;
 			break;
 		case TIMERS_TIMER_2:
-			TIMER2->TBPR = u8PrescalerValue;
+			TIMER2->TBPR = u16PrescalerValue;
 			break;
 		case TIMERS_TIMER_3:
-			TIMER3->TBPR = u8PrescalerValue;
+			TIMER3->TBPR = u16PrescalerValue;
 			break;
 		case TIMERS_TIMER_4:
-			TIMER4->TBPR = u8PrescalerValue;
+			TIMER4->TBPR = u16PrescalerValue;
 			break;
 		case TIMERS_TIMER_5:
-			TIMER5->TBPR = u8PrescalerValue;
+			TIMER5->TBPR = u16PrescalerValue;
 			break;
 	}
 }
 
+void TIMERS_vidSetMatchValueA(u8 u8TimerID, u32 u32MatchValue)
+{
+	switch(u8TimerID)
+	{
+		case TIMERS_TIMER_0:
+			TIMER0->TAMATCHR = u32MatchValue;
+			break;
+		case TIMERS_TIMER_1:
+			TIMER1->TAMATCHR = u32MatchValue;
+			break;
+		case TIMERS_TIMER_2:
+			TIMER2->TAMATCHR = u32MatchValue;
+			break;
+		case TIMERS_TIMER_3:
+			TIMER2->TAMATCHR = u32MatchValue;
+			break;
+		case TIMERS_TIMER_4:
+			TIMER2->TAMATCHR = u32MatchValue;
+			break;
+		case TIMERS_TIMER_5:
+			TIMER2->TAMATCHR = u32MatchValue;
+			break;
+	}
+}
 
+void TIMERS_vidSetMatchValueB(u8 u8TimerID,u32 u32MatchValue)
+{
+	switch(u8TimerID)
+	{
+		case TIMERS_TIMER_0:
+			TIMER0->TBMATCHR = u32MatchValue;
+			break;
+		case TIMERS_TIMER_1:
+			TIMER1->TBMATCHR = u32MatchValue;
+			break;
+		case TIMERS_TIMER_2:
+			TIMER2->TBMATCHR = u32MatchValue;
+			break;
+		case TIMERS_TIMER_3:
+			TIMER2->TBMATCHR = u32MatchValue;
+			break;
+		case TIMERS_TIMER_4:
+			TIMER2->TBMATCHR = u32MatchValue;
+			break;
+		case TIMERS_TIMER_5:
+			TIMER2->TBMATCHR = u32MatchValue;
+			break;
+	}
+}
+
+void TIMERS_vidConfigPWMA(u8 u8TimerID, u8 u8PWM)
+{
+	switch(u8TimerID)
+	{
+		case TIMERS_TIMER_0:
+			if (u8PWM == TIMERS_PWM_DISABELD)
+			{
+				CLEAR_BIT(TIMER0->TAMR,3);
+			}
+			else
+			{
+				SET_BIT(TIMER0->TAMR,3);
+			}
+			break;
+		case TIMERS_TIMER_1:
+			if (u8PWM == TIMERS_PWM_DISABELD)
+			{
+				CLEAR_BIT(TIMER1->TAMR,3);
+			}
+			else
+			{
+				SET_BIT(TIMER1->TAMR,3);
+			}
+			break;
+		case TIMERS_TIMER_2:
+			if (u8PWM == TIMERS_PWM_DISABELD)
+			{
+				CLEAR_BIT(TIMER2->TAMR,3);
+			}
+			else
+			{
+				SET_BIT(TIMER2->TAMR,3);
+			}
+			break;
+		case TIMERS_TIMER_3:
+			if (u8PWM == TIMERS_PWM_DISABELD)
+			{
+				CLEAR_BIT(TIMER3->TAMR,3);
+			}
+			else
+			{
+				SET_BIT(TIMER3->TAMR,3);
+			}
+			break;
+		case TIMERS_TIMER_4:
+			if (u8PWM == TIMERS_PWM_DISABELD)
+			{
+				CLEAR_BIT(TIMER4->TAMR,3);
+			}
+			else
+			{
+				SET_BIT(TIMER4->TAMR,3);
+			}
+			break;
+		case TIMERS_TIMER_5:
+			if (u8PWM == TIMERS_PWM_DISABELD)
+			{
+				CLEAR_BIT(TIMER5->TAMR,3);
+			}
+			else
+			{
+				SET_BIT(TIMER5->TAMR,3);
+			}
+			break;
+	}
+
+}
+
+void TIMERS_vidConfigPWMB(u8 u8TimerID, u8 u8PWM)
+{
+	switch(u8TimerID)
+	{
+		case TIMERS_TIMER_0:
+			if (u8PWM == TIMERS_PWM_DISABELD)
+			{
+				CLEAR_BIT(TIMER0->TBMR,3);
+			}
+			else
+			{
+				SET_BIT(TIMER0->TBMR,3);
+			}
+			break;
+		case TIMERS_TIMER_1:
+			if (u8PWM == TIMERS_PWM_DISABELD)
+			{
+				CLEAR_BIT(TIMER1->TBMR,3);
+			}
+			else
+			{
+				SET_BIT(TIMER1->TBMR,3);
+			}
+			break;
+		case TIMERS_TIMER_2:
+			if (u8PWM == TIMERS_PWM_DISABELD)
+			{
+				CLEAR_BIT(TIMER2->TBMR,3);
+			}
+			else
+			{
+				SET_BIT(TIMER2->TBMR,3);
+			}
+			break;
+		case TIMERS_TIMER_3:
+			if (u8PWM == TIMERS_PWM_DISABELD)
+			{
+				CLEAR_BIT(TIMER3->TBMR,3);
+			}
+			else
+			{
+				SET_BIT(TIMER3->TBMR,3);
+			}
+			break;
+		case TIMERS_TIMER_4:
+			if (u8PWM == TIMERS_PWM_DISABELD)
+			{
+				CLEAR_BIT(TIMER4->TBMR,3);
+			}
+			else
+			{
+				SET_BIT(TIMER4->TBMR,3);
+			}
+			break;
+		case TIMERS_TIMER_5:
+			if (u8PWM == TIMERS_PWM_DISABELD)
+			{
+				CLEAR_BIT(TIMER5->TBMR,3);
+			}
+			else
+			{
+				SET_BIT(TIMER5->TBMR,3);
+			}
+			break;
+	}
+
+}
 
 void TIMER0B_Handler(void)
 {

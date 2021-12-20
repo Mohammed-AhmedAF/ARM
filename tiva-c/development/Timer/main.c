@@ -24,25 +24,31 @@ static void vidBlink(void)
 
 int main(void)
 {
+	//SCB->VTOR = 0x00001000<<7;
 /*Enabling clock for peripherals*/
 	SYSCNTRL_vidEnableGPIOClock(SYSCNTRL_GPIO_PORTF);
+	SYSCNTRL_vidEnableGPIOClock(SYSCNTRL_GPIO_PORTB);
 	SYSCNTRL_vidEnableTimerClock(SYSCNTRL_TIMER_2);
 	
 	/*GPIO pin configuration*/
 	GPIO_vidSetPinDirection(GPIO_PORTF,GPIO_PIN1,GPIO_DIR_OUTPUT);
 	GPIO_vidSetPinDigEnable(GPIO_PORTF,GPIO_PIN1,GPIO_DEN_SET);
 	
-	GPIO_vidSetPinDirection(GPIO_PORTF,GPIO_PIN2,GPIO_DIR_OUTPUT);
-	GPIO_vidSetPinDigEnable(GPIO_PORTF,GPIO_PIN2,GPIO_DEN_SET);
+	/*PWM pin configuration*/
+	GPIO_vidSelectAlterFunction(GPIO_PORTB,GPIO_PIN1);
+	GPIO_vidSetPinDigEnable(GPIO_PORTB,GPIO_PIN1,GPIO_DEN_SET);
+	GPIO_vidConfigPortControl(GPIO_PORTB,GPIO_PIN1,0x7);
 	
 	/*Timer configuration*/
 	TIMERConfig_t timer0BConfig;
 	timer0BConfig.ptrFunc = vidBlink;
 	timer0BConfig.u8TimerID = TIMERS_TIMER_2;
 	timer0BConfig.u8TimerBlock = TIMERS_BLOCK_B;
-	timer0BConfig.u16ReloadValue = 3000;
-	timer0BConfig.u8PrescalerValue = 3;
+	timer0BConfig.u16ReloadValue = 50000;
+	timer0BConfig.u32MatchValue = 40000;
+	timer0BConfig.u16PrescalerValue = 0;
 	timer0BConfig.u8Config = TIMERS_CONFIG_1632_16BIT;
+	timer0BConfig.u8PWM = TIMERS_PWM_ENABLED;
 	timer0BConfig.u8InterruptMask = TIMERS_INTERRUPT_TIMEOUT;
 	timer0BConfig.u8TimerMode = TIMERS_MODE_PERIODIC;
 	timer0BConfig.u8TimerCountDir = TIMERS_COUNTDIR_UP;

@@ -3,11 +3,13 @@
 
 typedef struct 
 {
+	u32 u32MatchValue;
 	u16 u16ReloadValue;
-	u8 u8PrescalerValue;
+	u16 u16PrescalerValue;
 	u8 u8TimerID;
 	u8 u8TimerBlock;
 	u8 u8Config;
+	u8 u8PWM;
 	u8 u8TimerMode;
 	u8 u8TimerCaptMode;
 	u8 u8TimerCountDir;
@@ -48,8 +50,12 @@ void TIMERS_vidSelectEventModeA(u8 u8Timer, u8 u8EventMode);
 void TIMERS_vidClearInterruptFlag(u8 u8Timer, u8 u8InterruptFlag);
 void TIMERS_vidSetLoadValueA(u8 u8Timer, u32 u32LoadValue);
 void TIMERS_vidSetLoadValueB(u8 u8Timer, u32 u32LoadValue);
-void TIMERS_vidSetPrescalerValueA(u8 u8Timer, u8 u8PrescalerValue);
-void TIMERS_vidSetPrescalerValueB(u8 u8Timer, u8 u8PrescalerValue);
+void TIMERS_vidSetPrescalerValueA(u8 u8Timer, u16 u16PrescalerValue);
+void TIMERS_vidSetPrescalerValueB(u8 u8Timer, u16 u16PrescalerValue);
+void TIMERS_vidSetMatchValueA(u8 u8TimerID, u32 u32MatchValue);
+void TIMERS_vidSetMatchValueB(u8 u8TimerID,u32 u32MatchValue);
+void TIMERS_vidConfigPWMA(u8 u8TimerID, u8 u8PWM);
+void TIMERS_vidConfigPWMB(u8 u8TimerID, u8 u8PWM);
 u8 TIMERS_u8GetInterruptID(u8 u8TimerID, u8 u8TimerBlock);
 
 
@@ -148,6 +154,9 @@ u8 TIMERS_u8GetInterruptID(u8 u8TimerID, u8 u8TimerBlock);
 
 #define TIMERS_INTERRUPT_BLOCKB_TIMEOUT 0
 #define TIMERS_INTERRUPT_BLOCKB_CAPTMODE 1
+
+#define TIMERS_PWM_DISABELD 0
+#define TIMERS_PWM_ENABLED 1
 
 /*General macro definitions*/
 
