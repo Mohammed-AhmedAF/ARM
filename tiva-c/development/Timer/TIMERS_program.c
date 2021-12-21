@@ -50,6 +50,7 @@ void TIMERS_vidInit(TIMERConfig_t *TIMERConfig)
 		/*PWM*/
 		TIMERS_vidConfigPWMA(TIMERConfig->u8TimerID,TIMERConfig->u8PWM);
 		
+		
 		/*Interrupt mask*/
 		TIMERS_vidEnableInterruptA(TIMERConfig->u8TimerID,TIMERConfig->u8InterruptMask);
 		
@@ -79,11 +80,15 @@ void TIMERS_vidInit(TIMERConfig_t *TIMERConfig)
 		/*PWM*/
 		TIMERS_vidConfigPWMB(TIMERConfig->u8TimerID,TIMERConfig->u8PWM);
 		
+		/*PWM inversion*/
+		TIMERS_vidInvertPWMB(TIMERConfig->u8TimerID,TIMERConfig->u8PWMInverted);
+		
 		/*Enable interrupt*/
 		TIMERS_vidEnableInterruptB(TIMERConfig->u8TimerID,TIMERConfig->u8InterruptMask);
 	}
 	
-	
+
+
 	u8 u8InterruptID = TIMERS_u8GetInterruptID(TIMERConfig->u8TimerID,TIMERConfig->u8TimerBlock);
 	TIMERS_vidPutFunction(u8InterruptID,TIMERConfig->ptrFunc);
 	/*Enable timer 0*/
@@ -1674,6 +1679,140 @@ void TIMERS_vidConfigPWMB(u8 u8TimerID, u8 u8PWM)
 			break;
 	}
 
+}
+
+void TIMERS_vidInvertPWMA(u8 u8TimerID, u8 u8PWMInverted)
+{
+	switch(u8TimerID)
+	{
+		case TIMERS_TIMER_0:
+			if (u8PWMInverted == TIMERS_PWM_INVERTED)
+			{
+				SET_BIT(TIMER0->CTL,6);
+			}
+			else
+			{
+				CLEAR_BIT(TIMER0->CTL,6);
+			}
+			break;
+		case TIMERS_TIMER_1:
+				if (u8PWMInverted == TIMERS_PWM_INVERTED)
+			{
+				SET_BIT(TIMER1->CTL,6);
+			}
+			else
+			{
+				CLEAR_BIT(TIMER1->CTL,6);
+			}
+			break;
+		case TIMERS_TIMER_2:
+			if (u8PWMInverted == TIMERS_PWM_INVERTED)
+			{
+				SET_BIT(TIMER2->CTL,6);
+			}
+			else
+			{
+				CLEAR_BIT(TIMER2->CTL,6);
+			}
+			break;
+		case TIMERS_TIMER_3:
+			if (u8PWMInverted == TIMERS_PWM_INVERTED)
+			{
+				SET_BIT(TIMER3->CTL,6);
+			}
+			else
+			{
+				CLEAR_BIT(TIMER3->CTL,6);
+			}
+			break;
+		case TIMERS_TIMER_4:
+			if (u8PWMInverted == TIMERS_PWM_INVERTED)
+			{
+				SET_BIT(TIMER4->CTL,6);
+			}
+			else
+			{
+				CLEAR_BIT(TIMER4->CTL,6);
+			}
+			break;
+		case TIMERS_TIMER_5:
+			if (u8PWMInverted == TIMERS_PWM_INVERTED)
+			{
+				SET_BIT(TIMER5->CTL,6);
+			}
+			else
+			{
+				CLEAR_BIT(TIMER5->CTL,6);
+			}
+			break;
+	}
+}
+
+void TIMERS_vidInvertPWMB(u8 u8TimerID, u8 u8PWMInverted)
+{
+	switch(u8TimerID)
+	{
+		case TIMERS_TIMER_0:
+			if (u8PWMInverted == TIMERS_PWM_INVERTED)
+			{
+				SET_BIT(TIMER0->CTL,14);
+			}
+			else
+			{
+				CLEAR_BIT(TIMER0->CTL,14);
+			}
+			break;
+		case TIMERS_TIMER_1:
+				if (u8PWMInverted == TIMERS_PWM_INVERTED)
+			{
+				SET_BIT(TIMER1->CTL,14);
+			}
+			else
+			{
+				CLEAR_BIT(TIMER1->CTL,14);
+			}
+			break;
+		case TIMERS_TIMER_2:
+			if (u8PWMInverted == TIMERS_PWM_INVERTED)
+			{
+				SET_BIT(TIMER2->CTL,14);
+			}
+			else
+			{
+				CLEAR_BIT(TIMER2->CTL,14);
+			}
+			break;
+		case TIMERS_TIMER_3:
+			if (u8PWMInverted == TIMERS_PWM_INVERTED)
+			{
+				SET_BIT(TIMER3->CTL,14);
+			}
+			else
+			{
+				CLEAR_BIT(TIMER3->CTL,14);
+			}
+			break;
+		case TIMERS_TIMER_4:
+			if (u8PWMInverted == TIMERS_PWM_INVERTED)
+			{
+				SET_BIT(TIMER4->CTL,14);
+			}
+			else
+			{
+				CLEAR_BIT(TIMER4->CTL,14);
+			}
+			break;
+		case TIMERS_TIMER_5:
+			if (u8PWMInverted == TIMERS_PWM_INVERTED)
+			{
+				SET_BIT(TIMER5->CTL,14);
+			}
+			else
+			{
+				CLEAR_BIT(TIMER5->CTL,14);
+			}
+			break;
+	}
 }
 
 void TIMER0B_Handler(void)

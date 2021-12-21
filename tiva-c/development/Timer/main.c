@@ -24,16 +24,15 @@ static void vidBlink(void)
 
 int main(void)
 {
-	//SCB->VTOR = 0x00001000<<7;
-/*Enabling clock for peripherals*/
+	/*Enabling clock for peripherals*/
 	SYSCNTRL_vidEnableGPIOClock(SYSCNTRL_GPIO_PORTF);
 	SYSCNTRL_vidEnableGPIOClock(SYSCNTRL_GPIO_PORTB);
 	SYSCNTRL_vidEnableTimerClock(SYSCNTRL_TIMER_2);
-	
+
 	/*GPIO pin configuration*/
 	GPIO_vidSetPinDirection(GPIO_PORTF,GPIO_PIN1,GPIO_DIR_OUTPUT);
 	GPIO_vidSetPinDigEnable(GPIO_PORTF,GPIO_PIN1,GPIO_DEN_SET);
-	
+
 	/*PWM pin configuration*/
 	GPIO_vidSelectAlterFunction(GPIO_PORTB,GPIO_PIN1);
 	GPIO_vidSetPinDigEnable(GPIO_PORTB,GPIO_PIN1,GPIO_DEN_SET);
@@ -49,6 +48,7 @@ int main(void)
 	timer0BConfig.u16PrescalerValue = 0;
 	timer0BConfig.u8Config = TIMERS_CONFIG_1632_16BIT;
 	timer0BConfig.u8PWM = TIMERS_PWM_ENABLED;
+	timer0BConfig.u8PWMInverted = TIMERS_PWM_INVERTED;
 	timer0BConfig.u8InterruptMask = TIMERS_INTERRUPT_TIMEOUT;
 	timer0BConfig.u8TimerMode = TIMERS_MODE_PERIODIC;
 	timer0BConfig.u8TimerCountDir = TIMERS_COUNTDIR_UP;

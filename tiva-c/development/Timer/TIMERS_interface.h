@@ -10,6 +10,7 @@ typedef struct
 	u8 u8TimerBlock;
 	u8 u8Config;
 	u8 u8PWM;
+	u8 u8PWMInverted;
 	u8 u8TimerMode;
 	u8 u8TimerCaptMode;
 	u8 u8TimerCountDir;
@@ -56,6 +57,8 @@ void TIMERS_vidSetMatchValueA(u8 u8TimerID, u32 u32MatchValue);
 void TIMERS_vidSetMatchValueB(u8 u8TimerID,u32 u32MatchValue);
 void TIMERS_vidConfigPWMA(u8 u8TimerID, u8 u8PWM);
 void TIMERS_vidConfigPWMB(u8 u8TimerID, u8 u8PWM);
+void TIMERS_vidInvertPWMA(u8 u8TimerID, u8 u8PWMInvert);
+void TIMERS_vidInvertPWMB(u8 u8TimerID, u8 u8PWMInvert);
 u8 TIMERS_u8GetInterruptID(u8 u8TimerID, u8 u8TimerBlock);
 
 
@@ -157,6 +160,9 @@ u8 TIMERS_u8GetInterruptID(u8 u8TimerID, u8 u8TimerBlock);
 
 #define TIMERS_PWM_DISABELD 0
 #define TIMERS_PWM_ENABLED 1
+
+#define TIMERS_PWM_NOTINVERTED 0
+#define TIMERS_PWM_INVERTED 1
 
 /*General macro definitions*/
 
