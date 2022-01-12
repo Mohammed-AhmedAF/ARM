@@ -119,7 +119,7 @@ void osPeriodicScheduler(void)
 	int i = 0;
 	for (i = 0; i < NUM_PERIODIC_TASK; i++)
 	{
-		if ((TimeMSec & periodicTasks[i].period) == 0 && periodicTasks[i].task != NULL)
+		if ((TimeMSec % periodicTasks[i].period) == 0 && periodicTasks[i].task != NULL)
 		{
 			periodicTasks[i].task();
 		}
