@@ -74,7 +74,6 @@ void GPIO_vidSetPinDirection(u8 u8PortNumCpy, u8 u8PinNumCpy, u8 u8DirectionCpy)
 
 }
 
-
 void GPIO_vidSetPinValue(u8 u8PortNumCpy, u8 u8PinNumCpy, u8 u8Value) {
 	switch (u8PortNumCpy) {
 		case GPIO_PORTA:
@@ -124,6 +123,31 @@ void GPIO_vidSetPinValue(u8 u8PortNumCpy, u8 u8PinNumCpy, u8 u8Value) {
 			else {
 				CLEAR_BIT(GPIOF_DATA,u8PinNumCpy);
 			}
+			break;
+	}
+}
+
+u8 GPIO_u8GetPinValue(u8 u8Port, u8 u8Pin)
+{
+	switch(u8Port)
+	{
+		case GPIO_PORTA:
+			return GET_BIT(GPIOA_DATA,u8Pin);
+			break;
+		case GPIO_PORTB:
+			return GET_BIT(GPIOB_DATA,u8Pin);
+			break;
+		case GPIO_PORTC:
+			return GET_BIT(GPIOC_DATA,u8Pin);
+			break;
+		case GPIO_PORTD:
+			return GET_BIT(GPIOD_DATA,u8Pin);
+			break;
+		case GPIO_PORTE:
+			return GET_BIT(GPIOE_DATA,u8Pin);
+			break;
+		case GPIO_PORTF:
+			return GET_BIT(GPIOF_DATA,u8Pin);
 			break;
 	}
 }

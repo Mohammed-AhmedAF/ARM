@@ -21,6 +21,7 @@ typedef struct {
 
 void GPIO_vidSetPinValue(u8 u8PortNumCpy,u8 u8PinNumCpy, u8 u8ValueCpy);
 void GPIO_vidSetPinDirection(u8 u8PortNumCpy, u8 u8PinCpy,u8 u8DirCpy);
+u8 GPIO_u8GetPinValue(u8 u8Port, u8 u8Pin);
 void GPIO_vidSetPinDigEnable(u8 u8PortNumCpy, u8 u8PinCpy, u8 u8DigEnable);
 void GPIO_vidTogglePin(u8 u8Port, u8 u8Pin);
 void GPIO_vidConfigurePin(GPIOConfig_t * stGPIOConfig);
