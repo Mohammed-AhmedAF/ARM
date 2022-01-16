@@ -17,6 +17,10 @@ Drivers for several peripherals and simple projects of TI Tiva-C TM4C123GH6PM, i
 * 4 SPI
 * 4 I2C
 
+### External peripheral
+* Character LCD
+* DHT11
+
 ### UART Wiring
 | UART | pin |
 |---------|---------|
