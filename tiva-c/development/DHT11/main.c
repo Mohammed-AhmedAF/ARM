@@ -13,8 +13,7 @@ volatile u8 u8GetReadingFlag = 0;
 
 void vidTest(void)
 {
-		GPIO_vidTogglePin(GPIO_PORTF,GPIO_LED_BLUE);
-		u8GetReadingFlag = 1;
+
 }
 
 int main(void)
@@ -57,15 +56,12 @@ int main(void)
 	sysConfig.u8Interrupt = SYSTICK_INTERRUPT_ENABLED;
 	SysTick_vidInitExtended(&sysConfig);
 	SysTick_vidStart();
+	DHT11_vidInit();
 	
-	//APP_vidGetTemperature();
-
-	
-	u8 i = 0;
 	while(1)
 	{
-	
-
+	APP_vidGetTemperature();
+	TIMER0_vidDelayMicro(225000);
 	}
 	
 }

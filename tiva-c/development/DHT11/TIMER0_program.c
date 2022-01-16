@@ -14,6 +14,7 @@ void vidCountOVF(void)
 {
 	u32OVFCount++;
 	
+	
 }
 
 void TIMER0_vidInit(u16 u16LoadVal, u16 u16PrescaleVal)
@@ -55,7 +56,7 @@ void TIMER0_vidDelayMicro(u32 u32Micro)
 	TIM0_TAV = 0;
 	u32DelayMicro = u32Micro;
 	u8DelayFlag = 1;
-	while(1)
+	while(u8DelayFlag)
 	{
 		__disable_irq();
 		if (u32OVFCount == u32DelayMicro)
@@ -65,6 +66,7 @@ void TIMER0_vidDelayMicro(u32 u32Micro)
 		}
 		__enable_irq();
 	}
+	
 	
 }
 
