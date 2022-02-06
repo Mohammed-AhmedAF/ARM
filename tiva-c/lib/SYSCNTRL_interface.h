@@ -8,6 +8,7 @@ void SYSCNTRL_vidEnableTimerClock(u8 u8Timer);
 void SYSCNTRL_vidEnableI2CClock(u8 u8I2CPeriph);
 void SYSCNTRL_vidEnableADCClock(u8 u8ADCPeriph);
 void SYSCNTRL_vidSelectGPIOBus(u8 u8GPIOPort,u8 u8Bus);
+void SYSCNTRL_vidEnablePWMClock(u8 uModule);
 void SYSCNTRL_vidChangeSysClock(u8 u8SysClock);
 
 	
@@ -53,5 +54,17 @@ void SYSCNTRL_vidChangeSysClock(u8 u8SysClock);
 #define SYSCNTRL_SYSCLOCK_40MHZ 5
 #define SYSCNTRL_SYSCLOCK_50MHZ 6
 #define SYSCNTRL_SYSCLOCK_80MHZ 7
+
+#define SYSCNTRL_PWM_0 1
+#define SYSCNTRL_PWM_1 2
+#define SYSCNTRL_PWM_DIV_DISABLED 0
+#define SYSCNTRL_PWM_DIV_ENABLED 1
+
+#define SYSCNTRL_PWM_DIV_2 0
+#define SYSCNTRL_PWM_DIV_4 1
+#define SYSCNTRL_PWM_DIV_8 2
+#define SYSCNTRL_PWM_DIV_16 3
+#define SYSCNTRL_PWM_DIV_32 4
+#define SYSCNTRL_PWM_DIV_64 5
 
 #endif

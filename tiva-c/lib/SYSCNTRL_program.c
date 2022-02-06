@@ -45,6 +45,19 @@ void SYSCNTRL_vidEnableUARTClock(u8 u8UARTChannel)
 	}
 }
 
+void SYSCNTRL_vidEnablePWMClock(u8 u8Module)
+{
+	switch(u8Module)
+	{
+		case SYSCNTRL_PWM_0:
+				SET_BIT(RCGCPWM,0);
+			break;
+		case SYSCNTRL_PWM_1:
+				SET_BIT(RCGCPWM,1);
+			break;
+	}
+}
+
 void SYSCNTRL_vidEnableSPIClock(u8 u8SPIChannel)
 {
 	switch(u8SPIChannel)
