@@ -6,6 +6,7 @@ typedef struct {
 	u8 u8Pin;
 	u8 u8Direction;
 	u8 u8DigEnable;
+	u8 u8PullUpRes;
 	u8 u8AlternateFunc;
 } GPIOConfig_t;
 
@@ -26,6 +27,7 @@ void GPIO_vidSetPinDigEnable(u8 u8PortNumCpy, u8 u8PinCpy, u8 u8DigEnable);
 void GPIO_vidTogglePin(u8 u8Port, u8 u8Pin);
 void GPIO_vidConfigurePin(GPIOConfig_t * stGPIOConfig);
 void GPIO_vidConfigurePUR(u8 u8Port, u8 u8Pin, u8 u8PURConfig);
+void GPIO_vidConfigurePDR(u8 u8Port, u8 u8Pin, u8 u8PDRConfig);
 void GPIO_vidSelectInterruptSense(u8 u8Port, u8 u8Pin, u8 u8Sense);
 void GPIO_vidSelectAlterFunction(u8 u8PortNumCpy, u8 u8PinNumCpy);
 void GPIO_vidConfigAnalogFunction(u8 u8Port, u8 u8Pin, u8 u8Config);

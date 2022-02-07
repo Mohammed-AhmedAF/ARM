@@ -222,6 +222,9 @@ void GPIO_vidConfigurePin(GPIOConfig_t * stGPIOConfig)
 	{
 	
 	}
+	
+	/*Resistance*/
+	GPIO_vidConfigurePUR(stGPIOConfig->u8Port,stGPIOConfig->u8Pin,stGPIOConfig->u8PullUpRes);
 }
 
 void GPIO_vidTogglePin(u8 u8Port, u8 u8Pin)
@@ -298,6 +301,60 @@ switch (u8Port) {
 			}
 			else {
 				CLEAR_BIT(GPIOF_PUR,u8Pin);
+			}
+			break;
+	}
+}
+
+void GPIO_vidConfigurePDR(u8 u8Port, u8 u8Pin, u8 u8PDRConfig)
+{
+switch (u8Port) {
+		case GPIO_PORTA:
+			if (u8PDRConfig == GPIO_PDR_ENABLED) {
+				SET_BIT(GPIOA_PDR,u8Pin);	
+			}
+			else {
+				CLEAR_BIT(GPIOA_PDR,u8Pin);
+			}
+			break;
+		case GPIO_PORTB:
+			if (u8PDRConfig == GPIO_PUR_ENABLED) {
+				SET_BIT(GPIOB_PDR,u8Pin);
+			}
+			else {
+				CLEAR_BIT(GPIOB_PDR,u8Pin);	
+			}
+			break;
+		case GPIO_PORTC:
+			if (u8PDRConfig == GPIO_PUR_ENABLED) {
+				SET_BIT(GPIOC_PDR,u8Pin);
+			}
+			else {
+				CLEAR_BIT(GPIOC_PDR,u8Pin);
+			}
+			break;
+		case GPIO_PORTD:
+			if (u8PDRConfig == GPIO_PUR_ENABLED) {
+				SET_BIT(GPIOD_PDR,u8Pin);
+			}
+			else {
+				CLEAR_BIT(GPIOD_PDR,u8Pin);
+			}
+			break;
+		case GPIO_PORTE:
+			if (u8PDRConfig == GPIO_PDR_ENABLED) {
+				SET_BIT(GPIOE_PDR,u8Pin);
+			}
+			else {
+				CLEAR_BIT(GPIOE_PDR,u8Pin);
+			}
+			break;
+		case GPIO_PORTF:
+			if (u8PDRConfig == GPIO_PDR_ENABLED) {
+				SET_BIT(GPIOF_PDR,u8Pin);
+			}
+			else {
+				CLEAR_BIT(GPIOF_PDR,u8Pin);
 			}
 			break;
 	}
@@ -853,7 +910,7 @@ void GPIO_vidPutISR(u8 u8Port, void (*ptrF) (void))
 void GPIO_vidConfigInterrupt(u8 u8Port, u8 u8Pin,ExtInterruptConfig_t * extInterruptConfig)
 {
 	/*Pull resistance*/
-	GPIO_vidConfigurePUR(u8Port,u8Pin,GPIO_PUR_ENABLED);
+	GPIO_vidConfigurePUR(u8Port,u8Pin,extInterruptConfig->u8PullResistance);
 
 	/*Event Sense*/
 	GPIO_vidSelectInterruptSense(u8Port,u8Pin,extInterruptConfig->u8InterruptSense);
