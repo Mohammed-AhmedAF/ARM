@@ -7,6 +7,7 @@ typedef struct {
 	u8 u8Direction;
 	u8 u8DigEnable;
 	u8 u8PullUpRes;
+	u8 u8PullDownRes;
 	u8 u8AlternateFunc;
 } GPIOConfig_t;
 

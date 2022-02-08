@@ -223,8 +223,13 @@ void GPIO_vidConfigurePin(GPIOConfig_t * stGPIOConfig)
 	
 	}
 	
-	/*Resistance*/
+	/*Pull-up Resistance*/
 	GPIO_vidConfigurePUR(stGPIOConfig->u8Port,stGPIOConfig->u8Pin,stGPIOConfig->u8PullUpRes);
+	
+	/*Pull-down Resistance*/
+	GPIO_vidConfigurePDR(stGPIOConfig->u8Port,stGPIOConfig->u8Pin,stGPIOConfig->u8PullDownRes);
+
+	
 }
 
 void GPIO_vidTogglePin(u8 u8Port, u8 u8Pin)
