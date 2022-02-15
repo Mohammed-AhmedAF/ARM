@@ -1,6 +1,7 @@
 Drivers for several peripherals and simple projects of TI Tiva-C TM4C123GH6PM, including [FreeRTOS](https://github.com/Mohammed-AhmedAF/ARM/tree/master/tiva-c/Examples) examples using Tiva-С.
 
-<img align="right" width="200" height="200" src="https://www.ti.com/content/dam/ticom/images/products/ic/processors/evm-boards/ek-tm4c123gxl-top.png:small">
+<img align="right" width="250" height="250" src="https://www.ti.com/content/dam/ticom/images/products/ic/processors/evm-boards/ek-tm4c123gxl-top.png:small">
+
 # Drivers
 - GPIO
 - NVIC
