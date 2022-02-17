@@ -4,7 +4,7 @@
  *
  */
 
-#include "LSTD_TYPES.h"
+#include "STD_TYPES.h"
 #include "Macros.h"
 #include "SysTick_private.h"
 #include "SysTick_interface.h"
