@@ -18,7 +18,8 @@ void _vidCheckForBusyWait(void)
 }
 
 
-void SysTick_vidInitExtended(SysTickConfig_t * SysTickConfig) {
+void SysTick_vidInitExtended(SysTickConfig_t * const SysTickConfig) {
+	
 	/*Configuring Clock Source*/
 	if (SysTickConfig->u8ClockSource == SYSTICK_SYSTEM_CLOCK) {
 		SET_BIT(SysTick->CTRL,SYSTEM_CLOCK);
