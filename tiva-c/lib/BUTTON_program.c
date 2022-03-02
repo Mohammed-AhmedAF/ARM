@@ -21,10 +21,11 @@ void delay_ms(int milli)
 }
 
 /*Button debouned function; assuming the pin is pulled-up*/
-enum ButtonState Button_u8GetButtonDebounced(enum ButtonState buttonState)
+enum ButtonState Button_u8GetButtonDebounced(ButtonConfig_t * buttonConfig,
+	enum ButtonState buttonState)
 {
 	/*If button is pressed*/
-	if (GPIO_u8GetPinValue(GPIO_PORTA,GPIO_PIN5) == STD_LOW)
+	if (GPIO_u8GetPinValue(buttonConfig->u8Port,buttonConfig->u8Pin) == STD_LOW)
 	{
 	if (buttonState == BUTTON_PRESSED)
 	{
@@ -33,7 +34,7 @@ enum ButtonState Button_u8GetButtonDebounced(enum ButtonState buttonState)
 	if (buttonState == BUTTON_UP)
 	{
 		delay_ms(5);
-		if (GPIO_u8GetPinValue(GPIO_PORTA,GPIO_PIN5) == STD_LOW)
+		if (GPIO_u8GetPinValue(buttonConfig->u8Port,buttonConfig->u8Pin) == STD_LOW)
 		{
 			buttonState = BUTTON_PRESSED;
 		}			
@@ -48,10 +49,10 @@ enum ButtonState Button_u8GetButtonDebounced(enum ButtonState buttonState)
 		}
 		if (buttonState == BUTTON_DOWN)
 		{
-			if (GPIO_u8GetPinValue(GPIO_PORTA,GPIO_PIN5) == STD_HIGH)
+			if (GPIO_u8GetPinValue(buttonConfig->u8Port,buttonConfig->u8Pin) == STD_HIGH)
 			{
 				delay_ms(5);
-				if (GPIO_u8GetPinValue(GPIO_PORTA,GPIO_PIN5) == STD_HIGH)
+				if (GPIO_u8GetPinValue(buttonConfig->u8Port,buttonConfig->u8Pin) == STD_HIGH)
 				{
 					buttonState = BUTTON_UP;
 				}
