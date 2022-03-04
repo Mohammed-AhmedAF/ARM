@@ -7,10 +7,12 @@ typedef struct
 	u8 u8Pin;
 }ButtonConfig_t;
 
-enum ButtonState {BUTTON_UP, BUTTON_DOWN, BUTTON_PRESSED, BUTTON_RELEASED};
+typedef enum {
+BUTTON_UP, BUTTON_DOWN, BUTTON_PRESSED, BUTTON_RELEASED
+}ButtonState_t;
 void delay_ms(int milli);
-enum ButtonState Button_u8GetButtonDebounced(ButtonConfig_t * buttonConfig,
-	enum ButtonState buttonState);
+ButtonState_t Button_u8GetButtonDebounced(ButtonConfig_t * buttonConfig,
+	ButtonState_t buttonState);
 
 
 #endif

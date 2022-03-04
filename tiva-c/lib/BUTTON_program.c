@@ -21,8 +21,8 @@ void delay_ms(int milli)
 }
 
 /*Button debouned function; assuming the pin is pulled-up*/
-enum ButtonState Button_u8GetButtonDebounced(ButtonConfig_t * buttonConfig,
-	enum ButtonState buttonState)
+ButtonState_t Button_u8GetButtonDebounced(ButtonConfig_t * buttonConfig,
+	ButtonState_t buttonState)
 {
 	/*If button is pressed*/
 	if (GPIO_u8GetPinValue(buttonConfig->u8Port,buttonConfig->u8Pin) == STD_LOW)
