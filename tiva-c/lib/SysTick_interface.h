@@ -23,6 +23,8 @@ void SysTick_vidSetBusyWait(u32 u32Ticks);
 void _vidCheckForBusyWait(void);
 
 
+#define SYSTICK_CLOCK_SYSTEM 2
+#define SYSTICK_CLOCK_EXTERNAL 3
 #define SYSTICK_SYSTEM_CLOCK 2
 #define SYSTICK_INTERRUPT_ENABLED 1
 #define SYSTICK_INTERRUPT_DISABLED 0
