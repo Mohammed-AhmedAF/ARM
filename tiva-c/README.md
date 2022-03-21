@@ -26,6 +26,9 @@ Drivers for several peripherals and simple projects of TI Tiva-C TM4C123GH6PM, i
 * SevenSegment
 * 74HC595
 
+### Other drivers
+* Time triggered scheduler
+
 ### UART Wiring
 | UART | pin |
 |---------|---------|
