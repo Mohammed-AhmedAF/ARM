@@ -4,7 +4,6 @@
 #include "TIMER0_interface.h"
 #include "DHT11_interface.h"
 
-
 void DHT11_vidInit(void)
 {
 	GPIO_vidSetPinDirection(DHT11_PORT,DHT11_PIN,GPIO_OUTPUT);

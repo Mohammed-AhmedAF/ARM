@@ -8,37 +8,42 @@
 #include "LCD_interface.h"
 #include "UART_interface.h"
 #include "APP_interface.h"
-void vidTest(void);
-volatile u8 u8GetReadingFlag = 0;
+#include "NVIC_interface.h"
 
-void vidTest(void)
+void vidBlink(void);
+void vidBlink(void)
 {
-
+	GPIO_vidTogglePin(GPIO_PORTF,GPIO_PIN2);
 }
+
+
 
 int main(void)
 {
+	/*Enable clock for used peripherals*/
 	SYSCNTRL_vidChangeSysClock(SYSCNTRL_SYSCLOCK_16MHZ);
 	SYSCNTRL_vidEnableGPIOClock(SYSCNTRL_GPIO_PORTF);
 	SYSCNTRL_vidEnableGPIOClock(SYSCNTRL_GPIO_PORTB);
 	SYSCNTRL_vidEnableGPIOClock(SYSCNTRL_GPIO_PORTA);
 	SYSCNTRL_vidEnableUARTClock(SYSCNTRL_UART0);
 	
+	/*Timer used for DHT11*/
 	TIMER0_vidInit(31,0);
 	
+	/*GPIO pin configuration of UART pins*/
 	GPIO_vidSelectAlterFunction(GPIO_PORTA,GPIO_PIN0);
 	GPIO_vidSelectAlterFunction(GPIO_PORTA,GPIO_PIN1);
 	GPIO_vidSetPinDigEnable(GPIO_PORTA,GPIO_PIN0,GPIO_DEN_SET);
 	GPIO_vidSetPinDigEnable(GPIO_PORTA,GPIO_PIN1,GPIO_DEN_SET);
 	
+	/*GPIO pin configuation of LED pins*/
 	GPIO_vidSetPinDigEnable(GPIO_PORTF,GPIO_PIN2,GPIO_DEN_SET);
 	GPIO_vidSetPinDirection(GPIO_PORTF,GPIO_PIN2,GPIO_OUTPUT);
 
 	GPIO_vidSetPinDigEnable(GPIO_PORTF,GPIO_PIN1,GPIO_DEN_SET);
 	GPIO_vidSetPinDirection(GPIO_PORTF,GPIO_PIN1,GPIO_OUTPUT);
 	
-	__enable_irq();
-	
+	/*UART configuation*/
 	UARTConfig_t uart0Config;
 	uart0Config.u16Integer = 8;
 	uart0Config.u8Fraction = 44;
@@ -49,8 +54,9 @@ int main(void)
 	uart0Config.u8ClockSource = UART_CLOCKSOURCE_RC;
 	UART0_vidInit(&uart0Config);
 	
+	/*SysTick configuation*/
 	SysTickConfig_t sysConfig;
-	sysConfig.ptrFunc = vidTest;
+	sysConfig.ptrFunc = vidBlink;
 	sysConfig.u32ReloadValue = 16000000;
 	sysConfig.u8ClockSource = SYSTICK_SYSTEM_CLOCK;
 	sysConfig.u8Interrupt = SYSTICK_INTERRUPT_ENABLED;
@@ -58,10 +64,11 @@ int main(void)
 	SysTick_vidStart();
 	DHT11_vidInit();
 	
+	NVIC_vidSetInterrupt(NVIC_UART0);
 	while(1)
 	{
-	APP_vidGetTemperature();
-	TIMER0_vidDelayMicro(225000);
+		APP_vidGetTemperature();
+		TIMER0_vidDelayMicro(350000);
 	}
 	
 }
