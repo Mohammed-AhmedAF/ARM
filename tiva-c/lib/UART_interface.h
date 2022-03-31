@@ -8,9 +8,12 @@ typedef struct
 	u8 u8WordLength;
 	u8 u8ClockSource;
 	u8 u8RxTx;
+	u8 u8ParityEnable;
+	u8 u8ParitySelect;
 	u8 u8FIFOEnabled;
 	u8 u8InterruptEnabled;
 	u8 u8HighSpeedEnabled;
+	u8 u8StopBits;
 	u16 u16Integer;
 	void (*ptrF) (void);
 } UARTConfig_t;
@@ -29,6 +32,14 @@ typedef struct
 
 #define UART_INTERRUPT_DISABLED 0
 #define UART_INTERRUPT_ENABLED 1
+
+#define UART_PARITY_DISABLED 0
+#define UART_PARITY_ENABLED 1
+#define UART_PARITY_SELECT_ODD 0
+#define UART_PARITY_SELECT_EVEN 1
+
+#define UART_STOPBITS_1 0
+#define UART_STOPBITS_2 1
 
 #define UART_RXTX_BOTH 0
 #define UART_RXTX_RX_ONLY 1

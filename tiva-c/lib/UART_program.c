@@ -43,16 +43,16 @@ void UART0_vidInit(UARTConfig_t * UARTConfig)
 		switch(UARTConfig->u8WordLength)
 		{
 			case UART_WORDSIZE_5:
-				UART0->LCRH = 0x00;
+				UART0->LCRH |= 0x0<<5;
 				break;
 			case UART_WORDSIZE_6:
-				UART0->LCRH = 0x20;
+				UART0->LCRH |= 0x1<<5;
 				break;
 			case UART_WORDSIZE_7:
-				UART0->LCRH = 0x40;
+				UART0->LCRH |= 0x2<<5;
 				break;
 			case UART_WORDSIZE_8:
-				UART0->LCRH = 0x60;     /* data lenght 8-bit, not parity bit, no FIFO */
+				UART0->LCRH |= 0x3<<5;
 				break;
 		
 		}
@@ -67,7 +67,7 @@ void UART0_vidInit(UARTConfig_t * UARTConfig)
 
 		}
 		
-		/*Select Rx or TX or bot to be enabled*/
+		/*Select Rx or TX or both to be enabled*/
 		switch(UARTConfig->u8RxTx)
 		{
 			case UART_RXTX_BOTH:
@@ -80,6 +80,36 @@ void UART0_vidInit(UARTConfig_t * UARTConfig)
 			case UART_RXTX_TX_ONLY:
 				SET_BIT(UART0->CTL,8);
 			break;
+		}
+		
+		/*Parity configuration*/
+		if (UARTConfig->u8ParityEnable == UART_PARITY_ENABLED)
+		{
+			SET_BIT(UART0->LCRH,1);
+			/*Select parity*/
+			if (UARTConfig->u8ParitySelect == UART_PARITY_SELECT_ODD)
+			{
+				CLEAR_BIT(UART0->LCRH,2);
+			}
+			else if (UARTConfig->u8ParitySelect == UART_PARITY_SELECT_EVEN)
+			{
+				SET_BIT(UART0->LCRH,2);
+			}
+		}
+		else
+		{
+			CLEAR_BIT(UART0->LCRH,1);
+		}
+		
+		/*Stop bits*/
+		switch(UARTConfig->u8StopBits)
+		{
+			case UART_STOPBITS_1:
+				CLEAR_BIT(UART0->LCRH,3);
+				break;
+			case UART_STOPBITS_2:
+				SET_BIT(UART0->LCRH,3);
+				break;
 		}
 		
 		/*Enabled UART*/
@@ -176,16 +206,16 @@ void UART1_vidInit(UARTConfig_t * UARTConfig)
 		switch(UARTConfig->u8WordLength)
 		{
 			case UART_WORDSIZE_5:
-				UART1->LCRH = 0x00;
+				UART1->LCRH |= 0x0<<5;
 				break;
 			case UART_WORDSIZE_6:
-				UART1->LCRH = 0x20;
+				UART1->LCRH |= 0x1<<5;
 				break;
 			case UART_WORDSIZE_7:
-				UART1->LCRH = 0x40;
+				UART1->LCRH |= 0x2<<5;
 				break;
 			case UART_WORDSIZE_8:
-				UART1->LCRH = 0x60;     /* data lenght 8-bit, not parity bit, no FIFO */
+				UART1->LCRH |= 0x3<<5; 
 				break;
 		
 		}
@@ -308,20 +338,22 @@ void UART2_vidInit(UARTConfig_t * UARTConfig)
 		switch(UARTConfig->u8WordLength)
 		{
 			case UART_WORDSIZE_5:
-				UART2->LCRH = 0x00;
+				UART2->LCRH |= 0x0<<5;
 				break;
 			case UART_WORDSIZE_6:
-				UART2->LCRH = 0x20;
+				UART2->LCRH |= 0x1<<5;
 				break;
 			case UART_WORDSIZE_7:
-				UART2->LCRH = 0x40;
+				UART2->LCRH |= 0x2<<5;
 				break;
 			case UART_WORDSIZE_8:
-				UART2->LCRH = 0x60;     /* data lenght 8-bit, not parity bit, no FIFO */
+				UART2->LCRH |= 0x3<<5;
 				break;
 		
 		}
 		
+		
+		/*Clock divisor configuration*/
 		if (UARTConfig->u8HighSpeedEnabled == UART_HIGHSPEED_FALSE)
 		{
 			CLEAR_BIT(UART2->CTL,5);
@@ -429,16 +461,16 @@ void UART3_vidInit(UARTConfig_t * UARTConfig)
 		switch(UARTConfig->u8WordLength)
 		{
 			case UART_WORDSIZE_5:
-				UART3->LCRH = 0x00;
+				UART3->LCRH |= 0x0<<5;
 				break;
 			case UART_WORDSIZE_6:
-				UART3->LCRH = 0x20;
+				UART3->LCRH |= 0x1<<5;
 				break;
 			case UART_WORDSIZE_7:
-				UART3->LCRH = 0x40;
+				UART3->LCRH |= 0x2<<5;
 				break;
 			case UART_WORDSIZE_8:
-				UART3->LCRH = 0x60;     /* data lenght 8-bit, not parity bit, no FIFO */
+				UART3->LCRH |= 0x3<<5;
 				break;
 		
 		}
@@ -562,16 +594,16 @@ void UART4_vidInit(UARTConfig_t * UARTConfig)
 		switch(UARTConfig->u8WordLength)
 		{
 			case UART_WORDSIZE_5:
-				UART4->LCRH = 0x00;
+				UART4->LCRH |= 0x0<<5;
 				break;
 			case UART_WORDSIZE_6:
-				UART4->LCRH = 0x20;
+				UART4->LCRH |= 0x1<<5;
 				break;
 			case UART_WORDSIZE_7:
-				UART4->LCRH = 0x40;
+				UART4->LCRH |= 0x2<<5;
 				break;
 			case UART_WORDSIZE_8:
-				UART4->LCRH = 0x60;     /* data lenght 8-bit, not parity bit, no FIFO */
+				UART4->LCRH |= 0x3<<5;
 				break;
 		
 		}
@@ -697,16 +729,16 @@ void UART5_vidInit(UARTConfig_t * UARTConfig)
 		switch(UARTConfig->u8WordLength)
 		{
 			case UART_WORDSIZE_5:
-				UART5->LCRH = 0x00;
+				UART5->LCRH |= 0x0<<5;
 				break;
 			case UART_WORDSIZE_6:
-				UART5->LCRH = 0x20;
+				UART5->LCRH |= 0x1<<5;
 				break;
 			case UART_WORDSIZE_7:
-				UART5->LCRH = 0x40;
+				UART5->LCRH |= 0x2<<5;
 				break;
 			case UART_WORDSIZE_8:
-				UART5->LCRH = 0x60;     /* data lenght 8-bit, not parity bit, no FIFO */
+				UART5->LCRH |= 0x3<<5;
 				break;
 		
 		}
@@ -831,16 +863,16 @@ void UART6_vidInit(UARTConfig_t * UARTConfig)
 		switch(UARTConfig->u8WordLength)
 		{
 			case UART_WORDSIZE_5:
-				UART6->LCRH = 0x00;
+				UART6->LCRH |= 0x0<<5;
 				break;
 			case UART_WORDSIZE_6:
-				UART6->LCRH = 0x20;
+				UART6->LCRH |= 0x1<<5;
 				break;
 			case UART_WORDSIZE_7:
-				UART6->LCRH = 0x40;
+				UART6->LCRH |= 0x2<<5;
 				break;
 			case UART_WORDSIZE_8:
-				UART6->LCRH = 0x60;     /* data lenght 8-bit, not parity bit, no FIFO */
+				UART6->LCRH |= 0x3<<5;     /* data lenght 8-bit, not parity bit, no FIFO */
 				break;
 		
 		}
@@ -965,16 +997,16 @@ void UART7_vidInit(UARTConfig_t * UARTConfig)
 		switch(UARTConfig->u8WordLength)
 		{
 			case UART_WORDSIZE_5:
-				UART7->LCRH = 0x00;
+				UART7->LCRH |= 0x0<<5;
 				break;
 			case UART_WORDSIZE_6:
-				UART7->LCRH = 0x20;
+				UART7->LCRH |= 0x1<<5;
 				break;
 			case UART_WORDSIZE_7:
-				UART7->LCRH = 0x40;
+				UART7->LCRH |= 0x2<<5;
 				break;
 			case UART_WORDSIZE_8:
-				UART7->LCRH = 0x60;     /* data lenght 8-bit, not parity bit, no FIFO */
+				UART7->LCRH |= 0x3<<5;     /* data lenght 8-bit, not parity bit, no FIFO */
 				break;
 		
 		}
