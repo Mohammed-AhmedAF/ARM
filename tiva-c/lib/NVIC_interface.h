@@ -37,5 +37,12 @@ u8 NVIC_u8GetPending(u8 u8InterruptID);
 #define NVIC_PWM0_0 10
 #define NVIC_PWM0_1 11
 #define NVIC_PWM0_2 12
-
+#define NVIC_ADC0_SEQ0 14
+#define NVIC_ADC0_SEQ1 15
+#define NVIC_ADC0_SEQ2 16
+#define NVIC_ADC0_SEQ3 17
+#define NVIC_ADC1_SEQ0 48
+#define NVIC_ADC1_SEQ1 49
+#define NVIC_ADC1_SEQ2 50
+#define NVIC_ADC1_SEQ3 51
 #endif
