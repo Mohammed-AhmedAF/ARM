@@ -4,7 +4,7 @@
 #include "TIMER0_interface.h"
 #include "TM4C123.h"                    // Device header
 
-void (*ptrFCallback) (void);
+static void (*ptrFCallback) (void);
 
 u32 u32OVFCount = 0;
 volatile u8 u8DelayFlag = 0;
