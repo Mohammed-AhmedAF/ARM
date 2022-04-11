@@ -4,6 +4,7 @@
 /*Struct to hold configuration of UART*/
 typedef struct 
 {
+	u8 u8Module;
 	u8 u8Fraction;
 	u8 u8WordLength;
 	u8 u8ClockSource;
@@ -55,9 +56,28 @@ typedef struct
 #define UART_HIGHSPEED_DIV_8 UART_HIGHSPEED_TRUE
 #define UART_HIGHSPEED_DIV_16 UART_HIGHSPEED_FALSE
 
-#define UART_INTERRUPTSOURCE_RECEIVE 4
-#define UART_INTERRUPTSOURCE_TRANSMIT 5
-#define UART_INTERRUPTSOURCE_PARITY 8
+#define UART_INTEGER_16MHZ_9600 104
+#define UART_FRACTION_16MHZ_9600 11
+
+#define UART_MODULE_0 0
+#define UART_MODULE_1 1
+#define UART_MODULE_2 2
+#define UART_MODULE_3 3
+#define UART_MODULE_4 4 
+#define UART_MODULE_5 5
+#define UART_MODULE_6 6
+#define UARt_MODULE_7 7
+
+/*Bit definitions*/
+#define RECEIVE_INTERRUPT 4
+#define TRANSMIT_INTERRUPT 5
+#define PARITYERROR_INTERRUPT 8
+#define UART_INTERRUPTSOURCE_RECEIVE (1<<4)
+#define UART_INTERRUPTSOURCE_TRANSMIT (1<<5)
+#define UART_INTERRUPTSOURCE_PARITY (1<<8)
+
+
+void UART_vidInit(UARTConfig_t * UARTConfig);
 
 /*UART0*/
 void UART0_vidInit(UARTConfig_t * UARTConfig);
