@@ -1,6 +1,7 @@
 #ifndef _UART_CONFIG_H
 #define _UART_CONFIG_H
 
+/*Uncomment used modules*/
 #define USED_UART0
 //#define USED_UART1
 //#define USED_UART2
