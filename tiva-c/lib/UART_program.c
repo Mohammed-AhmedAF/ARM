@@ -1,6 +1,7 @@
 #include "Macros.h"
 #include "STD_TYPES.h"
 #include "TM4C123.h"
+#include "UART_private.h"
 #include "UART_config.h"
 #include "UART_interface.h"
 

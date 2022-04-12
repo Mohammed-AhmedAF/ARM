@@ -19,5 +19,9 @@
 #define UART1_FR * ((u32*) 0x4000D018)
 #define UART1_CC * ((u32*) 0x4000D000)
 
+/*Bit definitions*/
+#define RECEIVE_INTERRUPT 4
+#define TRANSMIT_INTERRUPT 5
+#define PARITYERROR_INTERRUPT 8
 #endif
 
