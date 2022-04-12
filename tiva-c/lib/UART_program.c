@@ -341,20 +341,20 @@ void UART1_vidInit(UARTConfig_t * UARTConfig)
 		SET_BIT(UART1->CTL,0);
 			
 		/*Function to be executed when interrupt occurs*/
-		if (GET_BIT(UARTConfig->u8InterruptEnabled,UART_INTERRUPTSOURCE_RECEIVE))
+		if (GET_BIT(UARTConfig->u8InterruptEnabled,RECEIVE_INTERRUPT))
 		{
-			SET_BIT(UART1->IM,UART_INTERRUPTSOURCE_RECEIVE);
-			UART1_vidPutISRFunction(UART_INTERRUPTSOURCE_RECEIVE,UARTConfig->ptrFHandlerReceive);
+			SET_BIT(UART1->IM,RECEIVE_INTERRUPT);
+			UART1_vidPutISRFunction(UART_INTERRUPT_RX,UARTConfig->ptrFHandlerReceive);
 		}
-		if(GET_BIT(UARTConfig->u8InterruptEnabled,UART_INTERRUPTSOURCE_TRANSMIT))
+		if(GET_BIT(UARTConfig->u8InterruptEnabled,TRANSMIT_INTERRUPT))
 		{
-			SET_BIT(UART1->IM,UART_INTERRUPTSOURCE_TRANSMIT);
-			UART1_vidPutISRFunction(UART_INTERRUPTSOURCE_TRANSMIT,UARTConfig->ptrFHandlerTransmit);
+			SET_BIT(UART1->IM,TRANSMIT_INTERRUPT);
+			UART1_vidPutISRFunction(UART_INTERRUPT_TX,UARTConfig->ptrFHandlerTransmit);
 		}
-		if(GET_BIT(UARTConfig->u8InterruptEnabled,UART_INTERRUPTSOURCE_PARITY))
+		if(GET_BIT(UARTConfig->u8InterruptEnabled,PARITYERROR_INTERRUPT))
 		{
-			SET_BIT(UART1->IM,UART_INTERRUPTSOURCE_PARITY);
-			UART1_vidPutISRFunction(UART_INTERRUPTSOURCE_PARITY,UARTConfig->ptrFHandlerParity);
+			SET_BIT(UART1->IM,PARITYERROR_INTERRUPT);
+			UART1_vidPutISRFunction(UART_INTERRUPT_PARITY,UARTConfig->ptrFHandlerParity);
 		}	
 }
 
@@ -362,13 +362,13 @@ void UART1_vidPutISRFunction(u8 u8InterruptSource,void(*ptrF)(void))
 {
 	switch(u8InterruptSource)
 	{
-		case UART_INTERRUPTSOURCE_RECEIVE:
+		case UART_INTERRUPT_RX:
 		UART1_callback = ptrF;
 		break;
-		case UART_INTERRUPTSOURCE_TRANSMIT:
+		case UART_INTERRUPT_TX:
 		UART1_callback_transmit = ptrF;
 		break;
-		case UART_INTERRUPTSOURCE_PARITY:
+		case UART_INTERRUPT_PARITY:
 		UART1_callback_parity = ptrF;
 		break;
 		}
@@ -402,20 +402,20 @@ void UART1_vidSendString(char *str)
 
 void UART1_Handler()
 {
-	if(GET_BIT(UART1->MIS,4) == 1)
+	if(GET_BIT(UART1->MIS,RECEIVE_INTERRUPT) == 1)
 	{
 		UART1_callback();
-		SET_BIT(UART1->ICR,4);
+		SET_BIT(UART1->ICR,RECEIVE_INTERRUPT);
 	}
-	else if (GET_BIT(UART1->MIS,5) == 1)
+	else if (GET_BIT(UART1->MIS,TRANSMIT_INTERRUPT) == 1)
 	{
 		UART1_callback_transmit();
-		SET_BIT(UART1->ICR,5);
+		SET_BIT(UART1->ICR,TRANSMIT_INTERRUPT);
 	}
-	else if(GET_BIT(UART1->MIS,8) == 1)
+	else if(GET_BIT(UART1->MIS,PARITYERROR_INTERRUPT) == 1)
 	{
 		UART1_callback_parity();
-		SET_BIT(UART1->ICR,8);
+		SET_BIT(UART1->ICR,PARITYERROR_INTERRUPT);
 	}
 }
 #endif
@@ -497,20 +497,20 @@ void UART2_vidInit(UARTConfig_t * UARTConfig)
 		SET_BIT(UART2->CTL,0);
 	
 		/*Function to be executed when interrupt occurs*/
-		if (GET_BIT(UARTConfig->u8InterruptEnabled,UART_INTERRUPTSOURCE_RECEIVE))
+		if (GET_BIT(UARTConfig->u8InterruptEnabled,RECEIVE_INTERRUPT))
 		{
-			SET_BIT(UART2->IM,UART_INTERRUPTSOURCE_RECEIVE);
-			UART2_vidPutISRFunction(UART_INTERRUPTSOURCE_RECEIVE,UARTConfig->ptrFHandlerReceive);
+			SET_BIT(UART2->IM,RECEIVE_INTERRUPT);
+			UART2_vidPutISRFunction(UART_INTERRUPT_RX,UARTConfig->ptrFHandlerReceive);
 		}
-		if (GET_BIT(UARTConfig->u8InterruptEnabled,UART_INTERRUPTSOURCE_TRANSMIT))
+		if (GET_BIT(UARTConfig->u8InterruptEnabled,TRANSMIT_INTERRUPT))
 		{
-			SET_BIT(UART2->IM,UART_INTERRUPTSOURCE_TRANSMIT);
-			UART2_vidPutISRFunction(UART_INTERRUPTSOURCE_TRANSMIT,UARTConfig->ptrFHandlerTransmit);
+			SET_BIT(UART2->IM,TRANSMIT_INTERRUPT);
+			UART2_vidPutISRFunction(UART_INTERRUPT_TX,UARTConfig->ptrFHandlerTransmit);
 		}
-		if (GET_BIT(UARTConfig->u8InterruptEnabled,UART_INTERRUPTSOURCE_PARITY))
+		if (GET_BIT(UARTConfig->u8InterruptEnabled,PARITYERROR_INTERRUPT))
 		{
-			SET_BIT(UART2->IM,UART_INTERRUPTSOURCE_PARITY);
-			UART2_vidPutISRFunction(UART_INTERRUPTSOURCE_PARITY,UARTConfig->ptrFHandlerParity);
+			SET_BIT(UART2->IM,PARITYERROR_INTERRUPT);
+			UART2_vidPutISRFunction(UART_INTERRUPT_PARITY,UARTConfig->ptrFHandlerParity);
 		}	
 }
 
@@ -518,13 +518,13 @@ void UART2_vidPutISRFunction(u8 u8InterruptSource,void(*ptrF)(void))
 {
 	switch(u8InterruptSource)
 	{
-		case UART_INTERRUPTSOURCE_RECEIVE:
+		case UART_INTERRUPT_RX:
 		UART2_callback = ptrF;
 		break;
-		case UART_INTERRUPTSOURCE_TRANSMIT:
+		case UART_INTERRUPT_TX:
 		UART2_callback_transmit = ptrF;
 		break;
-		case UART_INTERRUPTSOURCE_PARITY:
+		case UART_INTERRUPT_PARITY:
 		UART2_callback_parity = ptrF;
 		break;
 		}
@@ -558,21 +558,21 @@ void UART2_vidSendString(char *str)
 
 void UART2_Handler()
 {
-	if(GET_BIT(UART2->MIS,4) == 1)
+	if(GET_BIT(UART2->MIS,RECEIVE_INTERRUPT) == 1)
 	{
 		UART2_callback();
-		SET_BIT(UART2->ICR,4);
+		SET_BIT(UART2->ICR,RECEIVE_INTERRUPT);
 	}
-	else if (GET_BIT(UART2->MIS,5) == 1)
+	else if (GET_BIT(UART2->MIS,TRANSMIT_INTERRUPT) == 1)
 	{
 		UART2_callback_transmit();
-		SET_BIT(UART2->ICR,5);
+		SET_BIT(UART2->ICR,TRANSMIT_INTERRUPT);
 	}
-	else if(GET_BIT(UART2->MIS,8) == 1)
+	else if(GET_BIT(UART2->MIS,PARITYERROR_INTERRUPT) == 1)
 	{
 		
 		UART2_callback_parity();
-		SET_BIT(UART2->ICR,8);
+		SET_BIT(UART2->ICR,PARITYERROR_INTERRUPT);
 
 	}
 }
@@ -654,20 +654,20 @@ void UART3_vidInit(UARTConfig_t * UARTConfig)
 	
 		
 		/*Function to be executed when interrupt occurs*/
-		if (GET_BIT(UARTConfig->u8InterruptEnabled,UART_INTERRUPTSOURCE_RECEIVE))
+		if (GET_BIT(UARTConfig->u8InterruptEnabled,RECEIVE_INTERRUPT))
 		{
-			SET_BIT(UART3->IM,UART_INTERRUPTSOURCE_RECEIVE);
-			UART3_vidPutISRFunction(UART_INTERRUPTSOURCE_RECEIVE,UARTConfig->ptrFHandlerReceive);
+			SET_BIT(UART3->IM,RECEIVE_INTERRUPT);
+			UART3_vidPutISRFunction(UART_INTERRUPT_RX,UARTConfig->ptrFHandlerReceive);
 		}
-		if (GET_BIT(UARTConfig->u8InterruptEnabled,UART_INTERRUPTSOURCE_TRANSMIT))
+		if (GET_BIT(UARTConfig->u8InterruptEnabled,TRANSMIT_INTERRUPT))
 		{
-			SET_BIT(UART3->IM,UART_INTERRUPTSOURCE_TRANSMIT);
-			UART3_vidPutISRFunction(UART_INTERRUPTSOURCE_TRANSMIT,UARTConfig->ptrFHandlerTransmit);
+			SET_BIT(UART3->IM,TRANSMIT_INTERRUPT);
+			UART3_vidPutISRFunction(UART_INTERRUPT_TX,UARTConfig->ptrFHandlerTransmit);
 		}
-		if (GET_BIT(UARTConfig->u8InterruptEnabled,UART_INTERRUPTSOURCE_PARITY))
+		if (GET_BIT(UARTConfig->u8InterruptEnabled,UART_INTERRUPT_PARITY))
 		{
-			SET_BIT(UART3->IM,UART_INTERRUPTSOURCE_PARITY);
-			UART3_vidPutISRFunction(UART_INTERRUPTSOURCE_PARITY,UARTConfig->ptrFHandlerParity);
+			SET_BIT(UART3->IM,PARITYERROR_INTERRUPT);
+			UART3_vidPutISRFunction(UART_INTERRUPT_PARITY,UARTConfig->ptrFHandlerParity);
 		}	
 }
 
@@ -675,13 +675,13 @@ void UART3_vidPutISRFunction(u8 u8InterruptSource,void(*ptrF)(void))
 {
 	switch(u8InterruptSource)
 	{
-		case UART_INTERRUPTSOURCE_RECEIVE:
+		case UART_INTERRUPT_RX:
 		UART3_callback = ptrF;
 		break;
-		case UART_INTERRUPTSOURCE_TRANSMIT:
+		case UART_INTERRUPT_TX:
 		UART3_callback_transmit = ptrF;
 		break;
-		case UART_INTERRUPTSOURCE_PARITY:
+		case UART_INTERRUPT_PARITY:
 		UART3_callback_parity = ptrF;
 		break;
 		}
@@ -822,20 +822,20 @@ void UART4_vidInit(UARTConfig_t * UARTConfig)
 		}
 		
 		/*Function to be executed when interrupt occurs*/
-		if (GET_BIT(UARTConfig->u8InterruptEnabled,UART_INTERRUPTSOURCE_RECEIVE))
+		if (GET_BIT(UARTConfig->u8InterruptEnabled,RECEIVE_INTERRUPT))
 		{
-			SET_BIT(UART4->IM,UART_INTERRUPTSOURCE_RECEIVE);
-			UART4_vidPutISRFunction(UART_INTERRUPTSOURCE_RECEIVE,UARTConfig->ptrFHandlerReceive);
+			SET_BIT(UART4->IM,RECEIVE_INTERRUPT);
+			UART4_vidPutISRFunction(UART_INTERRUPT_RX,UARTConfig->ptrFHandlerReceive);
 		}
-		if (GET_BIT(UARTConfig->u8InterruptEnabled,UART_INTERRUPTSOURCE_TRANSMIT))
+		if (GET_BIT(UARTConfig->u8InterruptEnabled,UART_INTERRUPT_TX))
 		{
-			SET_BIT(UART4->IM,UART_INTERRUPTSOURCE_TRANSMIT);
-			UART4_vidPutISRFunction(UART_INTERRUPTSOURCE_TRANSMIT,UARTConfig->ptrFHandlerTransmit);
+			SET_BIT(UART4->IM,TRANSMIT_INTERRUPT);
+			UART4_vidPutISRFunction(UART_INTERRUPT_TX,UARTConfig->ptrFHandlerTransmit);
 		}
-		if (GET_BIT(UARTConfig->u8InterruptEnabled,UART_INTERRUPTSOURCE_PARITY))
+		if (GET_BIT(UARTConfig->u8InterruptEnabled,PARITYERROR_INTERRUPT))
 		{
-			SET_BIT(UART4->IM,UART_INTERRUPTSOURCE_PARITY);
-			UART4_vidPutISRFunction(UART_INTERRUPTSOURCE_PARITY,UARTConfig->ptrFHandlerParity);
+			SET_BIT(UART4->IM,PARITYERROR_INTERRUPT);
+			UART4_vidPutISRFunction(UART_INTERRUPT_PARITY,UARTConfig->ptrFHandlerParity);
 		}	
 }
 
@@ -862,13 +862,13 @@ void UART4_vidPutISRFunction(u8 u8InterruptSource,void(*ptrF)(void))
 {
 	switch(u8InterruptSource)
 	{
-		case UART_INTERRUPTSOURCE_RECEIVE:
+		case UART_INTERRUPT_RX:
 		UART4_callback = ptrF;
 		break;
-		case UART_INTERRUPTSOURCE_TRANSMIT:
+		case UART_INTERRUPT_TX:
 		UART4_callback_transmit = ptrF;
 		break;
-		case UART_INTERRUPTSOURCE_PARITY:
+		case UART_INTERRUPT_PARITY:
 		UART4_callback_parity = ptrF;
 		break;
 		}
@@ -885,20 +885,20 @@ void UART4_vidSendString(char *str)
 
 void UART4_Handler()
 {
-	if(GET_BIT(UART4->MIS,4) == 1)
+	if(GET_BIT(UART4->MIS,RECEIVE_INTERRUPT) == 1)
 	{
 		UART4_callback();
-		SET_BIT(UART4->ICR,4);
+		SET_BIT(UART4->ICR,RECEIVE_INTERRUPT);
 	}
-	else if (GET_BIT(UART4->MIS,5) == 1)
+	else if (GET_BIT(UART4->MIS,TRANSMIT_INTERRUPT) == 1)
 	{
 		UART4_callback_transmit();
-		SET_BIT(UART4->ICR,5);
+		SET_BIT(UART4->ICR,TRANSMIT_INTERRUPT);
 	}
-	else if(GET_BIT(UART4->MIS,8) == 1)
+	else if(GET_BIT(UART4->MIS,PARITYERROR_INTERRUPT) == 1)
 	{
 		UART4_callback_parity();
-		SET_BIT(UART4->ICR,8);
+		SET_BIT(UART4->ICR,PARITYERROR_INTERRUPT);
 	}
 }
 
@@ -980,20 +980,20 @@ void UART5_vidInit(UARTConfig_t * UARTConfig)
 	
 		
 		/*Function to be executed when interrupt occurs*/
-		if (GET_BIT(UARTConfig->u8InterruptEnabled,UART_INTERRUPTSOURCE_RECEIVE))
+		if (GET_BIT(UARTConfig->u8InterruptEnabled,RECEIVE_INTERRUPT))
 		{
-			SET_BIT(UART5->IM,UART_INTERRUPTSOURCE_RECEIVE);
-			UART5_vidPutISRFunction(UART_INTERRUPTSOURCE_RECEIVE,UARTConfig->ptrFHandlerReceive);
+			SET_BIT(UART5->IM,RECEIVE_INTERRUPT);
+			UART5_vidPutISRFunction(UART_INTERRUPT_RX,UARTConfig->ptrFHandlerReceive);
 		}
-		if (GET_BIT(UARTConfig->u8InterruptEnabled,UART_INTERRUPTSOURCE_TRANSMIT))
+		if (GET_BIT(UARTConfig->u8InterruptEnabled,TRANSMIT_INTERRUPT))
 		{
-			SET_BIT(UART5->IM,UART_INTERRUPTSOURCE_TRANSMIT);
-			UART5_vidPutISRFunction(UART_INTERRUPTSOURCE_TRANSMIT,UARTConfig->ptrFHandlerTransmit);
+			SET_BIT(UART5->IM,TRANSMIT_INTERRUPT);
+			UART5_vidPutISRFunction(UART_INTERRUPT_TX,UARTConfig->ptrFHandlerTransmit);
 		}
-		if (GET_BIT(UARTConfig->u8InterruptEnabled,UART_INTERRUPTSOURCE_PARITY))
+		if (GET_BIT(UARTConfig->u8InterruptEnabled,PARITYERROR_INTERRUPT))
 		{
-			SET_BIT(UART5->IM,UART_INTERRUPTSOURCE_PARITY);
-			UART5_vidPutISRFunction(UART_INTERRUPTSOURCE_PARITY,UARTConfig->ptrFHandlerParity);
+			SET_BIT(UART5->IM,PARITYERROR_INTERRUPT);
+			UART5_vidPutISRFunction(UART_INTERRUPT_PARITY,UARTConfig->ptrFHandlerParity);
 		}	
 }
 
@@ -1020,13 +1020,13 @@ void UART5_vidPutISRFunction(u8 u8InterruptSource,void(*ptrF)(void))
 {
 	switch(u8InterruptSource)
 	{
-		case UART_INTERRUPTSOURCE_RECEIVE:
+		case UART_INTERRUPT_RX:
 		UART5_callback = ptrF;
 		break;
-		case UART_INTERRUPTSOURCE_TRANSMIT:
+		case UART_INTERRUPT_TX:
 		UART5_callback_transmit = ptrF;
 		break;
-		case UART_INTERRUPTSOURCE_PARITY:
+		case UART_INTERRUPT_PARITY:
 		UART5_callback_parity = ptrF;
 		break;
 		}
@@ -1042,20 +1042,20 @@ void UART5_vidSendString(char *str)
 
 void UART5_Handler()
 {
-	if(GET_BIT(UART5->MIS,4) == 1)
+	if(GET_BIT(UART5->MIS,RECEIVE_INTERRUPT) == 1)
 	{
 		UART5_callback();
-		SET_BIT(UART5->ICR,4);
+		SET_BIT(UART5->ICR,RECEIVE_INTERRUPT);
 	}
-	else if (GET_BIT(UART5->MIS,5) == 1)
+	else if (GET_BIT(UART5->MIS,TRANSMIT_INTERRUPT) == 1)
 	{
 		UART5_callback_transmit();
-		SET_BIT(UART5->ICR,5);
+		SET_BIT(UART5->ICR,TRANSMIT_INTERRUPT);
 	}
-	else if(GET_BIT(UART5->MIS,8) == 1)
+	else if(GET_BIT(UART5->MIS,PARITYERROR_INTERRUPT) == 1)
 	{
 		UART5_callback_parity();
-		SET_BIT(UART5->ICR,8);
+		SET_BIT(UART5->ICR,PARITYERROR_INTERRUPT);
 	}
 }
 #endif
@@ -1145,20 +1145,20 @@ void UART6_vidInit(UARTConfig_t * UARTConfig)
 		}
 		
 		/*Function to be executed when interrupt occurs*/
-		if (GET_BIT(UARTConfig->u8InterruptEnabled,UART_INTERRUPTSOURCE_RECEIVE))
+		if (GET_BIT(UARTConfig->u8InterruptEnabled,RECEIVE_INTERRUPT))
 		{
-			SET_BIT(UART6->IM,UART_INTERRUPTSOURCE_RECEIVE);
-			UART6_vidPutISRFunction(UART_INTERRUPTSOURCE_RECEIVE,UARTConfig->ptrFHandlerReceive);
+			SET_BIT(UART6->IM,UART_INTERRUPT_RX);
+			UART6_vidPutISRFunction(UART_INTERRUPT_RX,UARTConfig->ptrFHandlerReceive);
 		}
-		if (GET_BIT(UARTConfig->u8InterruptEnabled,UART_INTERRUPTSOURCE_TRANSMIT))
+		if (GET_BIT(UARTConfig->u8InterruptEnabled,TRANSMIT_INTERRUPT))
 		{
-			SET_BIT(UART6->IM,UART_INTERRUPTSOURCE_TRANSMIT);
-			UART6_vidPutISRFunction(UART_INTERRUPTSOURCE_TRANSMIT,UARTConfig->ptrFHandlerTransmit);
+			SET_BIT(UART6->IM,TRANSMIT_INTERRUPT);
+			UART6_vidPutISRFunction(UART_INTERRUPT_TX,UARTConfig->ptrFHandlerTransmit);
 		}
-		if (GET_BIT(UARTConfig->u8InterruptEnabled,UART_INTERRUPTSOURCE_PARITY))
+		if (GET_BIT(UARTConfig->u8InterruptEnabled,PARITYERROR_INTERRUPT))
 		{
-			SET_BIT(UART6->IM,UART_INTERRUPTSOURCE_PARITY);
-			UART6_vidPutISRFunction(UART_INTERRUPTSOURCE_PARITY,UARTConfig->ptrFHandlerParity);
+			SET_BIT(UART6->IM,PARITYERROR_INTERRUPT);
+			UART6_vidPutISRFunction(UART_INTERRUPT_PARITY,UARTConfig->ptrFHandlerParity);
 		}	
 }
 
@@ -1185,13 +1185,13 @@ void UART6_vidPutISRFunction(u8 u8InterruptSource,void(*ptrF)(void))
 {
 	switch(u8InterruptSource)
 	{
-		case UART_INTERRUPTSOURCE_RECEIVE:
+		case UART_INTERRUPT_RX:
 		UART6_callback = ptrF;
 		break;
-		case UART_INTERRUPTSOURCE_TRANSMIT:
+		case UART_INTERRUPT_TX:
 		UART6_callback_transmit = ptrF;
 		break;
-		case UART_INTERRUPTSOURCE_PARITY:
+		case UART_INTERRUPT_PARITY:
 		UART6_callback_parity = ptrF;
 		break;
 	}
@@ -1208,20 +1208,20 @@ void UART6_vidSendString(char *str)
 
 void UART6_Handler()
 {
-	if(GET_BIT(UART6->MIS,4) == 1)
+	if(GET_BIT(UART6->MIS,RECEIVE_INTERRUPT) == 1)
 	{
 		UART6_callback();
-		SET_BIT(UART6->ICR,4);
+		SET_BIT(UART6->ICR,RECEIVE_INTERRUPT);
 	}
-	else if (GET_BIT(UART6->MIS,5) == 1)
+	else if (GET_BIT(UART6->MIS,TRANSMIT_INTERRUPT) == 1)
 	{
 		UART6_callback_transmit();
-		SET_BIT(UART6->ICR,5);
+		SET_BIT(UART6->ICR,TRANSMIT_INTERRUPT);
 	}
-	else if(GET_BIT(UART6->MIS,8) == 1)
+	else if(GET_BIT(UART6->MIS,PARITYERROR_INTERRUPT) == 1)
 	{
 		UART6_callback_parity();
-		SET_BIT(UART6->ICR,8);
+		SET_BIT(UART6->ICR,PARITYERROR_INTERRUPT);
 	}
 }
 #endif
@@ -1302,20 +1302,20 @@ void UART7_vidInit(UARTConfig_t * UARTConfig)
 		SET_BIT(UART7->CTL,0);
 		
 		/*Function to be executed when interrupt occurs*/
-		if (GET_BIT(UARTConfig->u8InterruptEnabled,UART_INTERRUPTSOURCE_RECEIVE))
+		if (GET_BIT(UARTConfig->u8InterruptEnabled,RECEIVE_INTERRUPT))
 		{
-			SET_BIT(UART7->IM,UART_INTERRUPTSOURCE_RECEIVE);
-			UART7_vidPutISRFunction(UART_INTERRUPTSOURCE_RECEIVE,UARTConfig->ptrFHandlerReceive);
+			SET_BIT(UART7->IM,RECEIVE_INTERRUPT);
+			UART7_vidPutISRFunction(UART_INTERRUPT_RX,UARTConfig->ptrFHandlerReceive);
 		}
-		if (GET_BIT(UARTConfig->u8InterruptEnabled,UART_INTERRUPTSOURCE_TRANSMIT))
+		if (GET_BIT(UARTConfig->u8InterruptEnabled,TRANSMIT_INTERRUPT))
 		{
-			SET_BIT(UART7->IM,UART_INTERRUPTSOURCE_TRANSMIT);
-			UART7_vidPutISRFunction(UART_INTERRUPTSOURCE_TRANSMIT,UARTConfig->ptrFHandlerTransmit);
+			SET_BIT(UART7->IM,TRANSMIT_INTERRUPT);
+			UART7_vidPutISRFunction(UART_INTERRUPT_TX,UARTConfig->ptrFHandlerTransmit);
 		}
-		if (GET_BIT(UARTConfig->u8InterruptEnabled,UART_INTERRUPTSOURCE_PARITY))
+		if (GET_BIT(UARTConfig->u8InterruptEnabled,PARITYERROR_INTERRUPT))
 		{
-			SET_BIT(UART7->IM,UART_INTERRUPTSOURCE_PARITY);
-			UART7_vidPutISRFunction(UART_INTERRUPTSOURCE_PARITY,UARTConfig->ptrFHandlerParity);
+			SET_BIT(UART7->IM,PARITYERROR_INTERRUPT);
+			UART7_vidPutISRFunction(UART_INTERRUPT_PARITY,UARTConfig->ptrFHandlerParity);
 		}	
 }
 
@@ -1342,13 +1342,13 @@ void UART7_vidPutISRFunction(u8 u8InterruptSource,void(*ptrF)(void))
 {
 	switch(u8InterruptSource)
 	{
-		case UART_INTERRUPTSOURCE_RECEIVE:
+		case UART_INTERRUPT_RX:
 		UART7_callback = ptrF;
 		break;
-		case UART_INTERRUPTSOURCE_TRANSMIT:
+		case UART_INTERRUPT_TX:
 		UART7_callback_transmit = ptrF;
 		break;
-		case UART_INTERRUPTSOURCE_PARITY:
+		case UART_INTERRUPT_PARITY:
 		UART7_callback_parity = ptrF;
 		break;
 	}
@@ -1365,20 +1365,20 @@ void UART7_vidSendString(char *str)
 
 void UART7_Handler()
 {
-	if(GET_BIT(UART7->MIS,4) == 1)
+	if(GET_BIT(UART7->MIS,RECEIVE_INTERRUPT) == 1)
 	{
 		UART7_callback();
-		SET_BIT(UART7->ICR,4);
+		SET_BIT(UART7->ICR,RECEIVE_INTERRUPT);
 	}
-	else if (GET_BIT(UART7->MIS,5) == 1)
+	else if (GET_BIT(UART7->MIS,TRANSMIT_INTERRUPT) == 1)
 	{
 		UART7_callback_transmit();
-		SET_BIT(UART7->ICR,5);
+		SET_BIT(UART7->ICR,TRANSMIT_INTERRUPT);
 	}
-	else if(GET_BIT(UART7->MIS,8) == 1)
+	else if(GET_BIT(UART7->MIS,PARITYERROR_INTERRUPT) == 1)
 	{
 		UART7_callback_parity();
-		SET_BIT(UART7->ICR,8);
+		SET_BIT(UART7->ICR,PARITYERROR_INTERRUPT);
 	}
 }
 
