@@ -3,6 +3,7 @@ from cgitb import text
 from msilib.schema import CheckBox
 from tkinter import *
 from tkinter import ttk
+import pyperclip as cb
 
 def getChosenModule():
     module = moduleCmbBox.get()
@@ -65,13 +66,49 @@ def getCalculatedBdrParam(param):
         return str(fprd)
 
 def getInterrupts():
-    return "INTERRUPS"
+    result = receiveVar.get()
+    interrupts = str()
+    interrupts = "NO_INTERRUPTS"
+    if result == 1:
+        interrupts = "UART_INTERRUPTS_RX"
+    result = transmitVar.get()
+    if result == 1:
+        if len(interrupts) == 0:
+            interrupts = "UART_INTERRUPTS_TX"
+        else:  
+            interrupts += " | " + "UART_INTERRUPTS_TX"
+    result = parityErrorVar.get()
+    if result == 1:
+        if len(interrupts) == 0:
+            interrupts = "UART_INTERRUPTS_PARITY"
+        else:
+            interrupts += " | " "UART_INTERRUPTS_PARITY"
+        return interrupts
+    
+    return interrupts
 
+def getTxRxChoice():
+    result = txrxCmbBox.get()
+    return result
 
+def getParityChoice():
+    result = paritySelectCmbBox.get()
+    return result
+    if result == paritySelectList[0]:
+        return paritySelectList[0]
+    elif result == paritySelectList[1]:
+        return paritySelectList[1]
+    elif result == paritySelectList[2]:
+        return paritySelectList[2]
+
+def copyToClipboard():
+    cb.copy(generatedCodeText.get("0.0",END))
+    
 def generateStruct():
     generatedCodeText.config(state=NORMAL)
     generatedCodeText.delete("1.0",END)
     statusLabel.config(text="Generated!")
+    module = moduleCmbBox.get()
     structName = f"uart{getChosenModule()}Config"
     generatedCodeText.insert(INSERT,f"UARTConfig_t * {structName};\r\n")
     generatedCodeText.insert(INSERT,f"{structName}.u8Module" + " = " + moduleCmbBox.get() + ";\r\n")
@@ -82,7 +119,33 @@ def generateStruct():
     generatedCodeText.insert(INSERT,f"{structName}.u8HighSpeedEnabled" + " = " + getHighSpeed() + ";\r\n")
     generatedCodeText.insert(INSERT,f"{structName}.u16Integer" + " = " + getCalculatedBdrParam("INTEGER") + ";\r\n")
     generatedCodeText.insert(INSERT,f"{structName}.u8Fraction" + " = " + getCalculatedBdrParam("FRACTION") + ";\r\n")
-    generatedCodeText.insert(INSERT,f"{structName}.u8InterruptsEnabled" + " + " + getInterrupts() + ";\r\n")
+    #Interrupts
+    interruptsResult = getInterrupts()
+    if interruptsResult != "NO_INTERRUPTS":
+        generatedCodeText.insert(INSERT,f"{structName}.u8InterruptsEnabled" + " = " + getInterrupts() + ";\r\n")
+    #handlers
+    result = receiveVar.get()
+    if result == 1:
+        generatedCodeText.insert(INSERT,f"{structName}.ptrFHandlerReceive" + " = " + "uart" \
+            + f"{getChosenModule()}" + "ReceiveHandler" + ";\r\n")
+    result = transmitVar.get()
+    if result == 1:
+        generatedCodeText.insert(INSERT,f"{structName}.ptrFHandlerTransmit" + " = " + "uart" \
+             + f"{getChosenModule()}" + "TransmitHandler" + ";\r\n")
+    if result == 1:
+        generatedCodeText.insert(INSERT,f"{structName}.ptrFHandlerParity" + " = " + "uart" \
+             + f"{getChosenModule()}" + "ParityHandler" + ";\r\n")
+    
+
+    if paritySelectCmbBox.get() == paritySelectList[0]:
+        generatedCodeText.insert(INSERT,f"{structName}.u8ParityEnable" + " = " + "UART_PARITY_DISABLED" + ";\r\n")
+    elif paritySelectCmbBox.get() ==  paritySelectList[1]:
+        generatedCodeText.insert(INSERT,f"{structName}.u8ParityEnable" + " = " + "UART_PARITY_ENABLED" + ";\r\n")
+        generatedCodeText.insert(INSERT,f"{structName}.u8ParitySelect" + " = " + "UART_PARITY_SELECT_ODD" + ";\r\n")
+    elif paritySelectCmbBox.get() ==  paritySelectList[2]:
+        generatedCodeText.insert(INSERT,f"{structName}.u8ParityEnable" + " = " + "UART_PARITY_ENABLED" + ";\r\n")
+        generatedCodeText.insert(INSERT,f"{structName}.u8ParitySelect" + " = " + "UART_PARITY_SELECT_EVEN" + ";\r\n")
+    generatedCodeText.insert(INSERT,f"{structName}.u8RxTx" + " = " + getTxRxChoice() + ";\r\n")
     generatedCodeText.insert(INSERT,f"UART_vidInit(&{structName});\r\n")
     generatedCodeText.config(state=DISABLED)
 
@@ -99,6 +162,11 @@ stopBitsList = [1,2]
 wordSizeList = [5,6,7,8]
 FIFOVar = IntVar()
 highSpeedVar = IntVar()
+receiveVar = IntVar()
+transmitVar = IntVar()
+parityErrorVar = IntVar()
+txrxList = ["UART_RXTX_TX_ONLY","UART_RXTX_RX_ONLY","UART_RXTX_BOTH"]
+paritySelectList =["UART_PARITY_DISABLED","UART_SELECT_ODD_PARITY","UART_SELECT_EVEN_PARITY"]
 
 #Configuration widgets
 configFrame = LabelFrame(top,text="Configuration")
@@ -131,13 +199,20 @@ highSpeedDiv16RadioButton = Radiobutton(highSpeedFrame,text="Div 16",var=highSpe
 highSpeedDiv8RadioButton = Radiobutton(highSpeedFrame,text="Div 8",var=highSpeedVar,value=8)
 highSpeedDiv8RadioButton.select()
 interruptsLabel = Label(configFrame,text="Interrups")
-receiveCheckBox = Checkbutton(interruptsFrame,text="Receive")
-transmitCheckBox = Checkbutton(interruptsFrame,text="Transmit")
+receiveCheckBox = Checkbutton(interruptsFrame,text="Receive",onvalue=1,offvalue=0,variable=receiveVar)
+transmitCheckBox = Checkbutton(interruptsFrame,text="Transmit",onvalue=1,offvalue=0,variable=transmitVar)
+parityLabel = Label(configFrame,text="Parity")
+paritySelectCmbBox = ttk.Combobox(configFrame,state="readonly",values=paritySelectList)
+paritySelectCmbBox.current(0)
+txrxLabel = Label(configFrame,text="TxRx")
+txrxCmbBox = ttk.Combobox(configFrame,values=txrxList,state="readonly")
+txrxCmbBox.current(0)
 generateButton = Button(configFrame,text="Generate!",command=generateStruct)
+copyToClipboardButton = Button(configFrame,text="Copy to clipboard",command=copyToClipboard)
 
 #Generated code widgets
 generatedCodeFrame = LabelFrame(top,text="Code")
-generatedCodeText = Text(generatedCodeFrame,height=30,width=70)
+generatedCodeText = Text(generatedCodeFrame,height=30,width=120)
 
 #Statusbar
 statusLabel = Label(top,relief=SUNKEN)
@@ -169,7 +244,12 @@ interruptsLabel.grid(row=8,column=0,padx=5,pady=5,sticky=W+E+N+S)
 interruptsFrame.grid(row=8,column=1,padx=5,pady=5,sticky=W+E+N+S)
 receiveCheckBox.grid(row=0,column=0,padx=5,pady=5,sticky=W+E+N+S)
 transmitCheckBox.grid(row=0,column=1,padx=5,pady=5,sticky=W+E+N+S)
-generateButton.grid(row=10,column=0,padx=5,pady=5,sticky=W+E+N+S)
+txrxLabel.grid(row=9,column=0,padx=5,pady=5,sticky=W+E+N+S)
+txrxCmbBox.grid(row=9,column=1,padx=5,pady=5,sticky=W+E+N+S)
+parityLabel.grid(row=10,column=0,padx=5,pady=5,sticky=W+E+N+S)
+paritySelectCmbBox.grid(row=10,column=1,padx=5,pady=5,sticky=W+E+N+S)
+generateButton.grid(row=11,column=0,padx=5,pady=5,sticky=W+E+N+S)
+copyToClipboardButton.grid(row=11,column=1,padx=5,pady=5,sticky=W+E+N+S)
 generatedCodeText.pack()
 
 statusLabel.grid(row=1,column=0,sticky=E+W+N+S,padx=5,pady=5)
