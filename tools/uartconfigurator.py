@@ -46,9 +46,9 @@ def getWordSizeChoice():
 
 def getHighSpeed():
     if highSpeedVar == 0:
-        return "UART_HIGHSPEED_DIV16"
-    else:
         return "UART_HIGHSPEED_DIV8"
+    else:
+        return "UART_HIGHSPEED_DIV16"
 
 
 def getCalculatedBdrParam(param):
@@ -70,19 +70,19 @@ def getInterrupts():
     interrupts = str()
     interrupts = "NO_INTERRUPTS"
     if result == 1:
-        interrupts = "UART_INTERRUPTS_RX"
+        interrupts = "UART_INTERRUPT_RX"
     result = transmitVar.get()
     if result == 1:
         if len(interrupts) == 0:
-            interrupts = "UART_INTERRUPTS_TX"
+            interrupts = "UART_INTERRUPT_TX"
         else:  
-            interrupts += " | " + "UART_INTERRUPTS_TX"
+            interrupts += " | " + "UART_INTERRUPT_TX"
     result = parityErrorVar.get()
     if result == 1:
         if len(interrupts) == 0:
-            interrupts = "UART_INTERRUPTS_PARITY"
+            interrupts = "UART_INTERRUPT_PARITY"
         else:
-            interrupts += " | " "UART_INTERRUPTS_PARITY"
+            interrupts += " | " "UART_INTERRUPT_PARITY"
         return interrupts
     
     return interrupts
@@ -110,19 +110,19 @@ def generateStruct():
     statusLabel.config(text="Generated!")
     module = moduleCmbBox.get()
     structName = f"uart{getChosenModule()}Config"
-    generatedCodeText.insert(INSERT,f"UARTConfig_t * {structName};\r\n")
+    generatedCodeText.insert(INSERT,f"UARTConfig_t {structName};\r\n")
     generatedCodeText.insert(INSERT,f"{structName}.u8Module" + " = " + moduleCmbBox.get() + ";\r\n")
     generatedCodeText.insert(INSERT,f"{structName}.u8StopBits" + " = " + getStopBits() + ";\r\n")
     generatedCodeText.insert(INSERT,f"{structName}.u8FIFOEnabled" + " = " + getFIFOChoice() + ";\r\n")
     generatedCodeText.insert(INSERT,f"{structName}.u8ClockSource" + " = " + getClockSourceChoice() + ";\r\n")
-    generatedCodeText.insert(INSERT,f"{structName}.u8WordSize" + " = " + getWordSizeChoice() + ";\r\n")
+    generatedCodeText.insert(INSERT,f"{structName}.u8WordLength" + " = " + getWordSizeChoice() + ";\r\n")
     generatedCodeText.insert(INSERT,f"{structName}.u8HighSpeedEnabled" + " = " + getHighSpeed() + ";\r\n")
     generatedCodeText.insert(INSERT,f"{structName}.u16Integer" + " = " + getCalculatedBdrParam("INTEGER") + ";\r\n")
     generatedCodeText.insert(INSERT,f"{structName}.u8Fraction" + " = " + getCalculatedBdrParam("FRACTION") + ";\r\n")
     #Interrupts
     interruptsResult = getInterrupts()
     if interruptsResult != "NO_INTERRUPTS":
-        generatedCodeText.insert(INSERT,f"{structName}.u8InterruptsEnabled" + " = " + getInterrupts() + ";\r\n")
+        generatedCodeText.insert(INSERT,f"{structName}.u8InterruptEnabled" + " = " + getInterrupts() + ";\r\n")
     #handlers
     result = receiveVar.get()
     if result == 1:
