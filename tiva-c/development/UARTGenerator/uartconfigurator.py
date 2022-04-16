@@ -73,13 +73,13 @@ def getInterrupts():
         interrupts = "UART_INTERRUPT_RX"
     result = transmitVar.get()
     if result == 1:
-        if len(interrupts) == 0:
+        if interrupts == "NO_INTERRUPTS":
             interrupts = "UART_INTERRUPT_TX"
-        else:  
+        else:
             interrupts += " | " + "UART_INTERRUPT_TX"
     result = parityErrorVar.get()
     if result == 1:
-        if len(interrupts) == 0:
+        if interrupts == "NO_INTERRUPTS":
             interrupts = "UART_INTERRUPT_PARITY"
         else:
             interrupts += " | " "UART_INTERRUPT_PARITY"
@@ -132,6 +132,7 @@ def generateStruct():
     if result == 1:
         generatedCodeText.insert(INSERT,f"{structName}.ptrFHandlerTransmit" + " = " + "uart" \
              + f"{getChosenModule()}" + "TransmitHandler" + ";\r\n")
+    result = parityErrorVar.get()
     if result == 1:
         generatedCodeText.insert(INSERT,f"{structName}.ptrFHandlerParity" + " = " + "uart" \
              + f"{getChosenModule()}" + "ParityHandler" + ";\r\n")
@@ -201,6 +202,7 @@ highSpeedDiv8RadioButton.select()
 interruptsLabel = Label(configFrame,text="Interrups")
 receiveCheckBox = Checkbutton(interruptsFrame,text="Receive",onvalue=1,offvalue=0,variable=receiveVar)
 transmitCheckBox = Checkbutton(interruptsFrame,text="Transmit",onvalue=1,offvalue=0,variable=transmitVar)
+parityErrorCheckBox = Checkbutton(interruptsFrame,text="Parity Error",onvalue=1,offvalue=0,variable=parityErrorVar)
 parityLabel = Label(configFrame,text="Parity")
 paritySelectCmbBox = ttk.Combobox(configFrame,state="readonly",values=paritySelectList)
 paritySelectCmbBox.current(0)
@@ -244,6 +246,7 @@ interruptsLabel.grid(row=8,column=0,padx=5,pady=5,sticky=W+E+N+S)
 interruptsFrame.grid(row=8,column=1,padx=5,pady=5,sticky=W+E+N+S)
 receiveCheckBox.grid(row=0,column=0,padx=5,pady=5,sticky=W+E+N+S)
 transmitCheckBox.grid(row=0,column=1,padx=5,pady=5,sticky=W+E+N+S)
+parityErrorCheckBox.grid(row=0,column=2,padx=5,pady=5,sticky=W+E+N+S)
 txrxLabel.grid(row=9,column=0,padx=5,pady=5,sticky=W+E+N+S)
 txrxCmbBox.grid(row=9,column=1,padx=5,pady=5,sticky=W+E+N+S)
 parityLabel.grid(row=10,column=0,padx=5,pady=5,sticky=W+E+N+S)
