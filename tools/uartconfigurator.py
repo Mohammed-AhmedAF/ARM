@@ -4,13 +4,14 @@ from msilib.schema import CheckBox
 from tkinter import *
 from tkinter import ttk
 import pyperclip as cb
+import xmlGenerator
 
 def getChosenModule():
     module = moduleCmbBox.get()
     return module[-1]
 
 def getStopBits():
-    stopBitsChoice = stopBitsCmbBox.get()
+    stopBitsChoice = int(stopBitsCmbBox.get())
     if stopBitsChoice == 1:
         return "UART_STOPBITS_1"
     else:
@@ -94,12 +95,6 @@ def getTxRxChoice():
 def getParityChoice():
     result = paritySelectCmbBox.get()
     return result
-    if result == paritySelectList[0]:
-        return paritySelectList[0]
-    elif result == paritySelectList[1]:
-        return paritySelectList[1]
-    elif result == paritySelectList[2]:
-        return paritySelectList[2]
 
 def copyToClipboard():
     cb.copy(generatedCodeText.get("0.0",END))
@@ -112,6 +107,7 @@ def generateStruct():
     structName = f"uart{getChosenModule()}Config"
     generatedCodeText.insert(INSERT,f"UARTConfig_t {structName};\r\n")
     generatedCodeText.insert(INSERT,f"{structName}.u8Module" + " = " + moduleCmbBox.get() + ";\r\n")
+    xmlGenerator.createConfig('Module',getChosenModule())
     generatedCodeText.insert(INSERT,f"{structName}.u8StopBits" + " = " + getStopBits() + ";\r\n")
     generatedCodeText.insert(INSERT,f"{structName}.u8FIFOEnabled" + " = " + getFIFOChoice() + ";\r\n")
     generatedCodeText.insert(INSERT,f"{structName}.u8ClockSource" + " = " + getClockSourceChoice() + ";\r\n")
@@ -150,6 +146,9 @@ def generateStruct():
     generatedCodeText.insert(INSERT,f"UART_vidInit(&{structName});\r\n")
     generatedCodeText.config(state=DISABLED)
 
+    xmlGenerator.createConfig("baudrate","9600")
+    xmlGenerator.saveFile()
+
 top = Tk()
 top.title("UART Configurator")
 
@@ -185,13 +184,13 @@ baudrateCmbBox.current(0)
 baudrateLabel = Label(configFrame,text="Baudrate")
 systemClockLabel = Label(configFrame,text="System clock:")
 systemClockCmbBox = ttk.Combobox(configFrame,values=systemClockList,state="readonly")
-systemClockCmbBox.current(0)
+systemClockCmbBox.current(1)
 stopBitsLabel = Label(configFrame,text="Stop bits")
 stopBitsCmbBox = ttk.Combobox(configFrame,values=stopBitsList,state="readonly")
 stopBitsCmbBox.current(0)
 wordSizeLabel = Label(configFrame,text="Word size")
 wordSizeCmbBox = ttk.Combobox(configFrame,values=wordSizeList,state="readonly")
-wordSizeCmbBox.current(0)
+wordSizeCmbBox.current(3)
 fifoEnabledLabel = Label(configFrame,text="FIFO enabled")
 fifoEnabledRadioButton = Radiobutton(FIFOFrame,text="Enabled",var=FIFOVar,value=1)
 fifoDisabledRadioButton = Radiobutton(FIFOFrame,text="Disabled",var=FIFOVar,value=0)
@@ -208,7 +207,7 @@ paritySelectCmbBox = ttk.Combobox(configFrame,state="readonly",values=paritySele
 paritySelectCmbBox.current(0)
 txrxLabel = Label(configFrame,text="TxRx")
 txrxCmbBox = ttk.Combobox(configFrame,values=txrxList,state="readonly")
-txrxCmbBox.current(0)
+txrxCmbBox.current(2)
 generateButton = Button(configFrame,text="Generate!",command=generateStruct)
 copyToClipboardButton = Button(configFrame,text="Copy to clipboard",command=copyToClipboard)
 
