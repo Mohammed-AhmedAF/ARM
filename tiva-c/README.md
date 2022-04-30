@@ -27,7 +27,7 @@ Drivers for several peripherals and simple projects of TI Tiva-C TM4C123GH6PM, i
 * 74HC595
 
 ### Other drivers
-* Time triggered scheduler
+* Time triggered cooperative scheduler
 
 ### UART Wiring
 | UART | pin |
