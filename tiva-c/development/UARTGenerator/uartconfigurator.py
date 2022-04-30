@@ -250,7 +250,7 @@ generateButton.grid(row=11,column=0,padx=5,pady=5,sticky=W+E+N+S)
 copyToClipboardButton.grid(row=11,column=1,padx=5,pady=5,sticky=W+E+N+S)
 generatedCodeText.pack()
 
-statusLabel.grid(row=1,column=0,sticky=E+W+N+S,padx=5,pady=5)
+statusLabel.grid(row=1,column=0,colspan=3,sticky=E+W+N+S,padx=5,pady=5)
 
 def launchApp():
     top.mainloop()
