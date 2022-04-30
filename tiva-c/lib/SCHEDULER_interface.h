@@ -28,5 +28,6 @@ void SCHEDULER_vidDeleteTask(u8 u8TaskIndex);
 void SCHEDULER_vidUpdate(void);
 void SCHEDULER_vidDispatch(void);
 void SCHEDULER_vidStartScheduling(void);
+void SCHEDULER_vidSleep(void);
 
 #endif

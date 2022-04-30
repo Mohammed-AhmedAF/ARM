@@ -72,12 +72,10 @@ void SCHEDULER_vidUpdate(void)
 	u8 u8TaskIndex = 0;
 	for (u8TaskIndex = 0; u8TaskIndex < SCHEDULER_MAX_TASKS; u8TaskIndex++)
 	{
-
 		if (SCHEDULER_tasksArr[u8TaskIndex].u8TaskDefined == SCHEDULER_TASK_DEFINED)
 		{
 			if (SCHEDULER_tasksArr[u8TaskIndex].u8Delay == 0)
 			{
-
 				SCHEDULER_tasksArr[u8TaskIndex].u8RunSignalFlag = SCHEDULER_SIGNAL_RUN;
 				SCHEDULER_tasksArr[u8TaskIndex].u8Delay = SCHEDULER_tasksArr[u8TaskIndex].u8Period;
 			}
@@ -101,6 +99,7 @@ void SCHEDULER_vidDispatch(void)
 		}
 	
 	}
+	SCHEDULER_vidSleep();
 }
 
 
@@ -108,4 +107,9 @@ void SCHEDULER_vidDeleteTask(u8 u8TaskIndex)
 {
 	SCHEDULER_tasksArr[u8TaskIndex].u8TaskDefined = SCHEDULER_TASK_UNDEFINED;
 
+}
+
+void SCHEDULER_vidSleep(void)
+{
+	__asm("wfi");
 }
