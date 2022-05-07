@@ -7,74 +7,31 @@
 #include "GPIO_interface.h"
 #include "NVIC_interface.h"
 
-void vidToggleRed(void * ptrParam);
-void vidToggleBlue(void * prtParam);
+void vidToggleLEDs(void * ptrParam);
 void vidProcessButtons(void);
-void vidTestBlinking(void * ptrParam);
-volatile u8 u8SpeedFlag = 0;
 
 static EventGroupHandle_t myEventGroup;
-TaskHandle_t redTaskHandle;
-TaskHandle_t blueTaskHandle;
+static TaskHandle_t toggleTaskHandle;
 
-void vidToggleRed(void * ptrParam)
+void vidToggleLEDs(void * ptrParam)
 {
-	EventBits_t receivedEvents;
+	u32 receivedEvents = 0;
 	while(1)
 	{
-		receivedEvents = ulTaskNotifyTake(pdFALSE,portMAX_DELAY);
+		/*
+		First arg: bits to clear on entry
+		Second arg: bits to clear on exit
+		Third arg: pointer to variable to hold the notification value
+		Fourth arg: period to wait in blocked state
+		*/
+		xTaskNotifyWait(0xFF,0xFF,&receivedEvents,portMAX_DELAY);
 		if (receivedEvents == 1)
 		{
 		GPIO_vidTogglePin(GPIO_PORTF,GPIO_PIN1);
 		}
-		else if (receivedEvents == 0x10)
+		else if (receivedEvents == 2)
 		{
-				
-
-		}
-	}
-}
-
-void vidToggleBlue(void * ptrParam)
-{
-
-	while(1)
-	{
-			if (ulTaskNotifyTake(pdFALSE,portMAX_DELAY) == 1)
-			{
-				GPIO_vidTogglePin(GPIO_PORTF,GPIO_PIN2);
-
-			}
-	}
-}
-
-void vidTestBlinking(void * ptrParam)
-{
-	TickType_t xDelay = pdMS_TO_TICKS(1000);
-	TickType_t xLastWakeUp = xTaskGetTickCount();
-	u8 u8Count = 0;
-	while(1)
-	{
-		
-		
-		GPIO_vidTogglePin(GPIO_PORTF,GPIO_PIN3);
-		if (u8SpeedFlag == 1)
-		{
-			u8SpeedFlag = 0;
-			xDelay = pdMS_TO_TICKS(200);
-
-		}
-		else
-		{
-			xDelay = pdMS_TO_TICKS(1000);
-		}
-		vTaskDelayUntil(&xLastWakeUp,xDelay);
-		
-		u8Count++;
-		if (u8Count == 5)
-		{
-			u8Count = 0;
-
+		GPIO_vidTogglePin(GPIO_PORTF,GPIO_PIN2);
 		}
 	}
 }
@@ -86,12 +43,23 @@ void vidProcessButtons(void)
 
 	if (GPIO_u8GetInterruptStatus(GPIO_PORTF,GPIO_PIN0) == 1)
 	{
-		vTaskNotifyGiveFromISR(redTaskHandle,&HigherPriorityTaskWoken);
+		/*
+		First arg: task handle
+		Second arg: Notification value
+		Third arg: Notification action
+		Fourth arg: Pointer to HigherPriorityTaskWoken
+		*/
+		xTaskNotifyFromISR(toggleTaskHandle,1,eSetValueWithOverwrite,&HigherPriorityTaskWoken);
 		GPIO_vidClearInterrupt(GPIO_PORTF,GPIO_PIN0);
 	}
 	else if (GPIO_u8GetInterruptStatus(GPIO_PORTF,GPIO_PIN4) == 1)
 	{
-		vTaskNotifyGiveFromISR(blueTaskHandle,&HigherPriorityTaskWoken);
+		/*
+		First arg: task handle
+		Second arg: pointer HigherPriorityTaskWoken
+		*/
+		//vTaskNotifyGiveFromISR(blueTaskHandle,&HigherPriorityTaskWoken);
+		xTaskNotifyFromISR(toggleTaskHandle,2,eSetValueWithOverwrite,&HigherPriorityTaskWoken);
 		GPIO_vidClearInterrupt(GPIO_PORTF,GPIO_PIN4);
 
 	}
@@ -99,8 +67,10 @@ void vidProcessButtons(void)
 
 int main(void)
 {
+	/*Enabling running clock to GPIO PortF*/
 	SYSCNTRL_vidEnableGPIOClock(SYSCNTRL_GPIO_PORTF);
 	
+	/*Button GPIO configuration*/
 	GPIO_vidSetPinDirection(GPIO_PORTF,GPIO_PIN1,GPIO_OUTPUT);
 	GPIO_vidSetPinDigEnable(GPIO_PORTF,GPIO_PIN1,GPIO_DEN_SET);
 
@@ -127,8 +97,8 @@ int main(void)
 	/*For button PF4*/
 	gpioButton0Conf.u8Pin = GPIO_PIN4;
 	GPIO_vidConfigurePin(&gpioButton0Conf);
-
 	
+	/*External interrupt configuration*/
 	ExtInterruptConfig_t Ext0Conf;
 	Ext0Conf.ptrFunc = vidProcessButtons;
 	Ext0Conf.u8BothEdges = GPIO_INTERRUPT_EVENTCONTROLLED;
@@ -146,11 +116,12 @@ int main(void)
 	NVIC_vidSetPriority(NVIC_GPIOF,6);
 	
 	/*Creating RTOS tasks*/
-	xTaskCreate(vidToggleRed,"red",100,NULL,1,&redTaskHandle);
-	xTaskCreate(vidToggleBlue,"blue",100,NULL,1,&blueTaskHandle);
+	xTaskCreate(vidToggleLEDs,"toggle",100,NULL,1,&toggleTaskHandle);
 	
-	/*Running the RTOS scheduler*/
+	/*Starting scheduler*/
 	vTaskStartScheduler();
+	
+	__enable_irq();
 	
 	while(1);
 }
