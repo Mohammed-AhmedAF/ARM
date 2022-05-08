@@ -1,7 +1,7 @@
 #include "osKernel.h"
 
 #define NUM_OF_THREADS 3
-#define STACKSIZE 100
+#define STACKSIZE 100 /*In words*/
 #define BUS_FREQ 16000000
 
 uint32_t MILLIS_PRESCALER = 0;
