@@ -26,7 +26,7 @@ int32_t TCB_STACK[NUM_OF_THREADS][STACKSIZE];
 void osKernelStackInit(int i)
 {
  tcbs[i].stackPt = &TCB_STACK[i][STACKSIZE-16]; /*Stack pointer*/
- TCB_STACK[i][STACKSIZE-1] = 0x01000000;
+ TCB_STACK[i][STACKSIZE-1] = 0x01000000; /*Setting the T bit in PSR register*/
 }
 
 uint8_t osKernelAddThreads(void (*Task0) (void),void (*Task1) (void),void (*Task2) (void))
