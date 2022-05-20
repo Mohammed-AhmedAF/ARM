@@ -1,6 +1,9 @@
 #ifndef _SPI_PRIVATE_H
 #define _SPI_PRIVATE_H
 
+/*SPI0*/
+
+/*SPI1*/
 #define SSICR0 * ((u32 *) 0x40009000)
 #define SSICR1 * ((u32 *) 0x40009004)
 #define SSIDR * ((u32 *) 0x40009008)
