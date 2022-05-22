@@ -20,17 +20,17 @@ SysTick_Handler ;saved automatically: R0,R1,R2,R3,R12,lr,pc,psr
 osSchedulerLaunch
 	LDR R0,=currentPt
 	LDR R2,[R0]
-	LDR SP,[R2]
+	LDR SP,[R2] ;The address in currentPt is loaded into SP
 	POP {R4-R11}
 	POP {R0-R3}
 	POP {R12}
-	ADD SP,SP,#4
-	POP {LR}
-	ADD SP,SP,#4
-	CPSIE I
-	BX LR
+	ADD SP,SP,#4 ;Skip LR
+	POP {LR} ; ;Create a new start location
+	ADD SP,SP,#4 ;Skip PSR
+	CPSIE I ;Enable global interrupt
+	BX LR ;Return from subroutine
 	
 	
 	ALIGN 
-	END
+	END ;End of assembly file
 	
