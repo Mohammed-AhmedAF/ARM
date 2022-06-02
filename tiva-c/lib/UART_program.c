@@ -6,50 +6,50 @@
 #include "UART_interface.h"
 
 #ifdef USED_UART0
-static void (*UART0_callback) (void);
-static void (*UART0_callback_transmit)(void);
-static void (*UART0_callback_parity) (void);
+static void (*UART0_callback) (void) = NULL;
+static void (*UART0_callback_transmit)(void) = NULL;
+static void (*UART0_callback_parity) (void) = NULL;
 #endif
 #ifdef USED_UART1
-static void (*UART1_callback) (void);
-static void (*UART1_callback_transmit) (void);
-static void (*UART1_callback_parity) (void);
+static void (*UART1_callback) (void) = NULL;
+static void (*UART1_callback_transmit) (void) = NULL;
+static void (*UART1_callback_parity) (void) = NULL;
 #endif
 
 #ifdef USED_UART2
-static void (*UART2_callback) (void);
-static void (*UART2_callback_transmit) (void);
-static void (*UART2_callback_parity) (void);
+static void (*UART2_callback) (void) = NULL;
+static void (*UART2_callback_transmit) (void) = NULL;
+static void (*UART2_callback_parity) (void) = NULL;
 #endif
 
 #ifdef USED_UART3
-static void (*UART3_callback) (void);
-static void (*UART3_callback_transmit) (void);
-static void (*UART3_callback_parity) (void);
+static void (*UART3_callback) (void) = NULL;
+static void (*UART3_callback_transmit) (void) = NULL;
+static void (*UART3_callback_parity) (void) = NULL;
 #endif 
 
 #ifdef USED_UART4
-static void (*UART4_callback) (void);
-static void (*UART4_callback_transmit) (void);
-static void (*UART4_callback_parity) (void);
+static void (*UART4_callback) (void) = NULL;
+static void (*UART4_callback_transmit) (void) = NULL;
+static void (*UART4_callback_parity) (void) = NULL;
 #endif
 
 #ifdef USED_UART5
-static void (*UART5_callback) (void);
-static void (*UART5_callback_transmit)(void);
-static void (*UART5_callback_parity) (void);
+static void (*UART5_callback) (void) = NULL;
+static void (*UART5_callback_transmit)(void) = NULL;
+static void (*UART5_callback_parity) (void) = NULL;
 #endif 
 
 #ifdef USED_UART6
-static void (*UART6_callback) (void);
-static void (*UART6_callback_transmit)(void);
-static void (*UART6_callback_parity) (void);
+static void (*UART6_callback) (void) = NULL;
+static void (*UART6_callback_transmit)(void) = NULL;
+static void (*UART6_callback_parity) (void) = NULL;
 #endif
 
 #ifdef USED_UART7
-static void (*UART7_callback) (void);
-static void (*UART7_callback_transmit)(void);
-static void (*UART7_callback_parity) (void);
+static void (*UART7_callback) (void) = NULL;
+static void (*UART7_callback_transmit)(void) = NULL;
+static void (*UART7_callback_parity) (void) = NULL;
 #endif
 
 void UART_vidInit(UARTConfig_t * UARTConfig)
@@ -248,19 +248,27 @@ void UART0_Handler()
 {
 	if(GET_BIT(UART0->MIS,4) == 1)
 	{
+		if (UART0_callback != NULL)
+		{	
 		UART0_callback();
 		SET_BIT(UART0->ICR,4);
+		}
 	}
 	if (GET_BIT(UART0->MIS,5) == 1)
 	{
+		if (UART0_callback_transmit != NULL)
+		{
 		UART0_callback_transmit();
 		SET_BIT(UART0->ICR,5);
+		}
 	}
 	if(GET_BIT(UART0->MIS,8) == 1)
 	{
-		
+		if (UART0_callback_parity != NULL)
+		{
 		UART0_callback_parity();
 		SET_BIT(UART0->ICR,8);
+		}
 
 	}
 }
@@ -404,18 +412,27 @@ void UART1_Handler()
 {
 	if(GET_BIT(UART1->MIS,RECEIVE_INTERRUPT) == 1)
 	{
+		if (UART1_callback != NULL)
+		{
 		UART1_callback();
 		SET_BIT(UART1->ICR,RECEIVE_INTERRUPT);
+		}
 	}
 	else if (GET_BIT(UART1->MIS,TRANSMIT_INTERRUPT) == 1)
 	{
+		if (UART1_callback_transmit != NULL)
+		{
 		UART1_callback_transmit();
 		SET_BIT(UART1->ICR,TRANSMIT_INTERRUPT);
+		}
 	}
 	else if(GET_BIT(UART1->MIS,PARITYERROR_INTERRUPT) == 1)
 	{
+		if (UART1_callback_parity != NULL)
+		{
 		UART1_callback_parity();
 		SET_BIT(UART1->ICR,PARITYERROR_INTERRUPT);
+		}
 	}
 }
 #endif
@@ -560,19 +577,27 @@ void UART2_Handler()
 {
 	if(GET_BIT(UART2->MIS,RECEIVE_INTERRUPT) == 1)
 	{
+		if (UART2_callback != NULL)
+		{
 		UART2_callback();
 		SET_BIT(UART2->ICR,RECEIVE_INTERRUPT);
+		}
 	}
 	else if (GET_BIT(UART2->MIS,TRANSMIT_INTERRUPT) == 1)
 	{
+		if (UART2_callback_transmit != NULL)
+		{
 		UART2_callback_transmit();
 		SET_BIT(UART2->ICR,TRANSMIT_INTERRUPT);
+		}
 	}
 	else if(GET_BIT(UART2->MIS,PARITYERROR_INTERRUPT) == 1)
 	{
-		
+		if (UART2_callback_parity != NULL)
+		{
 		UART2_callback_parity();
 		SET_BIT(UART2->ICR,PARITYERROR_INTERRUPT);
+		}
 
 	}
 }
@@ -718,19 +743,27 @@ void UART3_Handler()
 {
 	if(GET_BIT(UART3->MIS,4) == 1)
 	{
+		if (UART3_callback != NULL)
+		{
 		UART3_callback();
 		SET_BIT(UART3->ICR,4);
+		}
 	}
 	else if (GET_BIT(UART3->MIS,5) == 1)
 	{
+		if (UART3_callback_transmit != NULL)
+		{
 		UART3_callback_transmit();
 		SET_BIT(UART3->ICR,5);
+		}
 	}
 	else if(GET_BIT(UART3->MIS,8) == 1)
 	{
-		
+		if (UART3_callback_parity != NULL)
+		{
 		UART3_callback_parity();
 		SET_BIT(UART3->ICR,8);
+		}
 	}
 }
 #endif
@@ -887,18 +920,27 @@ void UART4_Handler()
 {
 	if(GET_BIT(UART4->MIS,RECEIVE_INTERRUPT) == 1)
 	{
+		if (UART4_callback != NULL)
+		{
 		UART4_callback();
 		SET_BIT(UART4->ICR,RECEIVE_INTERRUPT);
+		}
 	}
 	else if (GET_BIT(UART4->MIS,TRANSMIT_INTERRUPT) == 1)
 	{
+		if (UART4_callback_transmit != NULL)
+		{
 		UART4_callback_transmit();
 		SET_BIT(UART4->ICR,TRANSMIT_INTERRUPT);
+		}
 	}
 	else if(GET_BIT(UART4->MIS,PARITYERROR_INTERRUPT) == 1)
 	{
+		if (UART4_callback_parity != NULL)
+		{
 		UART4_callback_parity();
 		SET_BIT(UART4->ICR,PARITYERROR_INTERRUPT);
+		}
 	}
 }
 
@@ -1044,18 +1086,27 @@ void UART5_Handler()
 {
 	if(GET_BIT(UART5->MIS,RECEIVE_INTERRUPT) == 1)
 	{
+		if (UART5_callback != NULL)
+		{
 		UART5_callback();
 		SET_BIT(UART5->ICR,RECEIVE_INTERRUPT);
+		}
 	}
 	else if (GET_BIT(UART5->MIS,TRANSMIT_INTERRUPT) == 1)
 	{
+		if (UART5_callback_transmit != NULL)
+		{
 		UART5_callback_transmit();
 		SET_BIT(UART5->ICR,TRANSMIT_INTERRUPT);
+		}
 	}
 	else if(GET_BIT(UART5->MIS,PARITYERROR_INTERRUPT) == 1)
 	{
+		if (UART5_callback_parity != NULL)
+		{
 		UART5_callback_parity();
 		SET_BIT(UART5->ICR,PARITYERROR_INTERRUPT);
+		}
 	}
 }
 #endif
@@ -1210,18 +1261,27 @@ void UART6_Handler()
 {
 	if(GET_BIT(UART6->MIS,RECEIVE_INTERRUPT) == 1)
 	{
+		if (UART6_callback != NULL)
+		{
 		UART6_callback();
 		SET_BIT(UART6->ICR,RECEIVE_INTERRUPT);
+		}
 	}
 	else if (GET_BIT(UART6->MIS,TRANSMIT_INTERRUPT) == 1)
 	{
+		if (UART6_callback_transmit != NULL)
+		{
 		UART6_callback_transmit();
 		SET_BIT(UART6->ICR,TRANSMIT_INTERRUPT);
+		}
 	}
 	else if(GET_BIT(UART6->MIS,PARITYERROR_INTERRUPT) == 1)
 	{
+		if (UART6_callback_parity != NULL)
+		{
 		UART6_callback_parity();
 		SET_BIT(UART6->ICR,PARITYERROR_INTERRUPT);
+		}
 	}
 }
 #endif
@@ -1367,18 +1427,27 @@ void UART7_Handler()
 {
 	if(GET_BIT(UART7->MIS,RECEIVE_INTERRUPT) == 1)
 	{
+		if (UART7_callback != NULL)
+		{
 		UART7_callback();
 		SET_BIT(UART7->ICR,RECEIVE_INTERRUPT);
+		}
 	}
 	else if (GET_BIT(UART7->MIS,TRANSMIT_INTERRUPT) == 1)
 	{
+		if (UART7_callback_transmit != NULL)
+		{
 		UART7_callback_transmit();
 		SET_BIT(UART7->ICR,TRANSMIT_INTERRUPT);
+		}
 	}
 	else if(GET_BIT(UART7->MIS,PARITYERROR_INTERRUPT) == 1)
 	{
+		if (UART7_callback_parity != NULL)
+		{
 		UART7_callback_parity();
 		SET_BIT(UART7->ICR,PARITYERROR_INTERRUPT);
+		}
 	}
 }
 
