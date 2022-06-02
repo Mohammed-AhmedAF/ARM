@@ -60,6 +60,7 @@ void GPIO_vidSetPinDirection(u8 u8PortNumCpy, u8 u8PinNumCpy, u8 u8DirectionCpy)
 			else
 			{
 				CLEAR_BIT(GPIOE_DIR,u8PinNumCpy);
+			
 			}
 			break;
 		case GPIO_PORTF:
@@ -205,7 +206,7 @@ void GPIO_vidSetPinDigEnable(u8 u8PortNumCpy, u8 u8PinNumCpy, u8 u8DigEnable) {
 	}
 }
 
-void GPIO_vidConfigurePin(GPIOConfig_t * stGPIOConfig)
+void GPIO_vidConfigurePin(GPIOConfig_t * const stGPIOConfig)
 {
 	/*Digital pin enable*/
 	GPIO_vidSetPinDigEnable(stGPIOConfig->u8Port,stGPIOConfig->u8Pin,stGPIOConfig->u8DigEnable);
@@ -912,7 +913,7 @@ void GPIO_vidPutISR(u8 u8Port, void (*ptrF) (void))
 }
 
 
-void GPIO_vidConfigInterrupt(u8 u8Port, u8 u8Pin,ExtInterruptConfig_t * extInterruptConfig)
+void GPIO_vidConfigInterrupt(u8 u8Port, u8 u8Pin,ExtInterruptConfig_t * const extInterruptConfig)
 {
 	/*Pull resistance*/
 	GPIO_vidConfigurePUR(u8Port,u8Pin,extInterruptConfig->u8PullResistance);

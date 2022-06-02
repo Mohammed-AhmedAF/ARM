@@ -26,7 +26,7 @@ void GPIO_vidSetPinDirection(u8 u8PortNumCpy, u8 u8PinCpy,u8 u8DirCpy);
 u8 GPIO_u8GetPinValue(u8 u8Port, u8 u8Pin);
 void GPIO_vidSetPinDigEnable(u8 u8PortNumCpy, u8 u8PinCpy, u8 u8DigEnable);
 void GPIO_vidTogglePin(u8 u8Port, u8 u8Pin);
-void GPIO_vidConfigurePin(GPIOConfig_t * stGPIOConfig);
+void GPIO_vidConfigurePin(GPIOConfig_t * const stGPIOConfig);
 void GPIO_vidConfigurePUR(u8 u8Port, u8 u8Pin, u8 u8PURConfig);
 void GPIO_vidConfigurePDR(u8 u8Port, u8 u8Pin, u8 u8PDRConfig);
 void GPIO_vidSelectInterruptSense(u8 u8Port, u8 u8Pin, u8 u8Sense);
@@ -43,7 +43,7 @@ void GPIO_vidLock(u8 u8Port);
 void GPIO_vidCommit(u8 u8Port,u8 u8Pin);
 void GPIO_vidConfigPortControl(u8 u8Port, u8 u8Pin, u8 u8Value);
 void GPIO_vidPutISR(u8 u8Port,void (*ptrF) (void));
-void GPIO_vidConfigInterrupt(u8 u8Port, u8 u8Pin, ExtInterruptConfig_t * extInterruptConfig);
+void GPIO_vidConfigInterrupt(u8 u8Port, u8 u8Pin, ExtInterruptConfig_t * const extInterruptConfig);
 u8 GPIO_u8GetInterruptStatus(u8 u8Port, u8 u8Pin);
 
 
