@@ -3,7 +3,9 @@
 #include "GPIO_interface.h"
 #include "TIMER0_interface.h"
 #include "DHT11_interface.h"
-
+#include <stdint.h>
+#include <stdbool.h>
+#include "driverlib/sysctl.h"
 
 void DHT11_vidInit(void)
 {
@@ -15,19 +17,21 @@ void DHT11_vidStart(void)
 {
 	GPIO_vidSetPinDirection(DHT11_PORT,DHT11_PIN,GPIO_OUTPUT);
 	GPIO_vidSetPinValue(DHT11_PORT,DHT11_PIN,STD_LOW);
-	TIMER0_vidDelayMicro(18000/TIMER0_MICRO_DIV);
+	delayMs(18);
 	GPIO_vidSetPinValue(DHT11_PORT,DHT11_PIN,STD_HIGH);
-	TIMER0_vidDelayMicro(20/TIMER0_MICRO_DIV);
+	delayUs(20);
 	GPIO_vidSetPinDirection(DHT11_PORT,DHT11_PIN,GPIO_INPUT);
 }
 
 u8 DHT11_u8CheckResponse(void)
 {
 	u8 u8Response = 0;
-	TIMER0_vidDelayMicro(40/TIMER0_MICRO_DIV);
+	//TIMER0_vidDelayMicro(40/TIMER0_MICRO_DIV);
+	delayUs(40);
 	if (!GPIO_u8GetPinValue(DHT11_PORT,DHT11_PIN))
 	{
-		TIMER0_vidDelayMicro(70/TIMER0_MICRO_DIV);
+		//TIMER0_vidDelayMicro(70/TIMER0_MICRO_DIV);
+		delayUs(70);
 		if (GPIO_u8GetPinValue(DHT11_PORT,DHT11_PIN))
 		{
 			u8Response = 1;
@@ -37,8 +41,8 @@ u8 DHT11_u8CheckResponse(void)
 			u8Response = 0;
 		}
 	}
-		TIMER0_vidDelayMicro(60/TIMER0_MICRO_DIV);
-
+		//TIMER0_vidDelayMicro(60/TIMER0_MICRO_DIV);
+	delayUs(60);
 	return u8Response;
 }
 
@@ -49,7 +53,8 @@ u8 DHT11_u8ReadByte(void)
 	for (u8BitIndex = 0; u8BitIndex < 8; u8BitIndex++)
 	{
 		while(!GPIO_u8GetPinValue(DHT11_PORT,DHT11_PIN));
-		TIMER0_vidDelayMicro(40/TIMER0_MICRO_DIV);
+		//TIMER0_vidDelayMicro(40/TIMER0_MICRO_DIV);
+		delayUs(40);
 		if (!GPIO_u8GetPinValue(DHT11_PORT,DHT11_PIN))
 		{
 			u8Byte &= ~(1<<(7-u8BitIndex));
@@ -62,4 +67,18 @@ u8 DHT11_u8ReadByte(void)
 	}
 	
 	return u8Byte;
+}
+
+static void delayUs(u32 ui32Us) {
+	SysCtlDelay(ui32Us * (SysCtlClockGet() / 3 / 1000000));
+}
+
+static void delayMs(u32 ui32Ms) {
+
+	// 1 clock cycle = 1 / SysCtlClockGet() second
+	// 1 SysCtlDelay = 3 clock cycle = 3 / SysCtlClockGet() second
+	// 1 second = SysCtlClockGet() / 3
+	// 0.001 second = 1 ms = SysCtlClockGet() / 3 / 1000
+	
+	SysCtlDelay(ui32Ms * (SysCtlClockGet() / 3 / 1000));
 }
