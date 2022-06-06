@@ -25,6 +25,7 @@ Drivers for several peripherals and simple projects of TI Tiva-C TM4C123GH6PM, i
 * DHT11
 * SevenSegment
 * 74HC595
+* TM1637
 
 ### Other drivers
 * Time triggered cooperative scheduler
