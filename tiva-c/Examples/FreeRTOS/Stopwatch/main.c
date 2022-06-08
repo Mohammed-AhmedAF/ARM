@@ -93,7 +93,7 @@ void vidProcessButtons(void)
 	if (GPIO_u8GetInterruptStatus(GPIO_PORTF,GPIO_PIN0))
 	{
 		xEventGroupSetBitsFromISR(myEventGroup,RED_EVENT_BIT,&xHigherPriorityTaskWoken);
-		portEND_SWITCHING_ISR(xHigherPriorityTaskWoken)
+		portEND_SWITCHING_ISR(xHigherPriorityTaskWoken);
 		if (u8Action == STOPWATCH_ACTION_COUNT)
 		{
 			u8Action = STOPWATCH_ACTION_PAUSE;
@@ -107,7 +107,7 @@ void vidProcessButtons(void)
 	else if (GPIO_u8GetInterruptStatus(GPIO_PORTF,GPIO_PIN4)) 
 	{
 		xEventGroupSetBitsFromISR(myEventGroup,BLUE_EVENT_BIT,&xHigherPriorityTaskWoken);
-		portEND_SWITCHING_ISR(xHigherPriorityTaskWoken)
+		portEND_SWITCHING_ISR(xHigherPriorityTaskWoken);
 		u8Action = STOPWATCH_ACTION_RESET;
 		GPIO_vidClearInterrupt(GPIO_PORTF,GPIO_PIN4);
 
@@ -181,7 +181,6 @@ int main(void)
 	UART0Config.u16Integer = 8;
 	UART0Config.u8Fraction = 44;
 	UART0_vidInit(&UART0Config);
-	
 	
 	/*Event group*/
 	myEventGroup = xEventGroupCreate();
