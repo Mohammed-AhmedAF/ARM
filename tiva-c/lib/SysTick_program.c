@@ -4,7 +4,7 @@
 #include "SysTick_interface.h"
 
 /*Function pointer to be assigned a callback function*/
-static void (*callback) (void);
+static void (*callback) (void) = NULL;
 
 static volatile u8 u8BusyWaitFlag = 1;
 
@@ -113,6 +113,9 @@ u32 SysTick_u32GetCurrentValue(void) {
 }
 
 void SysTick_Handler()
-{
-	callback();
+{	
+	if (callback != NULL)
+	{
+		callback();
+	}
 }
