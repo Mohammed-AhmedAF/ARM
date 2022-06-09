@@ -8,10 +8,10 @@
 /*Status: Not fully tested*/
 /********/
 
-static void (*ptFPWM_0_callback) (void);
-static void (*ptFPWM_1_callback) (void);
-static void (*ptFPWM_2_callback) (void);
-static void (*ptFPWM_3_callback) (void);
+static void (*ptFPWM_0_callback) (void) = NULL;
+static void (*ptFPWM_1_callback) (void) = NULL;
+static void (*ptFPWM_2_callback) (void) = NULL;
+static void (*ptFPWM_3_callback) (void) = NULL;
 
 void PWM_vidInit(PWMConfig_t * ptPWMConfig)
 {
@@ -368,21 +368,33 @@ void PWM_vidPutISRFunction(u8 u8Generator,void (*ptrF) (void))
 
 void PWM0_0_Handler(void)
 {
-	ptFPWM_0_callback();
+	if (ptFPWM_0_callback != NULL)
+	{
+		ptFPWM_0_callback();
+	}
 }
 
 void PWM0_1_Handler(void)
 {
-	ptFPWM_1_callback();
+	if (ptFPWM_1_callback != NULL)
+	{
+		ptFPWM_1_callback();
+	}
 }
 
 void PWM0_2_Handler(void)
 {
-	ptFPWM_2_callback();
+	if (ptFPWM_2_callback != NULL)
+	{
+		ptFPWM_2_callback();
+	}
 }
 
 void PWM0_3_Handler(void)
 {
-	ptFPWM_3_callback();
-}
+	if (ptFPWM_3_callback != NULL)
+	{
+		ptFPWM_3_callback();
+	}
+}	
 
