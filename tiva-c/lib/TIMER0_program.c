@@ -4,8 +4,7 @@
 #include "TIMER0_interface.h"
 #include "TM4C123.h"                    // Device header
 
-static void (*ptrFCallback) (void);
-
+static void (*ptrFCallback) (void) = NULL;
 u32 u32OVFCount = 0;
 volatile u8 u8DelayFlag = 0;
 volatile u32 u32DelayMicro = 0;
@@ -72,6 +71,10 @@ void TIMER0_vidDelayMicro(u32 u32Micro)
 
 void TIMER0A_Handler()
 {
-	vidCountOVF();
+	if (ptrFCallback != NULL)
+	{
+		ptrFCallback();
+	}
+	//vidCountOVF();
 	SET_BIT(TIM0_ICR,0);
 }
