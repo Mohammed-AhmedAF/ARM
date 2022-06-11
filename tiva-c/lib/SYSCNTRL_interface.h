@@ -27,6 +27,11 @@ void SYSCNTRL_vidChangeSysClock(u8 u8SysClock);
 #define SYSCNTRL_UART0 0
 #define SYSCNTRL_UART1 1
 #define SYSCNTRL_UART2 2
+#define SYSCNRTL_UART3 3
+#define SYSCNTRL_UART4 4
+#define SYSCNTRL_UART5 5
+#define SYSCNTRL_UART6 6
+#define SYSCNTRL_UART7 7
 
 #define SYSCNTRL_SPI0 0
 #define SYSCNTRL_SPI1 1
