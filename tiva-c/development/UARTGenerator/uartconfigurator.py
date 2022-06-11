@@ -96,7 +96,12 @@ def getParityChoice():
     return result
 
 def copyToClipboard():
-    cb.copy(generatedCodeText.get("0.0",END))
+    textSize = generatedCodeText.get("0.0",END)
+    if len(textSize) > 1:
+        cb.copy(generatedCodeText.get("0.0",END))
+        statusLabel.config(text="Copied to clipboard!")
+    else:
+        statusLabel.config(text="Code is not generated yet, nothing copied!")
     
 def generateStruct():
     generatedCodeText.config(state=NORMAL)
@@ -248,9 +253,9 @@ parityLabel.grid(row=10,column=0,padx=5,pady=5,sticky=W+E+N+S)
 paritySelectCmbBox.grid(row=10,column=1,padx=5,pady=5,sticky=W+E+N+S)
 generateButton.grid(row=11,column=0,padx=5,pady=5,sticky=W+E+N+S)
 copyToClipboardButton.grid(row=11,column=1,padx=5,pady=5,sticky=W+E+N+S)
-generatedCodeText.pack()
+generatedCodeText.pack(padx=10)
 
-statusLabel.grid(row=1,column=0,colspan=3,sticky=E+W+N+S,padx=5,pady=5)
+statusLabel.grid(row=1,column=0,columnspan=3,sticky=E+W+N+S,padx=5,pady=5)
 
 def launchApp():
     top.mainloop()
