@@ -20,7 +20,7 @@ void uart0ReceiveHandler(void)
 	}
 }
 
-void vidBlink(void)
+void vidSysTickHandler(void)
 {
 	static u8 sysTickCount = 0;
 	sysTickCount++;
@@ -34,7 +34,7 @@ void vidBlink(void)
 int main(void)
 {
 	/*Configuring running clock for used peripherals*/
-  SYSCNTRL_vidChangeSysClock(SYSCNTRL_SYSCLOCK_16MHZ);
+	SYSCNTRL_vidChangeSysClock(SYSCNTRL_SYSCLOCK_16MHZ);
 	SYSCNTRL_vidEnableTimerClock(SYSCNTRL_TIMER_0);
 	SYSCNTRL_vidEnableGPIOClock(SYSCNTRL_GPIO_PORTA);
 	SYSCNTRL_vidEnableGPIOClock(SYSCNTRL_GPIO_PORTB);
@@ -72,23 +72,22 @@ int main(void)
 	GPIO_vidSetPinDigEnable(GPIO_PORTF,GPIO_LED_BLUE,GPIO_DEN_SET);
 	GPIO_vidSetPinDirection(GPIO_PORTF,GPIO_LED_BLUE,GPIO_OUTPUT);
 	
-	//TIMER0_vidInit(0,1);
 	NVIC_vidSetInterrupt(NVIC_UART0);
 	NVIC_vidSetPriority(NVIC_UART0,4);
 	APP_vidInit();
 
 	SysTickConfig_t sysTickConfig;
-	sysTickConfig.ptrFunc = vidBlink;
+	sysTickConfig.ptrFunc = vidSysTickHandler;
 	sysTickConfig.u32ReloadValue = 16000000;
 	sysTickConfig.u8ClockSource = SYSTICK_CLOCK_SYSTEM;
 	sysTickConfig.u8Interrupt = SYSTICK_INTERRUPT_ENABLED;
 	SysTick_vidInitExtended(&sysTickConfig);
-  SysTick_vidStart();
+	SysTick_vidStart();
 	
 	
 	while(1)
 	{
-
+		
 
 	}
 }

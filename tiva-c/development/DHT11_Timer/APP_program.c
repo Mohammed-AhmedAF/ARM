@@ -39,11 +39,11 @@ void APP_vidGetTemperature(void)
 	u8Checksum = DHT11_u8ReadByte();
 	if ((u8RH1 + u8RH2 + u8Temp1 + u8Temp2) == u8Checksum)
 	{
-		UART0_vidSendString("Checksum good.\r\n");
+		UART0_vidSendString("Checksum: Good.\r\n");
 	}
 	else 
 	{
-		UART0_vidSendString("Checksum bad.\r\n");
+		UART0_vidSendString("Checksum: Bad.\r\n");
 
 	}
 	UART0_vidSendString("Temperature: ");

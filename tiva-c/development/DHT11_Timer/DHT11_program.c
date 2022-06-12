@@ -6,6 +6,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include "driverlib/sysctl.h"
+#include "TM4C123GH6PM.h"
 
 void DHT11_vidInit(void)
 {
@@ -18,22 +19,18 @@ void DHT11_vidStart(void)
 	GPIO_vidSetPinDirection(DHT11_PORT,DHT11_PIN,GPIO_OUTPUT);
 	GPIO_vidSetPinValue(DHT11_PORT,DHT11_PIN,STD_LOW);
 	TIMER0_vidDelayMilli(18);
-//	delayMs(18);
 	GPIO_vidSetPinValue(DHT11_PORT,DHT11_PIN,STD_HIGH);
-	TIMER0_viDelayMirco_test(20);
-// delayUs(20);
+	TIMER0_viDelayMirco(20);
 	GPIO_vidSetPinDirection(DHT11_PORT,DHT11_PIN,GPIO_INPUT);
 }
 
 u8 DHT11_u8CheckResponse(void)
 {
 	u8 u8Response = 0;
-	TIMER0_viDelayMirco_test(40);
-//	delayUs(40);
+	TIMER0_viDelayMirco(40);
 	if (!GPIO_u8GetPinValue(DHT11_PORT,DHT11_PIN))
 	{
-		TIMER0_viDelayMirco_test(70);
-//		delayUs(70);
+		TIMER0_viDelayMirco(70);
 		if (GPIO_u8GetPinValue(DHT11_PORT,DHT11_PIN))
 		{
 			u8Response = 1;
@@ -43,7 +40,7 @@ u8 DHT11_u8CheckResponse(void)
 			u8Response = 0;
 		}
 	}
-	TIMER0_viDelayMirco_test(60);
+	TIMER0_viDelayMirco(60);
 	return u8Response;
 }
 
@@ -51,11 +48,16 @@ u8 DHT11_u8ReadByte(void)
 {
 	u8 u8Byte;
 	u8 u8BitIndex;
+	/*Have to put this diable timer macro in order to prevent the program from hanging*/
+	TIMER0_DISABLE_TIMER();
 	for (u8BitIndex = 0; u8BitIndex < 8; u8BitIndex++)
 	{
 		while(!GPIO_u8GetPinValue(DHT11_PORT,DHT11_PIN));
-//		TIMER0_viDelayMirco_test(40);
-		delayUs(40);
+		TIMER0_DISABLE_TIMER();
+		TIMER0_viDelayMirco(10);
+		TIMER0_viDelayMirco(10);
+		TIMER0_viDelayMirco(10);
+
 		if (!GPIO_u8GetPinValue(DHT11_PORT,DHT11_PIN))
 		{
 			u8Byte &= ~(1<<(7-u8BitIndex));

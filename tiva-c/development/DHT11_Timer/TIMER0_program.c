@@ -14,21 +14,37 @@ void vidCountOVF(void)
 	u32OVFCount++;
 }
 
-void TIMER0_vidInit(u16 u16LoadVal, u16 u16PrescaleVal)
+inline void TIMER0_vidInitOneShoot(u16 u16LoadVal)
 {
-	TIMER0->CTL = 0;
 	
 	/*Timer configuration (16-bit)*/
 	SET_BIT(TIMER0->CFG,2);
 	
 	/**Timer mode**/
-	/*Periodic-shot mode*/
-	TIMER0->TAMR |= 0x2;
-	/*Count direction: DOWN*/
-	SET_BIT(TIMER0->TAMR,4);
+	/*One-Shoot mode, count down*/
+	TIMER0->TAMR |= 0x11;
 	
 	/*Prescaler*/ 
-	TIMER0->TAPR = u16PrescaleVal;
+	//TIMER0->TAPR = u16PrescaleVal;
+	
+	/*Load value*/
+	TIMER0->TAILR = u16LoadVal;
+		
+	/*Enable timer*/
+	SET_BIT(TIMER0->CTL,0);
+}
+
+void TIMER0_vidInit(u16 u16LoadVal, u16 u16PrescaleVal)
+{
+	/*Timer configuration (16-bit)*/
+	SET_BIT(TIMER0->CFG,2);
+	
+	/**Timer mode**/
+	/*Periodic-shot mode, count down*/
+	TIMER0->TAMR |= 0x12;
+	
+	/*Prescaler*/ 
+//	TIMER0->TAPR = u16PrescaleVal;
 	
 	/*Load value*/
 	TIMER0->TAILR = u16LoadVal;
@@ -45,7 +61,16 @@ void TIMER0_vidPutISRFunction(void (*ptrF) (void))
 	ptrFCallback = ptrF;
 }
 
-__inline void TIMER0_viDelayMirco_test(u32 u32Micro)
+__inline void TIMER0_viDelayMirco_test2(u32 u32Micro)
+{
+	static u32 i;
+	
+	TIMER0_vidInitOneShoot((16*u32Micro));
+	while((TIMER0->RIS & 0x1) == 0);
+	SET_BIT(TIMER0->ICR,0);
+}
+
+__inline void TIMER0_viDelayMirco(u32 u32Micro)
 {
 	static u32 i;
 	
@@ -59,12 +84,12 @@ void TIMER0_vidDelayMilli(u32 u32MicroDelay)
 		u32 i;
 		TIMER0_vidInit(16000-1,0);
     for(i = 0; i < u32MicroDelay; i++) {
-			while ((TIMER0->RIS & 0x1) == 0) ;      /* wait for TimerA timeout flag */
+			while ((TIMER0->RIS & 0x1) == 0);      /* wait for TimerA timeout flag */
       TIMER0->ICR = 0x1;      /* clear the TimerA timeout flag */
     }
 }
 
-void TIMER0_vidDelayMicro(u32 u32Micro)
+void TIMER0_vidDelayMicro_old(u32 u32Micro)
 {
 	TIM0_TAV = 0;
 	u32DelayMicro = u32Micro;
@@ -87,6 +112,5 @@ void TIMER0A_Handler()
 	{
 		ptrFCallback();
 	}
-	//vidCountOVF();
 	SET_BIT(TIM0_ICR,0);
 }
