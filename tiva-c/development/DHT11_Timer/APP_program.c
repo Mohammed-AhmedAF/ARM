@@ -5,6 +5,7 @@
 #include "SYSCNTRL_interface.h"
 #include "TIMER0_interface.h"
 #include "DHT11_interface.h"
+#include "TM1637_interface.h"
 #include "UART_interface.h"
 
 u8 u8RH1 = 0;
@@ -16,6 +17,8 @@ u8 u8Checksum = 0;
 void APP_vidInit(void)
 {
 	DHT11_vidInit();
+	TM1637_vidInit();
+
 }
 
 
@@ -56,6 +59,8 @@ void APP_vidGetTemperature(void)
 	UART0_vidSendString("%");
 	UART0_vidSendByte('\r');
 	UART0_vidSendByte('\n');
+	TM1637_vidDisplayTemperatur((u32)u8Temp1,1);
+
 	}
 	else
 	{

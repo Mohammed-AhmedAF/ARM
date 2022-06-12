@@ -3,7 +3,7 @@
 #define TIM0_CFG * ((u32*) 0x40030000)
 #define TIM0_TAMR * ((u32*) 0x40030004)
 #define TIM0_TBMR * ((u32*) 0x40030008)
-#define TIM0_CTL * ((u32*) 0x4003000C)
+#define TIM0_CTL * ((u32 * const) 0x4003000C)
 #define TIM0_SYNC * ((u32*) 0x40030010)
 #define TIM0_IMR * ((u32*) 0x40030018)
 #define TIM0_RIS * ((u32*) 0x4003001C)

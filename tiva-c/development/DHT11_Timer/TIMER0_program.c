@@ -65,7 +65,7 @@ __inline void TIMER0_viDelayMirco_test2(u32 u32Micro)
 {
 	static u32 i;
 	
-	TIMER0_vidInitOneShoot((16*u32Micro));
+	TIMER0_vidInitOneShoot((20*u32Micro));
 	while((TIMER0->RIS & 0x1) == 0);
 	SET_BIT(TIMER0->ICR,0);
 }
@@ -74,7 +74,7 @@ __inline void TIMER0_viDelayMirco(u32 u32Micro)
 {
 	static u32 i;
 	
-	TIMER0_vidInit((16)*u32Micro,0);
+	TIMER0_vidInit((20)*u32Micro,0);
 	while((TIMER0->RIS & 0x1) == 0);
 	SET_BIT(TIMER0->ICR,0);
 }

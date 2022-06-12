@@ -8,10 +8,10 @@ u8 DHT11_u8CheckResponse(void);
 u8 DHT11_u8ReadByte(void);
 static void delayUs(u32 ui32Us);
 void delayMs(u32 ui32Ms);
-/*Pin definition*/
-#define DHT11_PORT GPIO_PORTB
-#define DHT11_PIN GPIO_PIN5
 
+/*Macros*/
+#define DHT11_RESPONSE_GOOD 1
+#define DHT11_RESPONSE_BAD 0
 
 
 #endif

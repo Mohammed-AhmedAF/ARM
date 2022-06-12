@@ -12,7 +12,7 @@ void TIMER0_viDelayMirco_test2(u32 u32Micro);
 #define TIMER0_MICRO_DIV 4
 
 /*Macro function*/
-#define TIMER0_DISABLE_TIMER() TIMER0->CTL=0
-#define TIMER0_ENABLE_TIMER() TIMER0->CTL!=1
+#define TIMER0_DISABLE_TIMER() TIM0_CTL=0
+#define TIMER0_ENABLE_TIMER() TIM0_CTL=1
 
 #endif
