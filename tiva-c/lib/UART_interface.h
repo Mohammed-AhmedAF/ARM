@@ -12,6 +12,8 @@ typedef struct
 	u8 u8ParityEnable;
 	u8 u8ParitySelect;
 	u8 u8FIFOEnabled;
+	u8 u8FlowControl;
+	u8 u8Loopback;
 	u8 u8InterruptEnabled;
 	u8 u8HighSpeedEnabled;
 	u8 u8StopBits;
@@ -24,6 +26,14 @@ typedef struct
 /*Macros used in configuration*/
 #define UART_CLOCKSOURCE_RC 0
 #define UART_CLOCKSOURCE_PIOSC 1
+
+#define UART_FLOWCONTROL_CTS_ENABLED 2 
+#define UART_FLOWCONTROL_CTS_DISABLED 4
+#define UART_FLOWCONTROL_RTS_ENABLED 1
+#define UART_FLOWCONTROL_RTS_DISABLED 0
+
+#define UART_LOOPBACK_ENABLED 0
+#define UART_LOOPBACK_DISABLED 1
 
 #define UART_WORDSIZE_8 0
 #define UART_WORDSIZE_7 1
@@ -79,6 +89,7 @@ typedef struct
 
 
 void UART_vidInit(UARTConfig_t * UARTConfig);
+void UART_vidSendNumber(void (*ptrF) (u8),u16 u16Number);
 
 /*UART0*/
 void UART0_vidInit(UARTConfig_t * UARTConfig);

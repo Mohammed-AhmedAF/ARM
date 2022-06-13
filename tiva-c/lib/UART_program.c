@@ -179,6 +179,17 @@ void UART0_vidInit(UARTConfig_t * UARTConfig)
 				break;
 		}
 		
+		/*Loopback*/
+		switch(UARTConfig->u8Loopback)
+		{
+			case UART_LOOPBACK_ENABLED:
+				SET_BIT(UART0->CTL,7);
+				break;
+			case UART_LOOPBACK_DISABLED:
+				CLEAR_BIT(UART0->CTL,7);
+				break;
+		}
+		
 		/*Enabled UART*/
 		SET_BIT(UART0->CTL,0);
 
@@ -343,6 +354,17 @@ void UART1_vidInit(UARTConfig_t * UARTConfig)
 			case UART_RXTX_TX_ONLY:
 				SET_BIT(UART1->CTL,8);
 			break;
+		}
+		
+		/*Loopback*/
+		switch(UARTConfig->u8Loopback)
+		{
+			case UART_LOOPBACK_ENABLED:
+				SET_BIT(UART1->CTL,7);
+				break;
+			case UART_LOOPBACK_DISABLED:
+				CLEAR_BIT(UART1->CTL,7);
+				break;
 		}
 		
 		/*Enabled UART*/
@@ -510,6 +532,17 @@ void UART2_vidInit(UARTConfig_t * UARTConfig)
 			break;
 		}
 		
+		/*Loopback*/
+		switch(UARTConfig->u8Loopback)
+		{
+			case UART_LOOPBACK_ENABLED:
+				SET_BIT(UART2->CTL,7);
+				break;
+			case UART_LOOPBACK_DISABLED:
+				CLEAR_BIT(UART2->CTL,7);
+				break;
+		}
+		
 		/*Enabled UART*/
 		SET_BIT(UART2->CTL,0);
 	
@@ -672,6 +705,17 @@ void UART3_vidInit(UARTConfig_t * UARTConfig)
 			case UART_RXTX_TX_ONLY:
 				SET_BIT(UART3->CTL,8);
 			break;
+		}
+		
+		/*Loopback*/
+		switch(UARTConfig->u8Loopback)
+		{
+			case UART_LOOPBACK_ENABLED:
+				SET_BIT(UART3->CTL,7);
+				break;
+			case UART_LOOPBACK_DISABLED:
+				CLEAR_BIT(UART3->CTL,7);
+				break;
 		}
 		
 		/*Enabled UART*/
@@ -839,6 +883,17 @@ void UART4_vidInit(UARTConfig_t * UARTConfig)
 			case UART_RXTX_TX_ONLY:
 				SET_BIT(UART4->CTL,8);
 			break;
+		}
+		
+		/*Loopback*/
+		switch(UARTConfig->u8Loopback)
+		{
+			case UART_LOOPBACK_ENABLED:
+				SET_BIT(UART4->CTL,7);
+				break;
+			case UART_LOOPBACK_DISABLED:
+				CLEAR_BIT(UART4->CTL,7);
+				break;
 		}
 		
 		/*Enabled UART*/
@@ -1017,6 +1072,17 @@ void UART5_vidInit(UARTConfig_t * UARTConfig)
 			break;
 		}
 		
+		/*Loopback*/
+		switch(UARTConfig->u8Loopback)
+		{
+			case UART_LOOPBACK_ENABLED:
+				SET_BIT(UART5->CTL,7);
+				break;
+			case UART_LOOPBACK_DISABLED:
+				CLEAR_BIT(UART5->CTL,7);
+				break;
+		}
+		
 		/*Enabled UART*/
 		SET_BIT(UART5->CTL,0);
 	
@@ -1180,6 +1246,17 @@ void UART6_vidInit(UARTConfig_t * UARTConfig)
 			case UART_RXTX_TX_ONLY:
 				SET_BIT(UART6->CTL,8);
 			break;
+		}
+		
+		/*Loopback*/
+		switch(UARTConfig->u8Loopback)
+		{
+			case UART_LOOPBACK_ENABLED:
+				SET_BIT(UART6->CTL,7);
+				break;
+			case UART_LOOPBACK_DISABLED:
+				CLEAR_BIT(UART6->CTL,7);
+				break;
 		}
 		
 		/*Enabled UART*/
@@ -1356,6 +1433,17 @@ void UART7_vidInit(UARTConfig_t * UARTConfig)
 			case UART_RXTX_TX_ONLY:
 				SET_BIT(UART7->CTL,8);
 			break;
+		}
+		
+		/*Loopback*/
+		switch(UARTConfig->u8Loopback)
+		{
+			case UART_LOOPBACK_ENABLED:
+				SET_BIT(UART7->CTL,7);
+				break;
+			case UART_LOOPBACK_DISABLED:
+				CLEAR_BIT(UART7->CTL,7);
+				break;
 		}
 		
 		/*Enabled UART*/
