@@ -18,8 +18,8 @@ void TM1637_vidDelayM(u32 u32DelayVal);
 void TM1637_vidDisplayChar(u8 u8Char);
 void TM1637_vidDisplayTemperatur(u32 u32Val, u8 u8DisplaySeparator);
 void TM1637_vidDisplayDigit(u8 u8Digit, u8 u8Position, u8 u8DisplayPosition);
-void TM1637_vidDisplayTwoNumbersRight(u8 u8Number,u8 u8DisplaySeparator);
-void TM1637_vidDisplayTwoNumbersLeft(u8 u8Number);
+void TM1637_vidDisplayTwoDigitsRight(u8 u8Number,u8 u8DisplaySeparator);
+void TM1637_vidDisplayTwoDigitssLeft(u8 u8Number);
 
 /*Macros*/
 #define TM1637_SEPARATOR_DISABLED 0

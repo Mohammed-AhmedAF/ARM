@@ -177,13 +177,13 @@ void TM1637_vidDisplayDecimal(u32 u32Val, u8 u8DisplaySeparator)
 	TM1637_vidStop();
 }
 
-void TM1637_vidDisplayTwoNumbersLeft(u8 u8Number)
+void TM1637_vidDisplayTwoDigitsLeft(u8 u8Number)
 {
 	TM1637_vidDisplayDigit(u8Number/10,TM1637_POS_0,TM1637_SEPARATOR_DISABLED);
 	TM1637_vidDisplayDigit(u8Number%10,TM1637_POS_1,TM1637_SEPARATOR_DISABLED);
 }
 
-void TM1637_vidDisplayTwoNumbersRight(u8 u8Number,u8 u8DisplaySeparator)
+void TM1637_vidDisplayTwoDigitsRight(u8 u8Number,u8 u8DisplaySeparator)
 {
 	/*Because we are displaying 2 digits only, so the maximum is 99*/
 	if (u8Number < 100)
