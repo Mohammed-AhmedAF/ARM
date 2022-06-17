@@ -102,7 +102,15 @@ def copyToClipboard():
         statusLabel.config(text="Copied to clipboard!")
     else:
         statusLabel.config(text="Code is not generated yet, nothing copied!")
-    
+
+
+def getLoopback():
+    result = loopBackVar.get()
+    if result:
+        return "UART_LOOPBACK_ENABLED"
+    else:
+        return "UART_LOOPBACK_DISABLED"
+
 def generateStruct():
     generatedCodeText.config(state=NORMAL)
     generatedCodeText.delete("1.0",END)
@@ -136,6 +144,9 @@ def generateStruct():
         generatedCodeText.insert(INSERT,f"{structName}.ptrFHandlerParity" + " = " + "uart" \
              + f"{getChosenModule()}" + "ParityHandler" + ";\r\n")
     
+    
+    generatedCodeText.insert(INSERT,f"{structName}.u8Loopback" + " = " + getLoopback() + ";\r\n")
+
 
     if paritySelectCmbBox.get() == paritySelectList[0]:
         generatedCodeText.insert(INSERT,f"{structName}.u8ParityEnable" + " = " + "UART_PARITY_DISABLED" + ";\r\n")
@@ -166,6 +177,7 @@ highSpeedVar = IntVar()
 receiveVar = IntVar()
 transmitVar = IntVar()
 parityErrorVar = IntVar()
+loopBackVar = IntVar()
 txrxList = ["UART_RXTX_TX_ONLY","UART_RXTX_RX_ONLY","UART_RXTX_BOTH"]
 paritySelectList =["UART_PARITY_DISABLED","UART_SELECT_ODD_PARITY","UART_SELECT_EVEN_PARITY"]
 
@@ -175,6 +187,7 @@ moduleLabel = Label(configFrame,text="Module:")
 FIFOFrame = Frame(configFrame)
 highSpeedFrame = Frame(configFrame)
 interruptsFrame = Frame(configFrame)
+loopbackFrame = Frame(configFrame)
 moduleCmbBox = ttk.Combobox(configFrame,values=moduleList,state="readonly",width=17)
 moduleCmbBox.current(0)
 clockSourceLabel = Label(configFrame,text="Clock source:")
@@ -209,6 +222,9 @@ paritySelectCmbBox.current(0)
 txrxLabel = Label(configFrame,text="TxRx")
 txrxCmbBox = ttk.Combobox(configFrame,values=txrxList,state="readonly")
 txrxCmbBox.current(2)
+loopbackLabel = Label(configFrame,text="Loopback: ")
+loopbackEnabledRadioButton = Radiobutton(loopbackFrame,text="Enabled",var=loopBackVar,value=1)
+loopbackDisabledRadioButton = Radiobutton(loopbackFrame,text="Disabled",var=loopBackVar,value=0)
 generateButton = Button(configFrame,text="Generate!",command=generateStruct)
 copyToClipboardButton = Button(configFrame,text="Copy to clipboard",command=copyToClipboard)
 
@@ -251,8 +267,12 @@ txrxLabel.grid(row=9,column=0,padx=5,pady=5,sticky=W+E+N+S)
 txrxCmbBox.grid(row=9,column=1,padx=5,pady=5,sticky=W+E+N+S)
 parityLabel.grid(row=10,column=0,padx=5,pady=5,sticky=W+E+N+S)
 paritySelectCmbBox.grid(row=10,column=1,padx=5,pady=5,sticky=W+E+N+S)
-generateButton.grid(row=11,column=0,padx=5,pady=5,sticky=W+E+N+S)
-copyToClipboardButton.grid(row=11,column=1,padx=5,pady=5,sticky=W+E+N+S)
+loopbackLabel.grid(row=11,column=0,padx=5,pady=5,sticky=W+E+N+S)
+loopbackFrame.grid(row=11,column=1,padx=5,pady=5,sticky=W+E+N+S)
+loopbackEnabledRadioButton.grid(row=0,column=1,padx=5,pady=5,sticky=W+E+N+S)
+loopbackDisabledRadioButton.grid(row=0,column=2,padx=5,pady=5,sticky=W+E+N+S)
+generateButton.grid(row=12,column=0,padx=5,pady=5,sticky=W+E+N+S)
+copyToClipboardButton.grid(row=12,column=1,padx=5,pady=5,sticky=W+E+N+S)
 generatedCodeText.pack(padx=10)
 
 statusLabel.grid(row=1,column=0,columnspan=3,sticky=E+W+N+S,padx=5,pady=5)
