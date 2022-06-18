@@ -4,9 +4,11 @@ from msilib.schema import CheckBox
 from tkinter import *
 from tkinter import ttk
 import pyperclip as cb
+from ttkthemes import ThemedStyle, ThemedTk
 
 def getChosenModule():
     module = moduleCmbBox.get()
+    #Get the number of module 
     return module[-1]
 
 def getStopBits():
@@ -111,11 +113,88 @@ def getLoopback():
     else:
         return "UART_LOOPBACK_DISABLED"
 
+def darkstyle(root):
+    widgetList = root.winfo_children()
+    for item in widgetList:
+        try:
+            item.config(bg="black",fg="lime")
+        except:
+            print("J")
+
+
+
+def generateGPIOConfig():
+    generatedCodeText.insert(INSERT,f"/*GPIO configuration of UART pins*/\r\n")
+    chosenModule = getChosenModule()
+    if chosenModule == "0":
+        generatedCodeText.insert(INSERT,f"/*UART0 Rx pin*/\r\n")
+        generatedCodeText.insert(INSERT,f"GPIO_vidSelectAlterFunction(GPIO_PORTA,GPIO_PIN0);\r\n")
+        generatedCodeText.insert(INSERT,f"GPIO_vidSetPinDirection(GPIO_PORTA,GPIO_PIN0,GPIO_DIR_INPUT);\r\n")
+        generatedCodeText.insert(INSERT,f"GPIO_vidSetPinDigEnable(GPIO_PORTA,GPIO_PIN0,GPIO_DEN_ENABLE);\r\n")
+        generatedCodeText.insert(INSERT,f"GPIO_vidConfigPortControl(GPIO_PORTA,GPIO_PIN0,0x01);\r\n")
+        generatedCodeText.insert(INSERT,f"/*UART0 Tx pin*/\r\n")
+        generatedCodeText.insert(INSERT,f"GPIO_vidSelectAlterFunction(GPIO_PORTA,GPIO_PIN1);\r\n")
+        generatedCodeText.insert(INSERT,f"GPIO_vidSetPinDirection(GPIO_PORTA,GPIO_PIN1,GPIO_DIR_OUTPUT);\r\n")
+        generatedCodeText.insert(INSERT,f"GPIO_vidSetPinDigEnable(GPIO_PORTA,GPIO_PIN1,GPIO_DEN_ENABLE);\r\n")
+        generatedCodeText.insert(INSERT,f"GPIO_vidConfigPortControl(GPIO_PORTA,GPIO_PIN1,0x01);\r\n")
+    elif chosenModule == "1":
+        generatedCodeText.insert(INSERT,f"/*UART1 Rx pin*/\r\n")
+        generatedCodeText.insert(INSERT,f"GPIO_vidSelectAlterFunction(GPIO_PORTB,GPIO_PIN0);\r\n")
+        generatedCodeText.insert(INSERT,f"GPIO_vidSetPinDirection(GPIO_PORTB,GPIO_PIN0,GPIO_DIR_INPUT);\r\n")
+        generatedCodeText.insert(INSERT,f"GPIO_vidSetPinDigEnable(GPIO_PORTB,GPIO_PIN0,GPIO_DEN_ENABLE);\r\n")
+        generatedCodeText.insert(INSERT,f"GPIO_vidConfigPortControl(GPIO_PORTB,GPIO_PIN0,0x01);\r\n")
+        generatedCodeText.insert(INSERT,f"/*UART1 Rx pin*/\r\n")
+        generatedCodeText.insert(INSERT,f"GPIO_vidSelectAlterFunction(GPIO_PORTB,GPIO_PIN1);\r\n")
+        generatedCodeText.insert(INSERT,f"GPIO_vidSetPinDirection(GPIO_PORTB,GPIO_PIN1,GPIO_DIR_OUTPUT);\r\n")
+        generatedCodeText.insert(INSERT,f"GPIO_vidSetPinDigEnable(GPIO_PORTB,GPIO_PIN1,GPIO_DEN_ENABLE);\r\n")
+        generatedCodeText.insert(INSERT,f"GPIO_vidConfigPortControl(GPIO_PORTB,GPIO_PIN1,0x01);\r\n")
+    elif chosenModule == "2":
+        generatedCodeText.insert(INSERT,f"UART2 Rx pin\r\n")
+        generatedCodeText.insert(INSERT,f"GPIO_vidSelectAlterFunction(GPIO_PORTD,GPIO_PIN6);\r\n")
+        generatedCodeText.insert(INSERT,f"GPIO_vidSetPinDirection(GPIO_PORTD,GPIO_PIN6,GPIO_DIR_INPUT);\r\n")
+        generatedCodeText.insert(INSERT,f"GPIO_vidSetPinDigEnable(GPIO_PORTD,GPIO_PIN6,GPIO_DEN_ENABLE);\r\n")
+        generatedCodeText.insert(INSERT,f"GPIO_vidConfigPortControl(GPIO_PORTD,GPIO_PIN6,0x01);\r\n")
+        generatedCodeText.insert(INSERT,f"UART2 Tx pin\r\n")
+        generatedCodeText.insert(INSERT,f"GPIO_vidSelectAlterFunction(GPIO_PORTD,GPIO_PIN7);\r\n")
+        generatedCodeText.insert(INSERT,f"GPIO_vidSetPinDirection(GPIO_PORTD,GPIO_PIN7,GPIO_DIR_OUTPUT);\r\n")
+        generatedCodeText.insert(INSERT,f"GPIO_vidSetPinDigEnable(GPIO_PORTD,GPIO_PIN7,GPIO_DEN_ENABLE);\r\n")
+        generatedCodeText.insert(INSERT,f"GPIO_vidConfigPortControl(GPIO_PORTD,GPIO_PIN7,0x01);\r\n")
+    elif chosenModule == "3":
+        generatedCodeText.insert(INSERT,f"/*UART3 Rx pin*/\r\n")
+        generatedCodeText.insert(INSERT,f"GPIO_vidSelectAlterFunction(GPIO_PORTC,GPIO_PIN6);\r\n")
+        generatedCodeText.insert(INSERT,f"GPIO_vidSetPinDirection(GPIO_PORTC,GPIO_PIN6,GPIO_DIR_INPUT);\r\n")
+        generatedCodeText.insert(INSERT,f"GPIO_vidSetPinDigEnable(GPIO_PORTC,GPIO_PIN6,GPIO_DEN_ENABLE);\r\n")
+        generatedCodeText.insert(INSERT,f"GPIO_vidConfigPortControl(GPIO_PORTC,GPIO_PIN6,0x01);\r\n")
+        generatedCodeText.insert(INSERT,f"/*UART3 Rx pin*/\r\n")
+        generatedCodeText.insert(INSERT,f"GPIO_vidSelectAlterFunction(GPIO_PORTC,GPIO_PIN7);\r\n")
+        generatedCodeText.insert(INSERT,f"GPIO_vidSetPinDirection(GPIO_PORTC,GPIO_PIN7,GPIO_DIR_OUTPUT);\r\n")
+        generatedCodeText.insert(INSERT,f"GPIO_vidSetPinDigEnable(GPIO_PORTC,GPIO_PIN7,GPIO_DEN_ENABLE);\r\n")
+        generatedCodeText.insert(INSERT,f"GPIO_vidConfigPortControl(GPIO_PORTC,GPIO_PIN7,0x01);\r\n")
+    elif chosenModule == "4":
+        generatedCodeText.insert(INSERT,f"/*UART4 Rx pin*/\r\n")
+        generatedCodeText.insert(INSERT,f"GPIO_vidSelectAlterFunction(GPIO_PORTC,GPIO_PIN4);\r\n")
+        generatedCodeText.insert(INSERT,f"GPIO_vidSetPinDirection(GPIO_PORTC,GPIO_PIN4,GPIO_DIR_INPUT);\r\n")
+        generatedCodeText.insert(INSERT,f"GPIO_vidSetPinDigEnable(GPIO_PORTC,GPIO_PIN4,GPIO_DEN_ENABLE);\r\n")
+        generatedCodeText.insert(INSERT,f"GPIO_vidConfigPortControl(GPIO_PORTC,GPIO_PIN4,0x01);\r\n")
+        generatedCodeText.insert(INSERT,f"/*UART4 Rx pin*/\r\n")
+        generatedCodeText.insert(INSERT,f"GPIO_vidSelectAlterFunction(GPIO_PORTC,GPIO_PIN5);\r\n")
+        generatedCodeText.insert(INSERT,f"GPIO_vidSetPinDirection(GPIO_PORTC,GPIO_PIN5,GPIO_DIR_OUTPUT);\r\n")
+        generatedCodeText.insert(INSERT,f"GPIO_vidSetPinDigEnable(GPIO_PORTC,GPIO_PIN5,GPIO_DEN_ENABLE);\r\n")
+        generatedCodeText.insert(INSERT,f"GPIO_vidConfigPortControl(GPIO_PORTC,GPIO_PIN5,0x01);\r\n")
+
+
+
+
+
+
 def generateStruct():
     generatedCodeText.config(state=NORMAL)
     generatedCodeText.delete("1.0",END)
-    statusLabel.config(text="Generated!")
     module = moduleCmbBox.get()
+    generateGPIOConfig()
+    #UART Configuration
+    generatedCodeText.insert(INSERT,"\r\n")
+    generatedCodeText.insert(INSERT,"/*UART Configuration*/\r\n")
     structName = f"uart{getChosenModule()}Config"
     generatedCodeText.insert(INSERT,f"UARTConfig_t {structName};\r\n")
     generatedCodeText.insert(INSERT,f"{structName}.u8Module" + " = " + moduleCmbBox.get() + ";\r\n")
@@ -126,6 +205,7 @@ def generateStruct():
     generatedCodeText.insert(INSERT,f"{structName}.u8HighSpeedEnabled" + " = " + getHighSpeed() + ";\r\n")
     generatedCodeText.insert(INSERT,f"{structName}.u16Integer" + " = " + getCalculatedBdrParam("INTEGER") + ";\r\n")
     generatedCodeText.insert(INSERT,f"{structName}.u8Fraction" + " = " + getCalculatedBdrParam("FRACTION") + ";\r\n")
+    generatedCodeText.insert(INSERT,f"{structName}.u8Loopback" + " = " + getLoopback() + ";\r\n")
     #Interrupts
     interruptsResult = getInterrupts()
     if interruptsResult != "NO_INTERRUPTS":
@@ -143,11 +223,6 @@ def generateStruct():
     if result == 1:
         generatedCodeText.insert(INSERT,f"{structName}.ptrFHandlerParity" + " = " + "uart" \
              + f"{getChosenModule()}" + "ParityHandler" + ";\r\n")
-    
-    
-    generatedCodeText.insert(INSERT,f"{structName}.u8Loopback" + " = " + getLoopback() + ";\r\n")
-
-
     if paritySelectCmbBox.get() == paritySelectList[0]:
         generatedCodeText.insert(INSERT,f"{structName}.u8ParityEnable" + " = " + "UART_PARITY_DISABLED" + ";\r\n")
     elif paritySelectCmbBox.get() ==  paritySelectList[1]:
@@ -158,12 +233,12 @@ def generateStruct():
         generatedCodeText.insert(INSERT,f"{structName}.u8ParitySelect" + " = " + "UART_PARITY_SELECT_EVEN" + ";\r\n")
     generatedCodeText.insert(INSERT,f"{structName}.u8RxTx" + " = " + getTxRxChoice() + ";\r\n")
     generatedCodeText.insert(INSERT,f"UART_vidInit(&{structName});\r\n")
+    statusLabel.config(text="Generated!")
     generatedCodeText.config(state=DISABLED)
 
 
 top = Tk()
 top.title("UART Configurator")
-
 
 moduleList = ["UART_MODULE_0","UART_MODULE_1","UART_MODULE_2","UART_MODULE_3","UART_MODULE_4","UART_MODULE_5",
 "UART_MODULE_6","UART_MODULE_7"]
@@ -279,7 +354,9 @@ statusLabel.grid(row=1,column=0,columnspan=3,sticky=E+W+N+S,padx=5,pady=5)
 
 def launchApp():
     top.mainloop()
+    
 
 if __name__ == "__main__":
     launchApp()
+
 
