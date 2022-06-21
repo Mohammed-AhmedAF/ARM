@@ -5,6 +5,7 @@ from tkinter import *
 from tkinter import ttk
 import pyperclip as cb
 from ttkthemes import ThemedStyle, ThemedTk
+import xmlReader
 
 def getChosenModule():
     module = moduleCmbBox.get()
@@ -124,67 +125,25 @@ def darkstyle(root):
 
 
 def generateGPIOConfig():
+
     generatedCodeText.insert(INSERT,f"/*GPIO configuration of UART pins*/\r\n")
     chosenModule = getChosenModule()
-    if chosenModule == "0":
-        generatedCodeText.insert(INSERT,f"/*UART0 Rx pin*/\r\n")
-        generatedCodeText.insert(INSERT,f"GPIO_vidSelectAlterFunction(GPIO_PORTA,GPIO_PIN0);\r\n")
-        generatedCodeText.insert(INSERT,f"GPIO_vidSetPinDirection(GPIO_PORTA,GPIO_PIN0,GPIO_DIR_INPUT);\r\n")
-        generatedCodeText.insert(INSERT,f"GPIO_vidSetPinDigEnable(GPIO_PORTA,GPIO_PIN0,GPIO_DEN_ENABLE);\r\n")
-        generatedCodeText.insert(INSERT,f"GPIO_vidConfigPortControl(GPIO_PORTA,GPIO_PIN0,0x01);\r\n")
-        generatedCodeText.insert(INSERT,f"/*UART0 Tx pin*/\r\n")
-        generatedCodeText.insert(INSERT,f"GPIO_vidSelectAlterFunction(GPIO_PORTA,GPIO_PIN1);\r\n")
-        generatedCodeText.insert(INSERT,f"GPIO_vidSetPinDirection(GPIO_PORTA,GPIO_PIN1,GPIO_DIR_OUTPUT);\r\n")
-        generatedCodeText.insert(INSERT,f"GPIO_vidSetPinDigEnable(GPIO_PORTA,GPIO_PIN1,GPIO_DEN_ENABLE);\r\n")
-        generatedCodeText.insert(INSERT,f"GPIO_vidConfigPortControl(GPIO_PORTA,GPIO_PIN1,0x01);\r\n")
-    elif chosenModule == "1":
-        generatedCodeText.insert(INSERT,f"/*UART1 Rx pin*/\r\n")
-        generatedCodeText.insert(INSERT,f"GPIO_vidSelectAlterFunction(GPIO_PORTB,GPIO_PIN0);\r\n")
-        generatedCodeText.insert(INSERT,f"GPIO_vidSetPinDirection(GPIO_PORTB,GPIO_PIN0,GPIO_DIR_INPUT);\r\n")
-        generatedCodeText.insert(INSERT,f"GPIO_vidSetPinDigEnable(GPIO_PORTB,GPIO_PIN0,GPIO_DEN_ENABLE);\r\n")
-        generatedCodeText.insert(INSERT,f"GPIO_vidConfigPortControl(GPIO_PORTB,GPIO_PIN0,0x01);\r\n")
-        generatedCodeText.insert(INSERT,f"/*UART1 Rx pin*/\r\n")
-        generatedCodeText.insert(INSERT,f"GPIO_vidSelectAlterFunction(GPIO_PORTB,GPIO_PIN1);\r\n")
-        generatedCodeText.insert(INSERT,f"GPIO_vidSetPinDirection(GPIO_PORTB,GPIO_PIN1,GPIO_DIR_OUTPUT);\r\n")
-        generatedCodeText.insert(INSERT,f"GPIO_vidSetPinDigEnable(GPIO_PORTB,GPIO_PIN1,GPIO_DEN_ENABLE);\r\n")
-        generatedCodeText.insert(INSERT,f"GPIO_vidConfigPortControl(GPIO_PORTB,GPIO_PIN1,0x01);\r\n")
-    elif chosenModule == "2":
-        generatedCodeText.insert(INSERT,f"UART2 Rx pin\r\n")
-        generatedCodeText.insert(INSERT,f"GPIO_vidSelectAlterFunction(GPIO_PORTD,GPIO_PIN6);\r\n")
-        generatedCodeText.insert(INSERT,f"GPIO_vidSetPinDirection(GPIO_PORTD,GPIO_PIN6,GPIO_DIR_INPUT);\r\n")
-        generatedCodeText.insert(INSERT,f"GPIO_vidSetPinDigEnable(GPIO_PORTD,GPIO_PIN6,GPIO_DEN_ENABLE);\r\n")
-        generatedCodeText.insert(INSERT,f"GPIO_vidConfigPortControl(GPIO_PORTD,GPIO_PIN6,0x01);\r\n")
-        generatedCodeText.insert(INSERT,f"UART2 Tx pin\r\n")
-        generatedCodeText.insert(INSERT,f"GPIO_vidSelectAlterFunction(GPIO_PORTD,GPIO_PIN7);\r\n")
-        generatedCodeText.insert(INSERT,f"GPIO_vidSetPinDirection(GPIO_PORTD,GPIO_PIN7,GPIO_DIR_OUTPUT);\r\n")
-        generatedCodeText.insert(INSERT,f"GPIO_vidSetPinDigEnable(GPIO_PORTD,GPIO_PIN7,GPIO_DEN_ENABLE);\r\n")
-        generatedCodeText.insert(INSERT,f"GPIO_vidConfigPortControl(GPIO_PORTD,GPIO_PIN7,0x01);\r\n")
-    elif chosenModule == "3":
-        generatedCodeText.insert(INSERT,f"/*UART3 Rx pin*/\r\n")
-        generatedCodeText.insert(INSERT,f"GPIO_vidSelectAlterFunction(GPIO_PORTC,GPIO_PIN6);\r\n")
-        generatedCodeText.insert(INSERT,f"GPIO_vidSetPinDirection(GPIO_PORTC,GPIO_PIN6,GPIO_DIR_INPUT);\r\n")
-        generatedCodeText.insert(INSERT,f"GPIO_vidSetPinDigEnable(GPIO_PORTC,GPIO_PIN6,GPIO_DEN_ENABLE);\r\n")
-        generatedCodeText.insert(INSERT,f"GPIO_vidConfigPortControl(GPIO_PORTC,GPIO_PIN6,0x01);\r\n")
-        generatedCodeText.insert(INSERT,f"/*UART3 Rx pin*/\r\n")
-        generatedCodeText.insert(INSERT,f"GPIO_vidSelectAlterFunction(GPIO_PORTC,GPIO_PIN7);\r\n")
-        generatedCodeText.insert(INSERT,f"GPIO_vidSetPinDirection(GPIO_PORTC,GPIO_PIN7,GPIO_DIR_OUTPUT);\r\n")
-        generatedCodeText.insert(INSERT,f"GPIO_vidSetPinDigEnable(GPIO_PORTC,GPIO_PIN7,GPIO_DEN_ENABLE);\r\n")
-        generatedCodeText.insert(INSERT,f"GPIO_vidConfigPortControl(GPIO_PORTC,GPIO_PIN7,0x01);\r\n")
-    elif chosenModule == "4":
-        generatedCodeText.insert(INSERT,f"/*UART4 Rx pin*/\r\n")
-        generatedCodeText.insert(INSERT,f"GPIO_vidSelectAlterFunction(GPIO_PORTC,GPIO_PIN4);\r\n")
-        generatedCodeText.insert(INSERT,f"GPIO_vidSetPinDirection(GPIO_PORTC,GPIO_PIN4,GPIO_DIR_INPUT);\r\n")
-        generatedCodeText.insert(INSERT,f"GPIO_vidSetPinDigEnable(GPIO_PORTC,GPIO_PIN4,GPIO_DEN_ENABLE);\r\n")
-        generatedCodeText.insert(INSERT,f"GPIO_vidConfigPortControl(GPIO_PORTC,GPIO_PIN4,0x01);\r\n")
-        generatedCodeText.insert(INSERT,f"/*UART4 Rx pin*/\r\n")
-        generatedCodeText.insert(INSERT,f"GPIO_vidSelectAlterFunction(GPIO_PORTC,GPIO_PIN5);\r\n")
-        generatedCodeText.insert(INSERT,f"GPIO_vidSetPinDirection(GPIO_PORTC,GPIO_PIN5,GPIO_DIR_OUTPUT);\r\n")
-        generatedCodeText.insert(INSERT,f"GPIO_vidSetPinDigEnable(GPIO_PORTC,GPIO_PIN5,GPIO_DEN_ENABLE);\r\n")
-        generatedCodeText.insert(INSERT,f"GPIO_vidConfigPortControl(GPIO_PORTC,GPIO_PIN5,0x01);\r\n")
+    xmlReader.openFile()
+    moduleData = xmlReader.getModuleGPIOParameters("UART"+chosenModule)
+    port = moduleData['port']
+    rxPin = moduleData['rx']
+    txPin = moduleData['tx']
 
-
-
-
+    generatedCodeText.insert(INSERT,f"/*UART{chosenModule} Rx pin*/\r\n")
+    generatedCodeText.insert(INSERT,f"GPIO_vidSelectAlterFunction({port},{rxPin});\r\n")
+    generatedCodeText.insert(INSERT,f"GPIO_vidSetPinDirection({port},{rxPin},GPIO_DIR_INPUT);\r\n")
+    generatedCodeText.insert(INSERT,f"GPIO_vidSetPinDigEnable({port},{rxPin},GPIO_DEN_ENABLE);\r\n")
+    generatedCodeText.insert(INSERT,f"GPIO_vidConfigPortControl({port},{rxPin},0x01);\r\n")
+    generatedCodeText.insert(INSERT,f"/*UART{chosenModule} Tx pin*/\r\n")
+    generatedCodeText.insert(INSERT,f"GPIO_vidSelectAlterFunction({port},{txPin});\r\n")
+    generatedCodeText.insert(INSERT,f"GPIO_vidSetPinDirection({port},{txPin},GPIO_DIR_OUTPUT);\r\n")
+    generatedCodeText.insert(INSERT,f"GPIO_vidSetPinDigEnable({port},{txPin},GPIO_DEN_ENABLE);\r\n")
+    generatedCodeText.insert(INSERT,f"GPIO_vidConfigPortControl({port},{txPin},0x01);\r\n")
 
 
 def generateStruct():
