@@ -3,6 +3,7 @@ from cgitb import text
 from msilib.schema import CheckBox
 from tkinter import *
 from tkinter import ttk
+from click import getchar
 import pyperclip as cb
 from ttkthemes import ThemedStyle, ThemedTk
 import xmlReader
@@ -122,6 +123,8 @@ def darkstyle(root):
         except:
             print("J")
 
+def getRunningClockGatingControl():
+    return rccClockVar.get()
 
 
 def generateGPIOConfig():
@@ -149,6 +152,14 @@ def generateStruct():
     generatedCodeText.config(state=NORMAL)
     generatedCodeText.delete("1.0",END)
     module = moduleCmbBox.get()
+    if getRunningClockGatingControl() == 1:
+        generatedCodeText.insert(INSERT,"/*RCGC Configuration*/\r\n")
+        xmlReader.openFile()
+        port = xmlReader.getModuleGPIOParameters("UART"+getChosenModule())['port']
+        generatedCodeText.insert(INSERT,"SYSCNTRL_vidEnableGPIOClock(SYSCNTLR_" + port + ")" + ";\r\n")
+        generatedCodeText.insert(INSERT,"SYSCNTRL_vidEnableUARTClock(SYSCNTLR_UART" + getChosenModule() + ")" + ";\r\n")
+        generatedCodeText.insert(INSERT,"\r\n")
+
     generateGPIOConfig()
     #UART Configuration
     generatedCodeText.insert(INSERT,"\r\n")
@@ -212,6 +223,7 @@ receiveVar = IntVar()
 transmitVar = IntVar()
 parityErrorVar = IntVar()
 loopBackVar = IntVar()
+rccClockVar = IntVar()
 txrxList = ["UART_RXTX_TX_ONLY","UART_RXTX_RX_ONLY","UART_RXTX_BOTH"]
 paritySelectList =["UART_PARITY_DISABLED","UART_SELECT_ODD_PARITY","UART_SELECT_EVEN_PARITY"]
 
@@ -222,6 +234,7 @@ FIFOFrame = Frame(configFrame)
 highSpeedFrame = Frame(configFrame)
 interruptsFrame = Frame(configFrame)
 loopbackFrame = Frame(configFrame)
+rccClockFrame = Frame(configFrame)
 moduleCmbBox = ttk.Combobox(configFrame,values=moduleList,state="readonly",width=17)
 moduleCmbBox.current(0)
 clockSourceLabel = Label(configFrame,text="Clock source:")
@@ -259,6 +272,9 @@ txrxCmbBox.current(2)
 loopbackLabel = Label(configFrame,text="Loopback: ")
 loopbackEnabledRadioButton = Radiobutton(loopbackFrame,text="Enabled",var=loopBackVar,value=1)
 loopbackDisabledRadioButton = Radiobutton(loopbackFrame,text="Disabled",var=loopBackVar,value=0)
+rccClockLabel = Label(configFrame,text="Running Clock Gating: ")
+rccClockEnabledRadioButton = Radiobutton(rccClockFrame,text="Enabled",var=rccClockVar,value=1)
+rccClockDisabledRadioButton = Radiobutton(rccClockFrame,text="Disabled",var=rccClockVar,value=0)
 generateButton = Button(configFrame,text="Generate!",command=generateStruct)
 copyToClipboardButton = Button(configFrame,text="Copy to clipboard",command=copyToClipboard)
 
@@ -305,8 +321,12 @@ loopbackLabel.grid(row=11,column=0,padx=5,pady=5,sticky=W+E+N+S)
 loopbackFrame.grid(row=11,column=1,padx=5,pady=5,sticky=W+E+N+S)
 loopbackEnabledRadioButton.grid(row=0,column=1,padx=5,pady=5,sticky=W+E+N+S)
 loopbackDisabledRadioButton.grid(row=0,column=2,padx=5,pady=5,sticky=W+E+N+S)
-generateButton.grid(row=12,column=0,padx=5,pady=5,sticky=W+E+N+S)
-copyToClipboardButton.grid(row=12,column=1,padx=5,pady=5,sticky=W+E+N+S)
+rccClockFrame.grid(row=12,column=1,padx=5,pady=5,sticky=W+E+N+S)
+rccClockLabel.grid(row=12,column=0,padx=5,pady=5,sticky=W+E+N+S)
+rccClockEnabledRadioButton.grid(row=0,column=0,padx=5,pady=5,sticky=W+E+N+S)
+rccClockDisabledRadioButton.grid(row=0,column=1,padx=5,pady=5,sticky=W+E+N+S)
+generateButton.grid(row=13,column=0,padx=5,pady=5,sticky=W+E+N+S)
+copyToClipboardButton.grid(row=13,column=1,padx=5,pady=5,sticky=W+E+N+S)
 generatedCodeText.pack(padx=10)
 
 statusLabel.grid(row=1,column=0,columnspan=3,sticky=E+W+N+S,padx=5,pady=5)
