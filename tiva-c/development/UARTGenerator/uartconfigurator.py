@@ -125,7 +125,6 @@ def darkstyle(root):
 
 
 def generateGPIOConfig():
-
     generatedCodeText.insert(INSERT,f"/*GPIO configuration of UART pins*/\r\n")
     chosenModule = getChosenModule()
     xmlReader.openFile()
@@ -198,6 +197,7 @@ def generateStruct():
 
 top = Tk()
 top.title("UART Configurator")
+top.resizable(width=FALSE,height=FALSE)
 
 moduleList = ["UART_MODULE_0","UART_MODULE_1","UART_MODULE_2","UART_MODULE_3","UART_MODULE_4","UART_MODULE_5",
 "UART_MODULE_6","UART_MODULE_7"]
