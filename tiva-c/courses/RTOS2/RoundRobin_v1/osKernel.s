@@ -18,14 +18,14 @@ SysTick_Handler ;saved automatically: R0,R1,R2,R3,R12,lr,pc,psr
 	BX LR ;Return from subroutine, this will restore automatically saved registers. BX branch and exchange instruction set if required.
 	
 osSchedulerLaunch
-	LDR R0,=currentPt
-	LDR R2,[R0]
+	LDR R0,=currentPt ;Load the address in currentPt into R0
+	LDR R2,[R0] ; Load R2 with contents of memory pointed to by R0
 	LDR SP,[R2] ;The address in currentPt is loaded into SP
 	POP {R4-R11}
 	POP {R0-R3}
 	POP {R12}
-	ADD SP,SP,#4 ;Skip LR
-	POP {LR} ; ;Create a new start location
+	ADD SP,SP,#4 ;Skip LR, SP=SP+4
+	POP {LR} ; ;Create a new start location?
 	ADD SP,SP,#4 ;Skip PSR
 	CPSIE I ;Enable global interrupt
 	BX LR ;Return from subroutine
