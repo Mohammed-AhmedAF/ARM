@@ -23,7 +23,7 @@
 #define PWM0_RIS0 * ((u32*) 0x40028048)
 #define PWM0_RIS1 * ((u32*) 0x40028088)
 #define PWM0_RIS2 * ((u32*) 0x400280C8)
-#define PWM0_RIS3 * ((u32*) 0x40028108)
+#define PWM0_RIS3 * ((u32 * const) 0x40028108)
 #define PWM0_ISC0 * ((u32*) 0x4002804C)
 #define PWM0_ISC1 * ((u32*) 0x4002808C)
 #define PWM0_ISC2 * ((u32*) 0x400280CC)

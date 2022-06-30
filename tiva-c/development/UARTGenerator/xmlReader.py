@@ -14,14 +14,15 @@ def getModuleGPIOParameters(uartModule):
     moduleNodes = portName.childNodes
     #Get port
     port =moduleNodes.item(1).firstChild.nodeValue.strip()
-    print("PORT: " + port)
     moduleData['port'] = port
+    print(port)
+    print(moduleNodes.item(2))
     #Get Rx pin
     rxPin = moduleNodes.item(3).firstChild.nodeValue.strip()
-    print("RX pin: " + rxPin)
+    print(rxPin)
     moduleData['rx'] = rxPin
     #Get Tx pin
     txPin = moduleNodes.item(5).firstChild.nodeValue.strip()
-    print("TX pin: " + txPin)
+    print(txPin)
     moduleData['tx'] = txPin
     return moduleData

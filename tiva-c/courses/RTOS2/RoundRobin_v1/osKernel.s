@@ -27,7 +27,7 @@ osSchedulerLaunch
 	ADD SP,SP,#4 ;Skip LR, SP=SP+4
 	POP {LR} ; ;Create a new start location?
 	ADD SP,SP,#4 ;Skip PSR
-	CPSIE I ;Enable global interrupt
+	CPSIE I ;Enable global interrupt, interrupts were disabled before calling this function
 	BX LR ;Return from subroutine
 	
 	
