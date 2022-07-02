@@ -52,7 +52,7 @@ static void (*UART7_callback_transmit)(void) = NULL;
 static void (*UART7_callback_parity) (void) = NULL;
 #endif
 
-void UART_vidInit(UARTConfig_t * UARTConfig)
+void UART_vidInit(UARTConfig_t * const UARTConfig)
 {
 	switch(UARTConfig->u8Module)
 	{
@@ -79,7 +79,7 @@ void UART_vidInit(UARTConfig_t * UARTConfig)
 
 
 #ifdef USED_UART0
-void UART0_vidInit(UARTConfig_t * UARTConfig)
+void UART0_vidInit(UARTConfig_t * const UARTConfig)
 {
 		UART0->CTL = 0;         /* UART0 module disbable */
 	
@@ -286,7 +286,7 @@ void UART0_Handler()
 #endif
 
 #ifdef USED_UART1
-void UART1_vidInit(UARTConfig_t * UARTConfig)
+void UART1_vidInit(UARTConfig_t * const UARTConfig)
 {
 		UART1->CTL = 0;         /* UART5 module disbable */
 	
@@ -460,7 +460,7 @@ void UART1_Handler()
 #endif
 
 #ifdef USED_UART2
-void UART2_vidInit(UARTConfig_t * UARTConfig)
+void UART2_vidInit(UARTConfig_t * const UARTConfig)
 {
 		UART2->CTL = 0;         /* UART5 module disbable */
 	
@@ -637,7 +637,7 @@ void UART2_Handler()
 #endif
 
 #ifdef USED_UART3
-void UART3_vidInit(UARTConfig_t * UARTConfig)
+void UART3_vidInit(UARTConfig_t * const UARTConfig)
 {
 	UART3->CTL = 0;         /* UART5 module disbable */
 	
@@ -815,7 +815,7 @@ void UART3_Handler()
 
 /*UART4 functions*/
 #ifdef USED_UART4
-void UART4_vidInit(UARTConfig_t * UARTConfig)
+void UART4_vidInit(UARTConfig_t * const UARTConfig)
 {
 		UART4->CTL = 0;         /* UART5 module disbable */
 	
@@ -1002,7 +1002,7 @@ void UART4_Handler()
 #endif
 /*UART5*/
 #ifdef USED_UART5
-void UART5_vidInit(UARTConfig_t * UARTConfig)
+void UART5_vidInit(UARTConfig_t * const UARTConfig)
 {
 		UART5->CTL = 0;         /* UART5 module disbable */
 	
@@ -1178,7 +1178,7 @@ void UART5_Handler()
 #endif
 #ifdef USED_UART6
 /*UART6 function*/
-void UART6_vidInit(UARTConfig_t * UARTConfig)
+void UART6_vidInit(UARTConfig_t * const UARTConfig)
 {
 		UART6->CTL = 0;         /* UART5 module disbable */
 	
@@ -1365,7 +1365,7 @@ void UART6_Handler()
 
 #ifdef USED_UART7
 /*UART7 functions*/
-void UART7_vidInit(UARTConfig_t * UARTConfig)
+void UART7_vidInit(UARTConfig_t * const UARTConfig)
 {
 		UART7->CTL = 0;         /* UART5 module disbable */
 	
@@ -1543,24 +1543,24 @@ void UART_vidSendNumber(void (*ptrF) (u8),u16 u16Number)
 {
 	if(u16Number < 10) {
 		ptrF('0');
-		ptrF(u16Number+'0');
+		ptrF((u8)(u16Number)+'0');
 	}
 	else {
 		if (u16Number < 100) {
-			ptrF(u16Number/10+'0');
-			ptrF(u16Number%10+'0');
+			ptrF((u8)(u16Number/10+'0'));
+			ptrF((u8)(u16Number%10+'0'));
 		}
 		else if (u16Number < 1000) {
-			ptrF((u16Number/100)+'0');
-			ptrF((u16Number%100)/10+'0');
-			ptrF((u16Number%100)%10+'0');
+			ptrF((u8)((u16Number/100))+'0');
+			ptrF((u8)((u16Number%100)/10)+'0');
+			ptrF((u8)((u16Number%100)%10)+'0');
 		}
 		else if (u16Number < 10000)
 		{
-			ptrF((u16Number/1000)+'0');
-			ptrF((u16Number%1000)/100+'0');
-			ptrF((u16Number%100)/10+'0');
-			ptrF((u16Number%100)%10+'0');
+			ptrF((u8)(u16Number/1000)+'0');
+			ptrF((u8)(u16Number%1000)/100+'0');
+			ptrF((u8)(u16Number%100)/10+'0');
+			ptrF((u8)(u16Number%100)%10+'0');
 		}
 	}
 }
