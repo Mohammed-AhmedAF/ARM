@@ -156,8 +156,8 @@ def generateStruct():
         generatedCodeText.insert(INSERT,"/*RCGC Configuration*/\r\n")
         xmlReader.openFile()
         port = xmlReader.getModuleGPIOParameters("UART"+getChosenModule())['port']
-        generatedCodeText.insert(INSERT,"SYSCNTRL_vidEnableGPIOClock(SYSCNTLR_" + port + ")" + ";\r\n")
-        generatedCodeText.insert(INSERT,"SYSCNTRL_vidEnableUARTClock(SYSCNTLR_UART" + getChosenModule() + ")" + ";\r\n")
+        generatedCodeText.insert(INSERT,"SYSCNTRL_vidEnableGPIOClock(SYSCNTRL_" + port + ")" + ";\r\n")
+        generatedCodeText.insert(INSERT,"SYSCNTRL_vidEnableUARTClock(SYSCNTRL_UART" + getChosenModule() + ")" + ";\r\n")
         generatedCodeText.insert(INSERT,"\r\n")
 
     generateGPIOConfig()
