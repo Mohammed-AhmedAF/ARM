@@ -6,7 +6,7 @@ typedef struct
 	volatile u32 MSA;
 	volatile u32 MCS;
 	volatile u32 MDR;
-	volatile u32 TPR;
+	volatile u32 MTPR;
 	volatile u32 MIMR;
 	volatile u32 MRIS;
 	volatile u32 MMIS;
