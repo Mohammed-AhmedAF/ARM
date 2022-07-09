@@ -19,10 +19,10 @@ typedef struct
 }I2C_TYPE;
 
 
-#define I2C0 ((I2C_TYPE*) 0x40020000)
-#define I2C1 ((I2C_TYPE*) 0x40021000)
-#define I2C2 ((I2C_TYPE*) 0x40022000)
-#define I2C3 ((I2C_TYPE*) 0x40023000)
+#define I2C0 ((volatile I2C_TYPE*) 0x40020000)
+#define I2C1 ((volatile I2C_TYPE*) 0x40021000)
+#define I2C2 ((volatile I2C_TYPE*) 0x40022000)
+#define I2C3 ((volatile I2C_TYPE*) 0x40023000)
 
 /*Macros used in driver*/
 #define I2C_CNTRL_ACK 0x08
