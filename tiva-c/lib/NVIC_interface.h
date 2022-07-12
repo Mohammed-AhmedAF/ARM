@@ -24,6 +24,10 @@ u8 NVIC_u8GetPending(u8 u8InterruptID);
 #define NVIC_UART5 61
 #define NVIC_UART6 62
 #define NVIC_UART7 63
+#define NVIC_I2C0 8
+#define NVIC_I2C1 37
+#define NVIC_I2C2 68
+#define NVIC_I2C3 69
 #define NVIC_TIMER0A 19
 #define NVIC_TIMER0B 20
 #define NVIC_TIMER1A 21
