@@ -965,6 +965,123 @@ u8 GPIO_u8GetInterruptStatus(u8 u8Port, u8 u8Pin)
 	return result;
 }
 
+void GPIO_vidEnablePinOpenDrain(u8 u8Port, u8 u8Pin)
+{
+	switch(u8Port)
+	{
+		case GPIO_PORTA:
+			SET_BIT(GPIOA_ODR,u8Pin);
+			break;
+		case GPIO_PORTB:
+			SET_BIT(GPIOB_ODR,u8Pin);
+			break;
+		case GPIO_PORTC:
+			SET_BIT(GPIOC_ODR,u8Pin);
+			break;
+		case GPIO_PORTD:
+			SET_BIT(GPIOD_ODR,u8Pin);
+			break;
+		case GPIO_PORTE:
+			SET_BIT(GPIOE_ODR,u8Pin);
+			break;
+		case GPIO_PORTF:
+			SET_BIT(GPIOF_ODR,u8Pin);
+			break;
+	
+	}
+}
+
+void GPIO_vidSetPinDriveStrength(u8 u8Port, u8 u8Pin, u8 u8DriveStrength)
+{
+	switch(u8Port)
+	{
+		case GPIO_PORTA:
+			if (u8DriveStrength == GPIO_DRIVESTRENGTH_2mA)
+			{
+				SET_BIT(GPIOA_DR2R,u8Pin);
+			}
+			else if(u8DriveStrength == GPIO_DRIVESTRENGTH_4mA)
+			{
+				SET_BIT(GPIOA_DR4R,u8Pin);
+			}
+			else if(u8DriveStrength == GPIO_DRIVESTRENGTH_8mA)
+			{
+				SET_BIT(GPIOA_DR8R,u8Pin);
+			}
+			break;
+		case GPIO_PORTB:
+			if (u8DriveStrength == GPIO_DRIVESTRENGTH_2mA)
+			{
+				SET_BIT(GPIOB_DR2R,u8Pin);
+			}
+			else if(u8DriveStrength == GPIO_DRIVESTRENGTH_4mA)
+			{
+				SET_BIT(GPIOB_DR4R,u8Pin);
+			}
+			else if(u8DriveStrength == GPIO_DRIVESTRENGTH_8mA)
+			{
+				SET_BIT(GPIOB_DR8R,u8Pin);
+			}
+			break;
+		case GPIO_PORTC:
+			if (u8DriveStrength == GPIO_DRIVESTRENGTH_2mA)
+			{
+				SET_BIT(GPIOC_DR2R,u8Pin);
+			}
+			else if(u8DriveStrength == GPIO_DRIVESTRENGTH_4mA)
+			{
+				SET_BIT(GPIOC_DR4R,u8Pin);
+			}
+			else if(u8DriveStrength == GPIO_DRIVESTRENGTH_8mA)
+			{
+				SET_BIT(GPIOC_DR8R,u8Pin);
+			}
+			break;
+		case GPIO_PORTD:
+			if (u8DriveStrength == GPIO_DRIVESTRENGTH_2mA)
+			{
+				SET_BIT(GPIOD_DR2R,u8Pin);
+			}
+			else if(u8DriveStrength == GPIO_DRIVESTRENGTH_4mA)
+			{
+				SET_BIT(GPIOD_DR4R,u8Pin);
+			}
+			else if(u8DriveStrength == GPIO_DRIVESTRENGTH_8mA)
+			{
+				SET_BIT(GPIOD_DR8R,u8Pin);
+			}
+			break;
+		case GPIO_PORTE:
+			if (u8DriveStrength == GPIO_DRIVESTRENGTH_2mA)
+			{
+				SET_BIT(GPIOE_DR2R,u8Pin);
+			}
+			else if(u8DriveStrength == GPIO_DRIVESTRENGTH_4mA)
+			{
+				SET_BIT(GPIOE_DR4R,u8Pin);
+			}
+			else if(u8DriveStrength == GPIO_DRIVESTRENGTH_8mA)
+			{
+				SET_BIT(GPIOE_DR8R,u8Pin);
+			}
+			break;
+		case GPIO_PORTF:
+			if (u8DriveStrength == GPIO_DRIVESTRENGTH_2mA)
+			{
+				SET_BIT(GPIOF_DR2R,u8Pin);
+			}
+			else if(u8DriveStrength == GPIO_DRIVESTRENGTH_4mA)
+			{
+				SET_BIT(GPIOF_DR4R,u8Pin);
+			}
+			else if(u8DriveStrength == GPIO_DRIVESTRENGTH_8mA)
+			{
+				SET_BIT(GPIOF_DR8R,u8Pin);
+			}
+			break;
+	}
+}
+
 void GPIOA_Handler()
 {
 	if (ptrF_GPIOA != NULL)
