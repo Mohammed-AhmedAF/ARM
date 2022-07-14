@@ -1082,6 +1082,73 @@ void GPIO_vidSetPinDriveStrength(u8 u8Port, u8 u8Pin, u8 u8DriveStrength)
 	}
 }
 
+void GPIO_vidSetSlewRate(u8 u8Port, u8 u8Pin, u8 u8SlewRate)
+{
+	switch(u8Port)
+	{
+		case GPIO_PORTA:
+			if (u8SlewRate == GPIO_SLEWRATE_ENABLED)
+			{
+				SET_BIT(GPIOA_SLR,u8Pin);
+			}
+			else
+			{
+				CLEAR_BIT(GPIOA_SLR,u8Pin);
+			}
+		break;
+		case GPIO_PORTB:
+			if (u8SlewRate == GPIO_SLEWRATE_ENABLED)
+			{
+				SET_BIT(GPIOB_SLR,u8Pin);
+			}
+			else
+			{
+				CLEAR_BIT(GPIOB_SLR,u8Pin);
+			}
+		break;
+		case GPIO_PORTC:
+			if (u8SlewRate == GPIO_SLEWRATE_ENABLED)
+			{
+				SET_BIT(GPIOC_SLR,u8Pin);
+			}
+			else
+			{
+				CLEAR_BIT(GPIOC_SLR,u8Pin);
+			}
+		break;
+		case GPIO_PORTD:
+			if (u8SlewRate == GPIO_SLEWRATE_ENABLED)
+			{
+				SET_BIT(GPIOD_SLR,u8Pin);
+			}
+			else
+			{
+				CLEAR_BIT(GPIOD_SLR,u8Pin);
+			}
+		break;
+		case GPIO_PORTE:
+			if (u8SlewRate == GPIO_SLEWRATE_ENABLED)
+			{
+				SET_BIT(GPIOE_SLR,u8Pin);
+			}
+			else
+			{
+				CLEAR_BIT(GPIOE_SLR,u8Pin);
+			}
+		break;
+		case GPIO_PORTF:
+			if (u8SlewRate == GPIO_SLEWRATE_ENABLED)
+			{
+				SET_BIT(GPIOF_SLR,u8Pin);
+			}
+			else
+			{
+				CLEAR_BIT(GPIOF_SLR,u8Pin);
+			}
+		break;
+	}
+}
+
 void GPIOA_Handler()
 {
 	if (ptrF_GPIOA != NULL)

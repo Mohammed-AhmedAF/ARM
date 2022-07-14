@@ -47,7 +47,7 @@ void GPIO_vidConfigInterrupt(u8 u8Port, u8 u8Pin, ExtInterruptConfig_t * const e
 u8 GPIO_u8GetInterruptStatus(u8 u8Port, u8 u8Pin);
 void GPIO_vidEnablePinOpenDrain(u8 u8Port, u8 u8Pin);
 void GPIO_vidSetPinDriveStrength(u8 u8Port, u8 u8Pin,u8 u8DriveStrength);
-
+void GPIO_vidSetPinSlewRate(u8 u8Port, u8 u8Pin, u8 u8SlewRate);
 
 
 #define GPIO_PORTA 0
@@ -71,7 +71,6 @@ void GPIO_vidSetPinDriveStrength(u8 u8Port, u8 u8Pin,u8 u8DriveStrength);
 #define GPIO_LED_GREEN GPIO_PIN3
 #define GPIO_SWITCH1 GPIO_PIN4
 #define GPIO_SWITCH2 GPIO_PIN0
-
 #define GPIO_INPUT 0
 #define GPIO_OUTPUT 1
 
@@ -117,5 +116,8 @@ void GPIO_vidSetPinDriveStrength(u8 u8Port, u8 u8Pin,u8 u8DriveStrength);
 #define GPIO_DRIVESTRENGTH_2mA 0
 #define GPIO_DRIVESTRENGTH_4mA 1
 #define GPIO_DRIVESTRENGTH_8mA 2
+
+#define GPIO_SLEWRATE_ENABLED 1
+#define GPIO_SLEWRATE_DISABLED 0
 
 #endif
