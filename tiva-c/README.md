@@ -22,6 +22,7 @@ Drivers for several peripherals and simple projects of TI Tiva-C TM4C123GH6PM, i
 ### External peripheral
 * Character LCD
 * Button
+* H-Bridge
 * DHT11
 * SevenSegment
 * 74HC595
