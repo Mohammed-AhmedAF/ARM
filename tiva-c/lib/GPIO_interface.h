@@ -49,6 +49,13 @@ void GPIO_vidEnablePinOpenDrain(u8 u8Port, u8 u8Pin);
 void GPIO_vidSetPinDriveStrength(u8 u8Port, u8 u8Pin,u8 u8DriveStrength);
 void GPIO_vidSetPinSlewRate(u8 u8Port, u8 u8Pin, u8 u8SlewRate);
 
+/*ISR Functions*/
+void GPIOA_Handler(void);
+void GPIOB_Handler(void);
+void GPIOC_Handler(void);
+void GPIOD_Handler(void);
+void GPIOE_Handler(void);
+void GPIOF_Handler(void);
 
 #define GPIO_PORTA 0
 #define GPIO_PORTB 1
