@@ -4,7 +4,7 @@
 	EXPORT SysTick_Handler ;EXPORT declares a symbol that can be used by the compiler to resolve a symbol reference in separate object or library files.
 	EXPORT osSchedulerLaunch
 		
-SysTick_Handler ;saved automatically: R0,R1,R2,R3,R12,lr,pc,psr
+SysTick_Handler ;saved automatically: R0,R1,R2,R3,R12,lr,pc,psr. The other registers are not automatically saved because they are not used by the Exception handler
 	CPSID I ;Disable interrupts (Change Processor State Interrupt Disable)
 	PUSH {R4-R11} ;Save R4,R5,R6,R7,R8,R9,R10,R11 (Registers are pushed to a full descending stack)
 	LDR R0,=currentPt ;Load the TCB of thread about to be suspended (LDR Pseudo-instruction)
