@@ -526,6 +526,22 @@ u8 I2C1_u8SendByte(u8 u8SlaveAddress,u8 u8MemAddress,u8 u8Byte)
 	while(GET_BIT(I2C1->MCS,0) == 1);	
 }
 
+u8 I2C1_u8SendByteWithSlaveAddressOnly(u8 u8SlaveAddress, u8 u8Byte)
+{
+	/*Slave address*/
+	/*Bit0 specifies R/W*/
+	I2C1->MSA |= (u8SlaveAddress)<<1;
+
+	/*Data to be sent*/
+	I2C1->MDR = u8Byte;
+	
+	/*STOP START RUN*/
+	I2C1->MCS = (I2C_CNTRL_RUN | I2C_CNTRL_START | I2C_CNTRL_STOP);
+	
+	/*Wait for the busy bit to become 0*/
+	while(GET_BIT(I2C1->MCS,0) == 1);
+}
+
 u8 I2C2_u8SendByte(u8 u8SlaveAddress,u8 u8MemAddress,u8 u8Byte)
 {
 	/*Slave address*/

@@ -27,6 +27,7 @@ u32 I2C0_u32WaitTillDone(void);
 /*I2C1*/
 void I2C1_vidInit(I2CConfig const * i2cConfig);
 u8 I2C1_u8SendByte(u8 u8SlaveAddress,u8 u8MemAddress,u8 u8Byte);
+u8 I2C1_u8SendByteWithSlaveAddressOnly(u8 u8SlaveAddress, u8 u8Byte);
 u32 I2C1_u32SendMultipleBytes(u32 u32SlaveAddress,u8 * u8ptData, u8 u8DataSize);
 void I2C1_vidPutISRFunction(void (*ptrF) (void));
 void I2C1_vidClearInterrupt(u8 u8InterruptID);
