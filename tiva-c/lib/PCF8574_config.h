@@ -1,0 +1,6 @@
+#ifndef _PCF8574_CONFIG_H
+#define _PCF8574_CONFIG_H
+
+#define PCF8574_ADDRESS 0x27
+
+#endif
