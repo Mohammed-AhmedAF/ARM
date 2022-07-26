@@ -1,0 +1,34 @@
+#ifndef _NVIC_INTERFACE_H
+#define _NVIC_INTERFACE_H
+
+/*Function declarations*/
+void NVIC_vidSetInterrupt(u8 u8InterruptID);
+void NVIC_vidClearInterrupt(u8 u8InterruptID);
+void NVIC_vidSetPending(u8 u8InterruptID);
+void NVIC_vidClearPending(u8 u8InterruptID);
+void NVIC_vidSetPriority(u8 u8InterruptID, u8 u8InterruptPriority);
+u8 NVIC_u8GetPending(u8 u8InterruptID);
+
+/*Interrupt IDs*/
+#define NVIC_GPIOA 0
+#define NVIC_GPIOB 1
+#define NVIC_GPIOC 2
+#define NVIC_GPIOD 3
+#define NVIC_GPIOE 4
+#define NVIC_I2C0 8
+#define NVIC_I2C1 37
+#define NVIC_I2C2 68
+#define NVIC_I2C3 69
+#define NVIC_GPIOF 30
+#define NVIC_UART0 5
+#define NVIC_UART1 6
+#define NVIC_TIMER0A 19
+#define NVIC_TIMER0B 20
+#define NVIC_PWM0_0 10
+#define NVIC_PWM0_1 11
+#define NVIC_PWM0_2 12
+
+
+static void __enable_irq(void);
+
+#endif
