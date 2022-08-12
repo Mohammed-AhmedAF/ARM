@@ -8,5 +8,5 @@
 #define GPIOHBCTL * ((u32 * const) 0x400FE06C)
 #define RCGCADC * ((u32 * const) 0x400FE638)
 #define RCGCTIMER * ((u32 * const) 0x400FE604)
-#define RCGCPWM * ((u32i * const) 0x400FE640)
+#define RCGCPWM * ((u32 * const) 0x400FE640)
 #endif
