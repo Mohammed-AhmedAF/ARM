@@ -8,5 +8,6 @@ typedef unsigned int u32;
 typedef signed int s32;
 #define STD_HIGH 0x01
 #define STD_LOW 0x00
+#define NULL ((void*) 0)
 
 #endif
