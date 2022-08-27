@@ -244,5 +244,5 @@ void SYSCNTRL_vidChangeSysClock(u8 u8SysClock)
 	{
 	};
 	// 7. Set BYPASS (Bit 11) to 0, select PLL as the source of system clock
-	CLEAR_BIT(SYSCTL->RCC2,11)
+	CLEAR_BIT(SYSCTL->RCC2,11);
 }
