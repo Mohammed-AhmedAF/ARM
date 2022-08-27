@@ -24,6 +24,7 @@ Drivers for several peripherals and simple projects of TI Tiva-C TM4C123GH6PM, i
 * Button
 * H-Bridge
 * DHT11
+* Servo Motor
 * SevenSegment
 * 74HC595
 * TM1637
