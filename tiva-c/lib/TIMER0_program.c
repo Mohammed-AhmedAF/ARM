@@ -70,7 +70,7 @@ __inline void TIMER0_viDelayMirco_test2(u32 u32Micro)
 	SET_BIT(TIMER0->ICR,0);
 }
 
-__inline void TIMER0_viDelayMirco(u32 u32Micro)
+__inline void TIMER0_vidDelayMirco(u32 u32Micro)
 {
 	static u32 i;
 	
