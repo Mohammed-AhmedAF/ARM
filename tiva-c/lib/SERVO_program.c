@@ -4,13 +4,13 @@
 #include "TIMER0_interface.h"
 #include "SERVO_interface.h"
 
-void SERVO_vidInit(ServoConfig_t * conf)
+void SERVO_vidInit(const ServoConfig_t * conf)
 {
 	GPIO_vidSetPinDirection(conf->u8SignalPort,conf->u8SignalPin,GPIO_DIR_OUTPUT);
 	GPIO_vidSetPinDigEnable(conf->u8SignalPort,conf->u8SignalPin,GPIO_DEN_SET);
 }
 
-void SERVO_0_Degree(ServoConfig_t * conf)
+void SERVO_0_Degree(const ServoConfig_t * conf)
 {
    int i=0;  	 
 	for(i=0; i<50; i++) 
@@ -24,7 +24,7 @@ void SERVO_0_Degree(ServoConfig_t * conf)
 }
 
 /* This function generate a 7% duty cycle from 20ms PWM signal or 50Hz*/
-void SERVO_90_Degree(ServoConfig_t * conf)
+void SERVO_90_Degree(const ServoConfig_t * conf)
 {
    int i=0; 
 	 for(i=0; i<50; i++) 
@@ -40,7 +40,7 @@ void SERVO_90_Degree(ServoConfig_t * conf)
 }
 
 /* This function generate a 12% duty cycle from 20ms PWM signal or 50Hz*/
-void SERVO_180_Degree(ServoConfig_t * conf)
+void SERVO_180_Degree(const ServoConfig_t * conf)
 {
    	int i=0; 
 	  for(i=0; i<50; i++) 
