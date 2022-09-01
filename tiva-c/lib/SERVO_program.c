@@ -22,8 +22,8 @@ void SERVO_vidSetDelayTimerFunc(void (*ptrF) (u32))
 
 void SERVO_0_Degree(const ServoConfig_t * conf)
 {
-  int i=0;  	 
-	for(i=0; i<50; i++) 
+  u8 u8Cycle=0;  	 
+	for(u8Cycle=0; u8Cycle < 50; u8Cycle++) 
 	{
 	  /* Given 10us trigger pulse */
 		/*Control pin high */
@@ -38,8 +38,8 @@ void SERVO_0_Degree(const ServoConfig_t * conf)
 /* This function generates a 7% duty cycle from 20ms PWM signal or 50Hz*/
 void SERVO_90_Degree(const ServoConfig_t * conf)
 {
-   int i=0; 
-	 for(i=0; i<50; i++) 
+   u8 u8Cycle = 0; 
+	 for(u8Cycle = 0; u8Cycle < 50; u8Cycle++) 
    {	
 		/*Given 10us trigger pulse */
 		/*Control pin high */
@@ -54,8 +54,8 @@ void SERVO_90_Degree(const ServoConfig_t * conf)
 /* This function generates a 12% duty cycle from 20ms PWM signal or 50Hz*/
 void SERVO_180_Degree(const ServoConfig_t * conf)
 {
-   	int i=0; 
-	  for(i=0; i<50; i++) 
+   	u8 u8Cycle = 0; 
+	  for(u8Cycle = 0; u8Cycle < 50; u8Cycle++) 
     {
 			/*Given 10us trigger pulse */			
 			/*Control pin high */
