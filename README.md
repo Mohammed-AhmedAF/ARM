@@ -1,7 +1,7 @@
 # ARM
 ARM Cortex-M projects
 
-Simple ARM Cortex-M3/M4 projects and drivers made on TI Tiva-C and STM32F103. For the Tiva-C, I started to include some FreeRTOS examples. These examples are placed in a dedicated directory [FreeRTOS](https://github.com/Mohammed-AhmedAF/ARM/tree/master/tiva-c/examples) under Examples.
+Simple ARM Cortex-M3/M4 projects and drivers made on TI Tiva-C and STM32F103. For the Tiva-C, I started to include some FreeRTOS examples. These examples are placed in a dedicated directory [FreeRTOS](https://github.com/Mohammed-AhmedAF/ARM/tree/master/tiva-c/examples/FreeRTOS) under Examples.
 
 For [FreeRTOS](https://github.com/Mohammed-AhmedAF/ARM/tree/master/stm32f103/projects/FreeRTOS_SevenSegment) to work on STM32F103 when using KEIL IDE, you should change the value of macro configPRIO_BITS to 4.
 
