@@ -1,6 +1,7 @@
 #ifndef _SYSCNTRL_INTERFACE_H
 #define _SYSCNTRL_INTERFACE_H
 
+void SYSCNTRL_vidEnableWatchdogTimer(u8 u8WdTimerModule);
 void SYSCNTRL_vidEnableGPIOClock(u8 u8PortNumber);
 void SYSCNTRL_vidEnableSPIClock(u8 u8SPIChannel);
 void SYSCNTRL_vidEnableUARTClock(u8 u8UARTChannel);
@@ -11,6 +12,8 @@ void SYSCNTRL_vidSelectGPIOBus(u8 u8GPIOPort,u8 u8Bus);
 void SYSCNTRL_vidEnablePWMClock(u8 uModule);
 void SYSCNTRL_vidChangeSysClock(u8 u8SysClock);
 
+#define SYSCNTRL_WDT_0 0
+#define SYSCNTRL_WDT_1 1
 	
 #define SYSCNTRL_GPIO_PORTA 0
 #define SYSCNTRL_GPIO_PORTB 1

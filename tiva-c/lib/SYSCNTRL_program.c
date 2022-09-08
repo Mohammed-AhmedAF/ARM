@@ -4,6 +4,19 @@
 #include "SYSCNTRL_private.h"
 #include "SYSCNTRL_interface.h"
 
+void SYSCNTRL_vidEnableWatchdogTimer(u8 u8WdTimerModule)
+{
+	switch(u8WdTimerModule)
+	{
+		case SYSCNTRL_WDT_0:
+			SET_BIT(RCGCWD,0);
+			break;
+		case SYSCNTRL_WDT_1:
+			SET_BIT(RCGCWD,1);
+		break;
+	}
+}
+
 void SYSCNTRL_vidEnableGPIOClock(u8 u8PortNumber)
 {
 	switch (u8PortNumber)
