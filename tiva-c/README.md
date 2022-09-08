@@ -9,6 +9,7 @@ Drivers for several peripherals and simple projects of TI Tiva-C TM4C123GH6PM, i
 - PLL
 - TIMER
 - PWM
+- Watchdog
 - UART
 - SPI
 - I2C
