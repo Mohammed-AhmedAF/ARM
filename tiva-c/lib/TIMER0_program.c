@@ -61,7 +61,7 @@ void TIMER0_vidPutISRFunction(void (*ptrF) (void))
 	ptrFCallback = ptrF;
 }
 
-__inline void TIMER0_viDelayMirco_test2(u32 u32Micro)
+__inline void TIMER0_vidDelayMirco_test2(u32 u32Micro)
 {
 	static u32 i;
 	
