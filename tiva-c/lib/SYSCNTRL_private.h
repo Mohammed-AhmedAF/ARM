@@ -1,6 +1,7 @@
 #ifndef _SYSCNTRL_PRIVATE_H_
 #define _SYSCNTRL_PRIVATE_H_
 
+#define RCGCWD * ((u32 * const) 0x400FE600)
 #define RCGCGPIO *((u32 * const) 0x400FE608)
 #define RCGCUART *((u32 * const) 0x400FE618)
 #define RCGCSSI * ((u32 * const) 0x400FE61C)
