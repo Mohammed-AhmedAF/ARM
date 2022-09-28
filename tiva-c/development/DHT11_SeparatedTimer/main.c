@@ -22,7 +22,6 @@ int main(void)
 	SYSCNTRL_vidEnableTimerClock(SYSCNTRL_TIMER_0);
 	
 	/*LED GPIO Configuration*/
-	
 	GPIO_vidSetPinDirection(GPIO_PORTF,GPIO_PIN1,GPIO_DIR_OUTPUT);
 	GPIO_vidSetPinDigEnable(GPIO_PORTF,GPIO_PIN1,GPIO_DEN_SET);
 	
