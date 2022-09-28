@@ -84,11 +84,11 @@ __inline void TIMER0_vidDelayMirco(u32 u32Micro)
 	SET_BIT(TIMER0->ICR,0);
 }
 
-void TIMER0_vidDelayMilli(u32 u32MicroDelay)
+void TIMER0_vidDelayMilli(u32 u32MilliDelay)
 {
 		u32 i;
 		TIMER0_vidInit(16000-1,0);
-    for(i = 0; i < u32MicroDelay; i++) {
+    for(i = 0; i < u32MilliDelay; i++) {
 			while ((TIMER0->RIS & 0x1) == 0);      /* wait for TimerA timeout flag */
       TIMER0->ICR = 0x1;      /* clear the TimerA timeout flag */
     }
