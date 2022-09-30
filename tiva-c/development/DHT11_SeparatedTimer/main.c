@@ -25,6 +25,10 @@ int main(void)
 	GPIO_vidSetPinDirection(GPIO_PORTF,GPIO_PIN1,GPIO_DIR_OUTPUT);
 	GPIO_vidSetPinDigEnable(GPIO_PORTF,GPIO_PIN1,GPIO_DEN_SET);
 	
+	GPIO_vidSetPinDirection(GPIO_PORTF,GPIO_PIN3,GPIO_DIR_OUTPUT);
+	GPIO_vidSetPinDigEnable(GPIO_PORTF,GPIO_PIN3,GPIO_DEN_SET);
+	GPIO_vidSetPinValue(GPIO_PORTF,GPIO_PIN3,STD_LOW);
+	
 	/*UART GPIO configuration*/
 	GPIO_vidSelectAlterFunction(GPIO_PORTA,GPIO_PIN0);
 	GPIO_vidSelectAlterFunction(GPIO_PORTA,GPIO_PIN1);
@@ -76,8 +80,8 @@ void vidSysTickISR(void)
 	u8Count++;
 	
 	GPIO_vidTogglePin(GPIO_PORTF,GPIO_PIN1);
-	UART0_vidSendString("LED Red blinking\r\n");
-	if (u8Count == 4)
+	UART0_vidSendString("...\r\n");
+	if (u8Count == 3)
 	{
 		APP_vidGetTemperature();
 		u8Count = 0;
@@ -113,7 +117,7 @@ void APP_vidGetTemperature(void)
 	}
 	
 		UART0_vidSendString("Temperature: ");
-		UART_vidSendNumber(UART0_vidSendByte,u8Temp1);
+		UART_vidSendNumber(UART0_vidSendByte,u8Temp1);	
 		UART0_vidSendString(" C");
 		UART0_vidSendByte('\r');
 		UART0_vidSendByte('\n');
@@ -121,7 +125,7 @@ void APP_vidGetTemperature(void)
 		UART_vidSendNumber(UART0_vidSendByte,u8RH1);
 		UART0_vidSendString("%");
 		UART0_vidSendByte('\r');
-		UART0_vidSendByte('\n');	
+		UART0_vidSendByte('\n');
 	}
 	else
 	{
