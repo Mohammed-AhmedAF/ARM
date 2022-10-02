@@ -11,6 +11,7 @@ void SYSCNTRL_vidEnableADCClock(u8 u8ADCPeriph);
 void SYSCNTRL_vidSelectGPIOBus(u8 u8GPIOPort,u8 u8Bus);
 void SYSCNTRL_vidEnablePWMClock(u8 uModule);
 void SYSCNTRL_vidChangeSysClock(u8 u8SysClock);
+void SYSCNTRL_vidResetGPIO(u8 u8GPIOPeriph);
 
 #define SYSCNTRL_WDT_0 0
 #define SYSCNTRL_WDT_1 1

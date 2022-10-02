@@ -259,3 +259,34 @@ void SYSCNTRL_vidChangeSysClock(u8 u8SysClock)
 	// 7. Set BYPASS (Bit 11) to 0, select PLL as the source of system clock
 	CLEAR_BIT(SYSCTL->RCC2,11);
 }
+
+void SYSCNTRL_vidResetGPIO(u8 u8GPIOPeriph)
+{
+	switch(u8GPIOPeriph)
+	{
+		case SYSCNTRL_GPIO_PORTA:
+			SET_BIT(SYSCTL->SRGPIO,0);
+			CLEAR_BIT(SYSCTL->SRGPIO,0);
+			break;
+		case SYSCNTRL_GPIO_PORTB:
+			SET_BIT(SYSCTL->SRGPIO,1);
+			CLEAR_BIT(SYSCTL->SRGPIO,1);
+			break;
+		case SYSCNTRL_GPIO_PORTC:
+			SET_BIT(SYSCTL->SRGPIO,2);
+			CLEAR_BIT(SYSCTL->SRGPIO,2);
+			break;
+		case SYSCNTRL_GPIO_PORTD:
+			SET_BIT(SYSCTL->SRGPIO,3);
+			CLEAR_BIT(SYSCTL->SRGPIO,3);
+			break;
+		case SYSCNTRL_GPIO_PORTE:
+			SET_BIT(SYSCTL->SRGPIO,4);
+			CLEAR_BIT(SYSCTL->SRGPIO,4);
+			break;
+		case SYSCNTRL_GPIO_PORTF:
+			SET_BIT(SYSCTL->SRGPIO,5);
+			CLEAR_BIT(SYSCTL->SRGPIO,5);
+			break;
+	}
+}
