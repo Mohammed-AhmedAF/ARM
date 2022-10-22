@@ -2,6 +2,7 @@
 #include "TM4C123.h" // Device header
 #include "Macros.h"
 #include "SYSCNTRL_private.h"
+#include "TIMER_IF_INTERFACE.h"
 #include "SYSCNTRL_interface.h"
 
 void SYSCNTRL_vidEnableWatchdogTimer(u8 u8WdTimerModule)
@@ -289,4 +290,44 @@ void SYSCNTRL_vidResetGPIO(u8 u8GPIOPeriph)
 			CLEAR_BIT(SYSCTL->SRGPIO,5);
 			break;
 	}
+}
+
+void SYSCNTRL_vidResetUART(u8 u8UARTPeriph)
+{
+	switch(u8UARTPeriph)
+	{
+		case SYSCNTRL_UART0:
+			SET_BIT(SYSCTL->SRUART,0);
+			CLEAR_BIT(SYSCTL->SRUART,0);
+			break;
+		case SYSCNTRL_UART1:
+			SET_BIT(SYSCTL->SRUART,1);
+			CLEAR_BIT(SYSCTL->SRUART,1);
+			break;
+		case SYSCNTRL_UART2:
+			SET_BIT(SYSCTL->SRUART,2);
+			CLEAR_BIT(SYSCTL->SRUART,2);
+			break;
+		case SYSCNTRL_UART3:
+			SET_BIT(SYSCTL->SRUART,3);
+			CLEAR_BIT(SYSCTL->SRUART,3);
+			break;
+		case SYSCNTRL_UART4:
+			SET_BIT(SYSCTL->SRUART,4);
+			CLEAR_BIT(SYSCTL->SRUART,4);
+			break;
+		case SYSCNTRL_UART5:
+			SET_BIT(SYSCTL->SRUART,5);
+			CLEAR_BIT(SYSCTL->SRUART,5);
+			break;
+		case SYSCNTRL_UART6:
+			SET_BIT(SYSCTL->SRUART,6);
+			CLEAR_BIT(SYSCTL->SRUART,6);
+			break;
+		case SYSCNTRL_UART7:
+			SET_BIT(SYSCTL->SRUART,7);
+			CLEAR_BIT(SYSCTL->SRUART,7);
+			break;
+	}
+	
 }
