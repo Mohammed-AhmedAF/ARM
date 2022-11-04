@@ -2,7 +2,6 @@
 #include "TM4C123.h" // Device header
 #include "Macros.h"
 #include "SYSCNTRL_private.h"
-#include "TIMER_IF_INTERFACE.h"
 #include "SYSCNTRL_interface.h"
 
 void SYSCNTRL_vidEnableWatchdogTimer(u8 u8WdTimerModule)
@@ -329,5 +328,36 @@ void SYSCNTRL_vidResetUART(u8 u8UARTPeriph)
 			CLEAR_BIT(SYSCTL->SRUART,7);
 			break;
 	}
-	
+}
+
+void SYSCNTRL_vidResetTimer(u8 u8TimerModule)
+{
+	switch(u8TimerModule)
+	{
+		case SYSCNTRL_TIMER_0:
+			SET_BIT(SYSCTL->SRTIMER,0);
+			CLEAR_BIT(SYSCTL->SRTIMER,0);
+			break;
+		case SYSCNTRL_TIMER_1:
+			SET_BIT(SYSCTL->SRTIMER,1);
+			CLEAR_BIT(SYSCTL->SRTIMER,1);
+			break;
+		case SYSCNTRL_TIMER_2:
+			SET_BIT(SYSCTL->SRTIMER,2);
+			CLEAR_BIT(SYSCTL->SRTIMER,2);
+			break;
+		case SYSCNTRL_TIMER_3:
+			SET_BIT(SYSCTL->SRTIMER,3);
+			CLEAR_BIT(SYSCTL->SRTIMER,3);
+			break;
+		case SYSCNTRL_TIMER_4:
+			SET_BIT(SYSCTL->SRTIMER,4);
+			CLEAR_BIT(SYSCTL->SRTIMER,4);
+			break;
+		case SYSCNTRL_TIMER_5:
+			SET_BIT(SYSCTL->SRTIMER,5);
+			CLEAR_BIT(SYSCTL->SRTIMER,5);
+			break;
+	}
+
 }

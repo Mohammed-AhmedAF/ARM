@@ -13,6 +13,7 @@ void SYSCNTRL_vidEnablePWMClock(u8 uModule);
 void SYSCNTRL_vidChangeSysClock(u8 u8SysClock);
 void SYSCNTRL_vidResetGPIO(u8 u8GPIOPeriph);
 void SYSCNTRL_vidResetUART(u8 u8UARTPeriph);
+void SYSCNTRL_vidResetTimer(u8 u8TimerModule);
 
 #define SYSCNTRL_WDT_0 0
 #define SYSCNTRL_WDT_1 1
