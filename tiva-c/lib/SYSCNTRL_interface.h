@@ -14,6 +14,7 @@ void SYSCNTRL_vidChangeSysClock(u8 u8SysClock);
 void SYSCNTRL_vidResetGPIO(u8 u8GPIOPeriph);
 void SYSCNTRL_vidResetUART(u8 u8UARTPeriph);
 void SYSCNTRL_vidResetTimer(u8 u8TimerModule);
+u8 SYSCNTRL_u8CheckGPIOPeriphReady(u8 u8GPIOPeriph);
 
 #define SYSCNTRL_WDT_0 0
 #define SYSCNTRL_WDT_1 1
@@ -77,5 +78,11 @@ void SYSCNTRL_vidResetTimer(u8 u8TimerModule);
 #define SYSCNTRL_PWM_DIV_16 3
 #define SYSCNTRL_PWM_DIV_32 4
 #define SYSCNTRL_PWM_DIV_64 5
+
+typedef enum 
+{
+	SYSCNTRL_PERIPH_NOTREADY,
+	SYSCNTRL_PERIPH_READY
+} SYSCNTRL_PERIPH_t;
 
 #endif

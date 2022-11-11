@@ -361,3 +361,43 @@ void SYSCNTRL_vidResetTimer(u8 u8TimerModule)
 	}
 
 }
+
+SYSCNTRL_PERIPH_t SYSCNTRL_u8CheckGPIOPeriphReady(u8 u8GPIOPeriph)
+{
+	u8 u8PeriphState = 0;
+	/*return_val to be sent as return of this function*/
+	SYSCNTRL_PERIPH_t ret_val;
+	
+	switch(u8GPIOPeriph)
+	{
+		case SYSCNTRL_GPIO_PORTA:
+			u8PeriphState = GET_BIT(SYSCTL->PRGPIO,0);
+		break;
+		case SYSCNTRL_GPIO_PORTB:
+			u8PeriphState = GET_BIT(SYSCTL->PRGPIO,1);
+		break;
+		case SYSCNTRL_GPIO_PORTC:
+			u8PeriphState = GET_BIT(SYSCTL->PRGPIO,2);
+		break;
+		case SYSCNTRL_GPIO_PORTD:
+			u8PeriphState = GET_BIT(SYSCTL->PRGPIO,3);
+		break;
+		case SYSCNTRL_GPIO_PORTE:
+			u8PeriphState = GET_BIT(SYSCTL->PRGPIO,4);
+		break;
+		case SYSCNTRL_GPIO_PORTF:
+			u8PeriphState = GET_BIT(SYSCTL->PRGPIO,5);
+		break;
+	}
+	
+	if (u8PeriphState == 0)
+	{
+		ret_val = SYSCNTRL_PERIPH_NOTREADY;
+	}
+	else
+	{
+		ret_val = SYSCNTRL_PERIPH_READY;
+	}
+	
+	return ret_val;
+}
