@@ -20,6 +20,18 @@ int main(void)
 	GPIO_vidSetPinDirection(GPIO_PORTF,GPIO_PIN1,GPIO_DIR_OUTPUT);
 	GPIO_vidSetPinDigEnable(GPIO_PORTF,GPIO_PIN1,GPIO_DEN_SET);
 	
+	SYSCNTRL_PERIPH_t periphReadyB;
+	periphReadyB =	SYSCNTRL_u8CheckGPIOPeriphReady(SYSCNTRL_GPIO_PORTE);
+	periphReadyB = SYSCNTRL_u8CheckUARTPeriphReady(SYSCNTRL_UART2);
+	if (periphReadyB == SYSCNTRL_PERIPH_READY)
+	{	
+		GPIO_vidSetPinValue(GPIO_PORTF,GPIO_PIN1,STD_HIGH);
+	}
+	else
+	{
+		GPIO_vidSetPinValue(GPIO_PORTF,GPIO_PIN1,STD_LOW);
+	}
+	
 	/*UART GPIO configuration*/
 	GPIO_vidSelectAlterFunction(GPIO_PORTA,GPIO_PIN0);
 	GPIO_vidSelectAlterFunction(GPIO_PORTA,GPIO_PIN1);
