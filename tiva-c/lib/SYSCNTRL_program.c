@@ -401,3 +401,49 @@ SYSCNTRL_PERIPH_t SYSCNTRL_u8CheckGPIOPeriphReady(u8 u8GPIOPeriph)
 	
 	return ret_val;
 }
+
+SYSCNTRL_PERIPH_t SYSCNTRL_u8CheckUARTPeriphReady(u8 u8UARTPeriph)
+{
+u8 u8PeriphState = 0;
+	/*return_val to be sent as return of this function*/
+	SYSCNTRL_PERIPH_t ret_val;
+	
+	switch(u8UARTPeriph)
+	{
+		case SYSCNTRL_UART0:
+			u8PeriphState = GET_BIT(SYSCTL->PRUART,0);
+		break;
+		case SYSCNTRL_UART1:
+			u8PeriphState = GET_BIT(SYSCTL->PRUART,1);
+		break;
+		case SYSCNTRL_UART2:
+			u8PeriphState = GET_BIT(SYSCTL->PRUART,2);
+		break;
+		case SYSCNTRL_UART3:
+			u8PeriphState = GET_BIT(SYSCTL->PRUART,3);
+		break;
+		case SYSCNTRL_UART4:
+			u8PeriphState = GET_BIT(SYSCTL->PRUART,4);
+		break;
+		case SYSCNTRL_UART5:
+			u8PeriphState = GET_BIT(SYSCTL->PRUART,5);
+		break;
+		case SYSCNTRL_UART6:
+			u8PeriphState = GET_BIT(SYSCTL->PRUART,6);
+			break;
+		case SYSCNTRL_UART7:
+			u8PeriphState = GET_BIT(SYSCTL->PRUART,7);
+			break;
+	}
+	
+	if (u8PeriphState == 0)
+	{
+		ret_val = SYSCNTRL_PERIPH_NOTREADY;
+	}
+	else
+	{
+		ret_val = SYSCNTRL_PERIPH_READY;
+	}
+	
+	return ret_val;
+}
