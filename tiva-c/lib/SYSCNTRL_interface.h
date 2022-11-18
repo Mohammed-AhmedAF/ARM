@@ -22,6 +22,7 @@ void SYSCNTRL_vidResetUART(u8 u8UARTPeriph);
 void SYSCNTRL_vidResetTimer(u8 u8TimerModule);
 SYSCNTRL_PERIPH_t SYSCNTRL_u8CheckGPIOPeriphReady(u8 u8GPIOPeriph);
 SYSCNTRL_PERIPH_t SYSCNTRL_u8CheckUARTPeriphReady(u8 u8UARTPeriph);
+SYSCNTRL_PERIPH_t SYSCNTRL_u8CheckSPIPeriphReady(u8 u8SPIPeriph);
 
 #define SYSCNTRL_WDT_0 0
 #define SYSCNTRL_WDT_1 1

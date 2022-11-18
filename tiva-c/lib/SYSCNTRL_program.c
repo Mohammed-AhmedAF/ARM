@@ -447,3 +447,37 @@ u8 u8PeriphState = 0;
 	
 	return ret_val;
 }
+
+SYSCNTRL_PERIPH_t SYSCNTRL_u8CheckSPIPeriphReady(u8 u8SPIPeriph)
+{
+	u8 u8PeriphState = 0;
+	SYSCNTRL_PERIPH_t ret_val = SYSCNTRL_PERIPH_NOTREADY;
+	
+	switch(u8SPIPeriph)
+	{
+		case SYSCNTRL_SPI0:
+			u8PeriphState =	GET_BIT(SYSCTL->PRSSI,0);
+		break;
+		case SYSCNTRL_SPI1:
+			u8PeriphState = GET_BIT(SYSCTL->PRSSI,1);
+		break;
+		case SYSCNTRL_SPI2:
+			u8PeriphState = GET_BIT(SYSCTL->PRSSI,2);
+		break;
+		case SYSCNTRL_SPI3:
+			u8PeriphState = GET_BIT(SYSCTL->PRSSI,3);
+		break;
+		
+	}
+	
+	if (u8PeriphState == 0)
+	{
+		ret_val = SYSCNTRL_PERIPH_NOTREADY;
+	}
+	else
+	{
+		ret_val = SYSCNTRL_PERIPH_READY;
+	}
+	
+	return ret_val;
+}
