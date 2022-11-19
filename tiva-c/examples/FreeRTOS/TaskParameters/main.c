@@ -6,6 +6,8 @@
 #include "SYSCNTRL_interface.h"
 #include "UART_interface.h"
 #include "NVIC_interface.h"
+
+/*taskParam: Variable to be casted as parameter for the task function*/
 typedef struct {
 	u8 u8Led;
 	u16 u16Ms;
