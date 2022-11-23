@@ -61,6 +61,12 @@ ROTENCRead_t ROTENC_strctGetReading(ROTENCConfig_t const * config)
 	return strctROTENCRead;
 }
 
+/**********************************************/
+/*func: ROTENC_strctGetReading_tech()         */
+/*param: ROTENCConfig_t *                     */
+/*return: void                                *
+/*source: *https://controllerstech.com/incremental-encoder-with-stm32//
+/*********************************************/
 void ROTENC_strctGetReading_tech(ROTENCConfig_t const * config)
 {
 	if (GPIO_u8GetPinValue(config->u8DataPort,config->u8DataPin) ==STD_LOW )
