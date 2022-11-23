@@ -7,6 +7,9 @@
 #include "UART_interface.h"
 #include "ROTENC_interface.h"
 
+extern u8 u8Counter;
+void vidBlink();
+
 int main(void)
 {
 	/*Enabling running clock for peripherals*/
@@ -20,9 +23,10 @@ int main(void)
 	GPIO_vidSetPinDirection(GPIO_PORTF,GPIO_PIN1,GPIO_DIR_OUTPUT);
 	GPIO_vidSetPinDigEnable(GPIO_PORTF,GPIO_PIN1,GPIO_DEN_SET);
 	
+	/*Peripheral ready checking*/
 	SYSCNTRL_PERIPH_t periphReadyB;
 	periphReadyB =	SYSCNTRL_u8CheckGPIOPeriphReady(SYSCNTRL_GPIO_PORTE);
-	periphReadyB = SYSCNTRL_u8CheckUARTPeriphReady(SYSCNTRL_UART2);
+	periphReadyB = SYSCNTRL_u8CheckUARTPeriphReady(SYSCNTRL_UART0);
 	if (periphReadyB == SYSCNTRL_PERIPH_READY)
 	{	
 		GPIO_vidSetPinValue(GPIO_PORTF,GPIO_PIN1,STD_HIGH);
@@ -67,11 +71,25 @@ int main(void)
 	
 	ROTENCRead_t strctROTENCRead;
 	
+	SysTickConfig_t strctSysTickConfig;
+	strctSysTickConfig.ptrFunc = vidBlink;
+	strctSysTickConfig.u32ReloadValue = 16000000;
+	strctSysTickConfig.u8ClockSource = SYSTICK_CLOCK_SYSTEM;
+	strctSysTickConfig.u8Interrupt = SYSTICK_INTERRUPT_ENABLED;
+	SysTick_vidInitExtended(&strctSysTickConfig);
+	//SysTick_vidStart();
+	
 	while(1)
 	{
-		strctROTENCRead = ROTENC_strctGetReading(&strctROTENCConfig);
+		ROTENC_strctGetReading_tech(&strctROTENCConfig);
 		
 	}
 
 }
 
+void vidBlink(void)
+{
+	GPIO_vidTogglePin(GPIO_PORTF,GPIO_PIN1);
+	//UART_vidSendNumber(UART0_vidSendByte,(u16)u8Counter);
+
+}

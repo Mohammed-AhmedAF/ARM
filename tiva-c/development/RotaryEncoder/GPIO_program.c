@@ -151,6 +151,7 @@ u8 GPIO_u8GetPinValue(u8 u8Port, u8 u8Pin)
 			return GET_BIT(GPIOF_DATA,u8Pin);
 			break;
 	}
+	
 }
 
 void GPIO_vidSetPinDigEnable(u8 u8PortNumCpy, u8 u8PinNumCpy, u8 u8DigEnable) {

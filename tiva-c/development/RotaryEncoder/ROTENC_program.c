@@ -7,8 +7,11 @@
 
 static u8 u8LastClkState;
 static u8 u8CurrentClkState;
-static u8 u8Counter;
+volatile u8 u8Counter;
+static s8 s8Counter = 0;
 static ROTENCRead_t strctROTENCRead;
+static (*ptrFuncSwitch) (void);
+
 
 void ROTENC_vidInit(ROTENCConfig_t const * config)
 {
@@ -36,18 +39,49 @@ ROTENCRead_t ROTENC_strctGetReading(ROTENCConfig_t const * config)
 		if (u8DataState != u8CurrentClkState)
 		{
 			u8Counter--;
+							TIMER0_vidDelayMilli(10);
+
 			strctROTENCRead.u8Direction = ROTENC_DIR_CCW;
 			UART0_vidSendString("Counter-clockwise\r\n");
+
 		}
 		else
 		{
 			u8Counter++;
 			strctROTENCRead.u8Direction = ROTENC_DIR_CW;
-			UART0_vidSendString("Clockwise\r\n");
+			UART0_vidSendString("Clockwise\r\n");		
+			TIMER0_vidDelayMilli(10);
+
 		}
 
 	}
 	u8LastClkState = u8CurrentClkState;
-	TIMER0_vidDelayMilli(100);
+								TIMER0_vidDelayMilli(10);
+
 	return strctROTENCRead;
+}
+
+void ROTENC_strctGetReading_tech(ROTENCConfig_t const * config)
+{
+	if (GPIO_u8GetPinValue(config->u8DataPort,config->u8DataPin) ==STD_LOW )
+	{
+		/*Counter clockwise*/
+	if (GPIO_u8GetPinValue(config->u8ClockPort,config->u8ClockPin) == STD_LOW)
+	{
+			while(GPIO_u8GetPinValue(config->u8ClockPort,config->u8ClockPin) == STD_LOW){};
+			u8Counter--;		
+			while(GPIO_u8GetPinValue(config->u8DataPort,config->u8DataPin) == STD_LOW){};
+			UART0_vidSendString("CCW\r\n");
+	
+	}
+	else if (GPIO_u8GetPinValue(config->u8ClockPort,config->u8ClockPin) == STD_HIGH)
+		{
+			while(GPIO_u8GetPinValue(config->u8ClockPort,config->u8ClockPin) == STD_HIGH);
+			u8Counter++;
+			while(GPIO_u8GetPinValue(config->u8ClockPort,config->u8ClockPin) == STD_LOW);
+			UART0_vidSendString("CW\r\n");
+
+		}
+	}
+
 }
