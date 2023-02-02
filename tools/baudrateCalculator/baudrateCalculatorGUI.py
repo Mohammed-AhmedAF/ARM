@@ -1,7 +1,7 @@
 from tkinter import *
 from functools import partial
 from tkinter import ttk
-
+import ttkbootstrap as ttkb
 
 def calculateBaudrate():
     try:
@@ -21,9 +21,9 @@ def calculateBaudrate():
     except:
         statusLabel.config(text="Error in calculation: Check entries.")
 
-app = Tk()
+app = ttkb.Window(themename="darkly")
 app.title("Tiva-C baudrate calculator")
-app.iconbitmap("appIcon.ico")
+app.iconbitmap("images/appIcon.ico")
 app.resizable(False,False)
 baudrateFrame = Frame(app)
 
