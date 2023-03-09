@@ -3,7 +3,7 @@ from functools import partial
 from tkinter import ttk
 import ttkbootstrap as ttkb
 
-def calculateBaudrate():
+def calculateBaudrate() -> None:
     try:
         sysClk = int(sysClockEntry.get())*1000000
         sysDiv = int(clockDivCombobox.get())
