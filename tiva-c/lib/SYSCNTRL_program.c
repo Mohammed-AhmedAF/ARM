@@ -362,11 +362,12 @@ void SYSCNTRL_vidResetTimer(u8 u8TimerModule)
 
 }
 
-SYSCNTRL_PERIPH_t SYSCNTRL_u8CheckGPIOPeriphReady(u8 u8GPIOPeriph)
+SYSCNTRL_PERIPH_STATUS_t SYSCNTRL_u8CheckGPIOPeriphReady(u8 u8GPIOPeriph)
 {
 	u8 u8PeriphState = 0;
+	
 	/*return_val to be sent as return of this function*/
-	SYSCNTRL_PERIPH_t ret_val;
+	SYSCNTRL_PERIPH_STATUS_t ret_val = SYSCNTRL_PERIPH_STATUS_NOTREADY;
 	
 	switch(u8GPIOPeriph)
 	{
@@ -392,21 +393,21 @@ SYSCNTRL_PERIPH_t SYSCNTRL_u8CheckGPIOPeriphReady(u8 u8GPIOPeriph)
 	
 	if (u8PeriphState == 0)
 	{
-		ret_val = SYSCNTRL_PERIPH_NOTREADY;
+		ret_val = SYSCNTRL_PERIPH_STATUS_NOTREADY;
 	}
 	else
 	{
-		ret_val = SYSCNTRL_PERIPH_READY;
+		ret_val = SYSCNTRL_PERIPH_STATUS_READY;
 	}
 	
 	return ret_val;
 }
 
-SYSCNTRL_PERIPH_t SYSCNTRL_u8CheckUARTPeriphReady(u8 u8UARTPeriph)
+SYSCNTRL_PERIPH_STATUS_t SYSCNTRL_u8CheckUARTPeriphReady(u8 u8UARTPeriph)
 {
-u8 u8PeriphState = 0;
+	u8 u8PeriphState = 0;
 	/*return_val to be sent as return of this function*/
-	SYSCNTRL_PERIPH_t ret_val;
+	SYSCNTRL_PERIPH_STATUS_t ret_val = SYSCNTRL_PERIPH_STATUS_NOTREADY;
 	
 	switch(u8UARTPeriph)
 	{
@@ -438,20 +439,20 @@ u8 u8PeriphState = 0;
 	
 	if (u8PeriphState == 0)
 	{
-		ret_val = SYSCNTRL_PERIPH_NOTREADY;
+		ret_val = SYSCNTRL_PERIPH_STATUS_NOTREADY;
 	}
 	else
 	{
-		ret_val = SYSCNTRL_PERIPH_READY;
+		ret_val = SYSCNTRL_PERIPH_STATUS_READY;
 	}
 	
 	return ret_val;
 }
 
-SYSCNTRL_PERIPH_t SYSCNTRL_u8CheckSPIPeriphReady(u8 u8SPIPeriph)
+SYSCNTRL_PERIPH_STATUS_t SYSCNTRL_u8CheckSPIPeriphReady(u8 u8SPIPeriph)
 {
 	u8 u8PeriphState = 0;
-	SYSCNTRL_PERIPH_t ret_val = SYSCNTRL_PERIPH_NOTREADY;
+	SYSCNTRL_PERIPH_STATUS_t ret_val = SYSCNTRL_PERIPH_STATUS_NOTREADY;
 	
 	switch(u8SPIPeriph)
 	{
@@ -472,11 +473,38 @@ SYSCNTRL_PERIPH_t SYSCNTRL_u8CheckSPIPeriphReady(u8 u8SPIPeriph)
 	
 	if (u8PeriphState == 0)
 	{
-		ret_val = SYSCNTRL_PERIPH_NOTREADY;
+		ret_val = SYSCNTRL_PERIPH_STATUS_NOTREADY;
 	}
 	else
 	{
-		ret_val = SYSCNTRL_PERIPH_READY;
+		ret_val = SYSCNTRL_PERIPH_STATUS_READY;
+	}
+	
+	return ret_val;
+}
+
+SYSCNTRL_PERIPH_STATUS_t SYSCNTRL_u8CheckPWMPeriphReady(u8 u8PWMPeriph)
+{
+	u8 u8PWMPeriphStatus = 0;
+	SYSCNTRL_PERIPH_STATUS_t ret_val = SYSCNTRL_PERIPH_STATUS_NOTREADY;
+	
+	switch(u8PWMPeriph)
+	{
+		case SYSCNTRL_PWM_0:
+			u8PWMPeriphStatus = GET_BIT(SYSCTL->PRPWM,0);
+			break;
+		case SYSCNTRL_PWM_1:
+			u8PWMPeriphStatus = GET_BIT(SYSCTL->PRPWM,1);
+			break;
+	}
+	
+	if (u8PWMPeriphStatus == 0)
+	{
+			ret_val = SYSCNTRL_PERIPH_STATUS_NOTREADY;
+	}
+	else
+	{
+			ret_val = SYSCNTRL_PERIPH_STATUS_READY;
 	}
 	
 	return ret_val;
