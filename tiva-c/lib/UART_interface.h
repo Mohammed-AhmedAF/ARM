@@ -21,6 +21,7 @@ typedef struct
 	void (*ptrFHandlerReceive) (void);
 	void (*ptrFHandlerTransmit) (void);
 	void (*ptrFHandlerParity) (void);
+	void (*ptrHandlerFraming) (void);
 } UARTConfig_t;
 
 /*Macros used in configuration*/
@@ -86,7 +87,7 @@ typedef struct
 #define UART_INTERRUPT_RX (1<<4)
 #define UART_INTERRUPT_TX (1<<5)
 #define UART_INTERRUPT_PARITY (1<<8)
-
+#define UART_INTERRUPT_FRAMING (1<<7)
 
 void UART_vidInit(UARTConfig_t * const UARTConfig);
 void UART_vidSendNumber(void (*ptrF) (u8),u16 u16Number);

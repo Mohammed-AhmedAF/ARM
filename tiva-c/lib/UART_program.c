@@ -9,6 +9,8 @@
 static void (*UART0_callback) (void) = NULL;
 static void (*UART0_callback_transmit)(void) = NULL;
 static void (*UART0_callback_parity) (void) = NULL;
+static void (*UART0_callback_framing) (void) = NULL;
+
 #endif
 #ifdef USED_UART1
 static void (*UART1_callback) (void) = NULL;
@@ -281,6 +283,14 @@ void UART0_Handler()
 		SET_BIT(UART0->ICR,8);
 		}
 
+	}
+	if (GET_BIT(UART0->MIS,7) == 1)
+	{
+		if (UART0_callback_framing != NULL)
+		{
+			UART0_callback_framing();
+			SET_BIT(UART0->ICR,7);
+		}
 	}
 }
 #endif
