@@ -16,42 +16,49 @@ static void (*UART0_callback_framing) (void) = NULL;
 static void (*UART1_callback) (void) = NULL;
 static void (*UART1_callback_transmit) (void) = NULL;
 static void (*UART1_callback_parity) (void) = NULL;
+static void (*UART1_callback_framing) (void) = NULL;
 #endif
 
 #ifdef USED_UART2
 static void (*UART2_callback) (void) = NULL;
 static void (*UART2_callback_transmit) (void) = NULL;
 static void (*UART2_callback_parity) (void) = NULL;
+static void (*UART2_callback_framing) (void) = NULL;
 #endif
 
 #ifdef USED_UART3
 static void (*UART3_callback) (void) = NULL;
 static void (*UART3_callback_transmit) (void) = NULL;
 static void (*UART3_callback_parity) (void) = NULL;
+static void (*UART3_callback_framing) (void) = NULL;
 #endif 
 
 #ifdef USED_UART4
 static void (*UART4_callback) (void) = NULL;
 static void (*UART4_callback_transmit) (void) = NULL;
 static void (*UART4_callback_parity) (void) = NULL;
+static void (*UART4_callback_framing) (void) = NULL;
 #endif
 
 #ifdef USED_UART5
 static void (*UART5_callback) (void) = NULL;
 static void (*UART5_callback_transmit)(void) = NULL;
 static void (*UART5_callback_parity) (void) = NULL;
+static void (*UART5_callback_framing) (void) = NULL;
 #endif 
 
 #ifdef USED_UART6
 static void (*UART6_callback) (void) = NULL;
 static void (*UART6_callback_transmit)(void) = NULL;
 static void (*UART6_callback_parity) (void) = NULL;
+static void (*UART6_callback_framing) (void) = NULL;
 #endif
 
 #ifdef USED_UART7
 static void (*UART7_callback) (void) = NULL;
 static void (*UART7_callback_transmit)(void) = NULL;
 static void (*UART7_callback_parity) (void) = NULL;
+static void (*UART7_callback_framing) (void) = NULL;
 #endif
 
 void UART_vidInit(UARTConfig_t * const UARTConfig)

@@ -509,3 +509,30 @@ SYSCNTRL_PERIPH_STATUS_t SYSCNTRL_u8CheckPWMPeriphReady(u8 u8PWMPeriph)
 	
 	return ret_val;
 }
+
+SYSCNTRL_PERIPH_STATUS_t SYSCNTRL_u8CheckADCPeriphReady(u8 u8ADCPeriph)
+{
+   u8 u8ADCPeriphStatus = 0;
+   SYSCNTRL_PERIPH_STATUS_t ret_val = SYSCNTRL_PERIPH_STATUS_NOTREADY;
+
+   switch(u8ADCPeriph)
+   {
+	case SYSCNTRL_ADC_0:
+	u8ADCPeriphStatus = GET_BIT(SYSCTL->PRADC,0);
+	break;
+	case SYSCNTRL_ADC_1:
+	u8ADCPeriphStatus = GET_BIT(SYSCTL->PRADC,1);
+	break;
+   } 
+
+   if (u8ADCPeriphStatus == 0)
+   {
+	ret_val = SYSCNTRL_PERIPH_STATUS_NOTREADY;
+   }
+   else
+   {
+	ret_val = SYSCNTRL_PERIPH_STATUS_READY;
+   }
+
+	return ret_val;
+}
