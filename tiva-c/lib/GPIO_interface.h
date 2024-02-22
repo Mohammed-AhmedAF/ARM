@@ -42,7 +42,7 @@ void GPIO_vidUnlock(u8 u8Port);
 void GPIO_vidLock(u8 u8Port);
 void GPIO_vidCommit(u8 u8Port,u8 u8Pin);
 void GPIO_vidConfigPortControl(u8 u8Port, u8 u8Pin, u8 u8Value);
-void GPIO_vidPutISR(u8 u8Port,void (*ptrF) (void));
+void GPIO_vidPutISR(u8 u8Port,void (*const ptrF) (void));
 void GPIO_vidConfigInterrupt(u8 u8Port, u8 u8Pin, ExtInterruptConfig_t * const extInterruptConfig);
 u8 GPIO_u8GetInterruptStatus(u8 u8Port, u8 u8Pin);
 void GPIO_vidEnablePinOpenDrain(u8 u8Port, u8 u8Pin);

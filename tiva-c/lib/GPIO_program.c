@@ -886,7 +886,7 @@ void GPIO_vidConfigPortControl(u8 u8Port, u8 u8Pin, u8 u8Value)
 	}
 }
 
-void GPIO_vidPutISR(u8 u8Port, void (*ptrF) (void))
+void GPIO_vidPutISR(u8 u8Port, void (*const ptrF) (void))
 {
 	switch(u8Port)
 	{
